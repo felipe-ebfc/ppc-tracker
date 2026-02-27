@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PPC% Tracker — Last Planner System</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏗</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Karla:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep:#080E17;--bg-base:#0D1826;--bg-surface:#132035;--bg-card:#182840;--bg-elevated:#1E3050;--bg-input:#0F1D2E;
+      --border-faint:#1A2E45;--border-subtle:#243A57;--border-default:#2E4D72;--border-active:#3A6496;
+      --primary:#2B579A;--primary-light:#3B72C8;--primary-glow:rgba(43,87,154,0.25);--primary-glow-strong:rgba(59,114,200,0.4);
+      --accent:#E8960A;--accent-light:#F5A820;--accent-glow:rgba(232,150,10,0.2);
+      --ppc-green:#16A34A;--ppc-green-bg:rgba(22,163,74,0.12);--ppc-green-border:rgba(22,163,74,0.3);
+      --ppc-blue:#2563EB;--ppc-blue-bg:rgba(37,99,235,0.12);--ppc-blue-border:rgba(37,99,235,0.3);
+      --ppc-amber:#D97706;--ppc-amber-bg:rgba(217,119,6,0.12);--ppc-amber-border:rgba(217,119,6,0.3);
+      --text-primary:#EAF0F8;--text-secondary:#7A98B4;--text-muted:#3E5D7A;
+      --font-display:'Bebas Neue',sans-serif;--font-ui:'Rajdhani',sans-serif;--font-body:'Karla',sans-serif;
+      --radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-xl:24px;
+      --shadow-md:0 4px 16px rgba(0,0,0,0.5);--shadow-lg:0 8px 32px rgba(0,0,0,0.6);
+      --transition:0.18s ease;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+    body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--font-body);line-height:1.6;min-height:100vh;overflow-x:hidden}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(43,87,154,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(43,87,154,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    body::after{content:'';position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--primary-light),var(--accent));z-index:1000}
+    #app{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 16px 80px}
+    /* Header */
+    .site-header{padding:48px 0 32px;text-align:center;opacity:0;transform:translateY(-16px);animation:fadeInDown 0.6s ease 0.1s forwards}
+    .header-badge{display:inline-flex;align-items:center;gap:8px;background:var(--primary-glow);border:1px solid var(--border-default);border-radius:100px;padding:5px 14px;font-family:var(--font-ui);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--primary-light);margin-bottom:16px}
+    .header-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);animation:pulseDot 2s ease infinite}
+    .site-title{font-family:var(--font-display);font-size:clamp(52px,10vw,88px);letter-spacing:0.04em;line-height:0.9;margin-bottom:10px}
+    .site-title span{color:var(--accent)}
+    .site-subtitle{font-family:var(--font-ui);font-size:14px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:20px}
+    .header-actions{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+    /* Nav */
+    .nav-tabs{display:flex;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:4px;margin:0 0 28px;opacity:0;animation:fadeIn 0.5s ease 0.5s forwards}
+    .nav-tab{flex:1;background:none;border:none;color:var(--text-secondary);font-family:var(--font-ui);font-size:14px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:11px 16px;border-radius:calc(var(--radius-lg) - 4px);cursor:pointer;transition:all var(--transition);white-space:nowrap}
+    .nav-tab:hover{color:var(--text-primary)}
+    .nav-tab.active{background:var(--primary);color:white;box-shadow:0 2px 12px var(--primary-glow-strong)}
+    /* Views */
+    .view{display:none}.view.active{display:block}
+    /* Cards */
+    .card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
+    .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border-default),transparent)}
+    .card-title{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px}
+    /* Buttons */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:var(--radius-md);font-family:var(--font-ui);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all var(--transition);white-space:nowrap;text-decoration:none}
+    .btn-primary{background:var(--primary);color:white;padding:13px 22px;font-size:13px}
+    .btn-primary:hover{background:var(--primary-light);box-shadow:0 4px 16px var(--primary-glow-strong);transform:translateY(-1px)}
+    .btn-accent{background:var(--accent);color:#0D1826;padding:13px 22px;font-size:13px}
+    .btn-accent:hover{background:var(--accent-light);box-shadow:0 4px 16px var(--accent-glow);transform:translateY(-1px)}
+    .btn-ghost{background:var(--bg-surface);color:var(--text-secondary);border:1px solid var(--border-subtle);padding:11px 18px;font-size:12px}
+    .btn-ghost:hover{background:var(--bg-elevated);color:var(--text-primary);border-color:var(--border-default)}
+    .btn-danger{background:rgba(220,38,38,0.12);color:#EF4444;border:1px solid rgba(220,38,38,0.25);padding:8px 14px;font-size:11px}
+    .btn-danger:hover{background:rgba(220,38,38,0.2);border-color:rgba(220,38,38,0.4)}
+    /* Inputs */
+    .text-input{background:var(--bg-input);border:1.5px solid var(--border-default);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-body);font-size:15px;padding:13px 16px;transition:all var(--transition);outline:none;width:100%}
+    .text-input:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px var(--primary-glow);background:var(--bg-elevated)}
+    .text-input::placeholder{color:var(--text-muted)}
+    /* Week Creator */
+    .week-creator{opacity:0;animation:fadeInUp 0.5s ease 0.3s forwards}
+    .week-creator-row{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+    .week-creator-row .text-input{flex:1;min-width:180px;width:auto}
+    /* Active Week */
+    .active-week{opacity:0;animation:fadeInUp 0.5s ease 0.4s forwards}
+    .week-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+    .week-title-area h2{font-family:var(--font-ui);font-size:22px;font-weight:700;color:var(--text-primary);letter-spacing:0.02em}
+    .week-title-area p{font-size:13px;color:var(--text-secondary);margin-top:2px}
+    .week-actions{display:flex;gap:8px;flex-wrap:wrap}
+    /* PPC Display */
+    .ppc-display{text-align:center;padding:28px 20px;background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-lg);margin-bottom:20px;position:relative;overflow:hidden}
+    .ppc-display::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.4s ease;pointer-events:none;border-radius:var(--radius-lg)}
+    .ppc-display.excellent::after{background:radial-gradient(ellipse at center,rgba(22,163,74,0.08) 0%,transparent 70%);opacity:1}
+    .ppc-display.good::after{background:radial-gradient(ellipse at center,rgba(37,99,235,0.08) 0%,transparent 70%);opacity:1}
+    .ppc-display.improve::after{background:radial-gradient(ellipse at center,rgba(217,119,6,0.08) 0%,transparent 70%);opacity:1}
+    .ppc-number{font-family:var(--font-display);font-size:clamp(80px,18vw,120px);line-height:1;letter-spacing:0.02em;display:block;transition:color 0.4s ease;position:relative;z-index:1}
+    .ppc-display.excellent .ppc-number{color:var(--ppc-green)}
+    .ppc-display.good .ppc-number{color:var(--ppc-blue)}
+    .ppc-display.improve .ppc-number{color:var(--ppc-amber)}
+    .ppc-label{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-top:4px;margin-bottom:12px;position:relative;z-index:1}
+    .ppc-badge{display:inline-flex;align-items:center;gap:7px;padding:6px 16px;border-radius:100px;font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;transition:all 0.4s ease;position:relative;z-index:1}
+    .ppc-badge::before{content:'';width:7px;height:7px;border-radius:50%}
+    .ppc-display.excellent .ppc-badge{background:var(--ppc-green-bg);color:var(--ppc-green);border:1px solid var(--ppc-green-border)}
+    .ppc-display.excellent .ppc-badge::before{background:var(--ppc-green)}
+    .ppc-display.good .ppc-badge{background:var(--ppc-blue-bg);color:var(--ppc-blue);border:1px solid var(--ppc-blue-border)}
+    .ppc-display.good .ppc-badge::before{background:var(--ppc-blue)}
+    .ppc-display.improve .ppc-badge{background:var(--ppc-amber-bg);color:var(--ppc-amber);border:1px solid var(--ppc-amber-border)}
+    .ppc-display.improve .ppc-badge::before{background:var(--ppc-amber)}
+    .ppc-meta{font-family:var(--font-ui);font-size:12px;color:var(--text-muted);margin-top:10px;letter-spacing:0.04em;position:relative;z-index:1}
+    /* Tasks */
+    .task-input-row{display:flex;gap:10px;margin-bottom:16px}
+    .task-input-row .text-input{flex:1;width:auto}
+    .task-list{display:flex;flex-direction:column;gap:8px}
+    .task-item{background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-md);padding:14px 16px;transition:all var(--transition);animation:slideIn 0.25s ease}
+    .task-item:hover{border-color:var(--border-subtle);background:var(--bg-elevated)}
+    .task-item.completed{opacity:0.75;border-color:var(--ppc-green-border);background:var(--ppc-green-bg)}
+    .task-item-row{display:flex;align-items:center;gap:12px}
+    .task-checkbox{-webkit-appearance:none;appearance:none;width:22px;height:22px;min-width:22px;border:2px solid var(--border-default);border-radius:5px;background:var(--bg-input);cursor:pointer;position:relative;transition:all var(--transition)}
+    .task-checkbox:checked{background:var(--ppc-green);border-color:var(--ppc-green)}
+    .task-checkbox:checked::after{content:'';position:absolute;top:3px;left:6px;width:5px;height:9px;border:2px solid white;border-top:none;border-left:none;transform:rotate(45deg)}
+    .task-checkbox:hover{border-color:var(--primary-light)}
+    .task-text{flex:1;font-size:15px;font-weight:500;color:var(--text-primary);transition:all var(--transition)}
+    .task-item.completed .task-text{text-decoration:line-through;color:var(--text-muted)}
+    .task-delete{background:none;border:none;color:var(--text-muted);cursor:pointer;padding:4px 6px;border-radius:var(--radius-sm);font-size:16px;transition:all var(--transition);opacity:0;line-height:1}
+    .task-item:hover .task-delete{opacity:1}
+    .task-delete:hover{color:#EF4444;background:rgba(239,68,68,0.1)}
+    .variance-row{margin-top:10px;padding-top:10px;border-top:1px solid var(--border-faint);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .variance-label{font-family:var(--font-ui);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap}
+    .variance-select{flex:1;min-width:160px;background:var(--bg-input);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);color:var(--text-secondary);font-family:var(--font-body);font-size:13px;padding:7px 10px;cursor:pointer;outline:none;transition:all var(--transition)}
+    .variance-select:focus{border-color:var(--primary-light);box-shadow:0 0 0 2px var(--primary-glow);color:var(--text-primary)}
+    .variance-select option{background:var(--bg-card)}
+    .tasks-empty{text-align:center;padding:32px 20px;color:var(--text-muted);font-style:italic;font-size:14px}
+    /* Chart */
+    .chart-card{opacity:0;animation:fadeInUp 0.5s ease 0.2s forwards}
+    .chart-wrap{width:100%;overflow-x:auto}
+    .chart-wrap svg{width:100%;height:auto;display:block}
+    .chart-empty{text-align:center;padding:48px 20px;color:var(--text-muted)}
+    .chart-empty-icon{font-size:40px;margin-bottom:12px;opacity:0.5}
+    .chart-empty p{font-family:var(--font-ui);font-size:13px;letter-spacing:0.06em;text-transform:uppercase}
+    /* History Table */
+    .history-card{opacity:0;animation:fadeInUp 0.5s ease 0.35s forwards}
+    .history-table{width:100%;border-collapse:separate;border-spacing:0;font-size:14px}
+    .history-table thead th{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);padding:10px 14px;text-align:left;border-bottom:1px solid var(--border-faint);white-space:nowrap}
+    .history-table tbody tr{transition:background var(--transition)}
+    .history-table tbody tr:hover td{background:var(--bg-surface)}
+    .history-table tbody td{padding:13px 14px;border-bottom:1px solid var(--border-faint);vertical-align:middle}
+    .history-table tbody tr:last-child td{border-bottom:none}
+    .hist-week{font-family:var(--font-ui);font-weight:600;font-size:14px;color:var(--text-primary)}
+    .hist-ppc{font-family:var(--font-display);font-size:22px;letter-spacing:0.04em}
+    .hist-ppc.excellent{color:var(--ppc-green)}.hist-ppc.good{color:var(--ppc-blue)}.hist-ppc.improve{color:var(--ppc-amber)}
+    .hist-bar-cell{width:120px}
+    .hist-bar-track{width:100%;height:6px;background:var(--bg-surface);border-radius:3px;overflow:hidden}
+    .hist-bar-fill{height:100%;border-radius:3px;transition:width 0.6s ease}
+    .hist-bar-fill.excellent{background:var(--ppc-green)}.hist-bar-fill.good{background:var(--ppc-blue)}.hist-bar-fill.improve{background:var(--ppc-amber)}
+    .hist-tasks{color:var(--text-secondary);font-size:13px;white-space:nowrap}
+    .hist-actions{white-space:nowrap}
+    .history-empty{text-align:center;padding:48px 20px;color:var(--text-muted);font-family:var(--font-ui);font-size:13px;letter-spacing:0.06em;text-transform:uppercase}
+    /* Empty State */
+    .empty-state{text-align:center;padding:60px 20px;opacity:0;animation:fadeIn 0.6s ease 0.5s forwards}
+    .empty-state-icon{font-size:56px;margin-bottom:16px;display:block}
+    .empty-state h3{font-family:var(--font-ui);font-size:20px;font-weight:700;letter-spacing:0.04em;color:var(--text-secondary);margin-bottom:8px}
+    .empty-state p{font-size:14px;color:var(--text-muted);max-width:320px;margin:0 auto 24px}
+    /* Modal */
+    .modal-overlay{position:fixed;inset:0;background:rgba(6,12,22,0.85);backdrop-filter:blur(4px);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.25s ease}
+    .modal-overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-xl);padding:32px;max-width:520px;width:100%;box-shadow:var(--shadow-lg),0 0 60px rgba(43,87,154,0.15);transform:translateY(20px) scale(0.97);transition:transform 0.25s ease;position:relative}
+    .modal-overlay.open .modal{transform:translateY(0) scale(1)}
+    .modal-close{position:absolute;top:16px;right:16px;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);color:var(--text-secondary);cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all var(--transition)}
+    .modal-close:hover{background:var(--bg-elevated);color:var(--text-primary)}
+    .modal h2{font-family:var(--font-ui);font-size:22px;font-weight:700;color:var(--text-primary);margin-bottom:6px;letter-spacing:0.02em}
+    .modal-sub{font-family:var(--font-ui);font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--primary-light);margin-bottom:20px}
+    .modal p{font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:14px}
+    .modal p strong{color:var(--text-primary)}
+    .formula-box{background:var(--bg-surface);border:1px solid var(--border-default);border-left:3px solid var(--accent);border-radius:var(--radius-md);padding:16px 20px;margin:16px 0;font-family:var(--font-display);font-size:26px;letter-spacing:0.04em;text-align:center;color:var(--accent)}
+    .benchmarks{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+    .benchmark-pill{flex:1;min-width:90px;text-align:center;padding:12px;border-radius:var(--radius-md);border:1px solid}
+    .benchmark-pill.green{background:var(--ppc-green-bg);border-color:var(--ppc-green-border);color:var(--ppc-green)}
+    .benchmark-pill.blue{background:var(--ppc-blue-bg);border-color:var(--ppc-blue-border);color:var(--ppc-blue)}
+    .benchmark-pill.amber{background:var(--ppc-amber-bg);border-color:var(--ppc-amber-border);color:var(--ppc-amber)}
+    .pill-pct{font-family:var(--font-display);font-size:28px;display:block;line-height:1}
+    .pill-label{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-top:4px;opacity:0.8}
+    /* Footer */
+    .site-footer{text-align:center;padding:32px 0 16px;border-top:1px solid var(--border-faint);margin-top:48px}
+    .site-footer p{font-family:var(--font-ui);font-size:12px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted)}
+    .site-footer a{color:var(--primary-light);text-decoration:none;transition:color var(--transition)}
+    .site-footer a:hover{color:var(--accent)}
+    /* Animations */
+    @keyframes fadeInDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes slideIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}}
+    @keyframes ppcPop{0%{transform:scale(1)}40%{transform:scale(1.07)}100%{transform:scale(1)}}
+    @keyframes drawLine{from{stroke-dashoffset:var(--ll,2000)}to{stroke-dashoffset:0}}
+    .ppc-pop{animation:ppcPop 0.35s ease}
+    /* Responsive */
+    @media(max-width:640px){
+      .site-header{padding:32px 0 24px}
+      .card{padding:18px 16px}
+      .week-creator-row{flex-direction:column}
+      .week-creator-row .btn{width:100%;justify-content:center}
+      .task-input-row{flex-direction:column}
+      .task-input-row .btn{width:100%;justify-content:center}
+      .week-header{flex-direction:column;align-items:flex-start}
+      .week-actions{width:100%}
+      .week-actions .btn{flex:1;justify-content:center}
+      .hist-bar-cell{display:none}
+      .history-table{font-size:13px}
+      .history-table tbody td{padding:10px 8px}
+      .modal{padding:24px 20px}
+      .ppc-number{font-size:86px}
+    }
+    ::-webkit-scrollbar{width:6px;height:6px}
+    ::-webkit-scrollbar-track{background:var(--bg-deep)}
+    ::-webkit-scrollbar-thumb{background:var(--border-default);border-radius:3px}
+    ::-webkit-scrollbar-thumb:hover{background:var(--border-active)}
+  </style>
+</head>
+<body>
+<div id="app">
+  <header class="site-header">
+    <div class="header-badge">Last Planner System</div>
+    <h1 class="site-title">PPC<span>%</span> Tracker</h1>
+    <p class="site-subtitle">Weekly Commitment Tracking</p>
+    <div class="header-actions">
+      <button class="btn btn-ghost" onclick="openHelp()">? What is PPC%?</button>
+      <button class="btn btn-ghost" onclick="exportCSV()">&#8595; Export CSV</button>
+    </div>
+  </header>
+
+  <nav class="nav-tabs">
+    <button class="nav-tab active" id="tab-week" onclick="switchTab('week')">&#128203; This Week</button>
+    <button class="nav-tab" id="tab-history" onclick="switchTab('history')">&#128200; History &amp; Trends</button>
+  </nav>
+
+  <div id="view-week" class="view active">
+    <div class="card week-creator">
+      <div class="card-title">Start New Week</div>
+      <div class="week-creator-row">
+        <input type="text" id="newWeekLabel" class="text-input" placeholder="e.g. Week of Feb 24, 2026" maxlength="80" onkeydown="if(event.key==='Enter')createWeek()"/>
+        <button class="btn btn-accent" onclick="createWeek()">+ New Week</button>
+      </div>
+    </div>
+    <div id="active-week-area"></div>
+  </div>
+
+  <div id="view-history" class="view">
+    <div class="card chart-card">
+      <div class="card-title">PPC% Trend</div>
+      <div id="chart-container"></div>
+    </div>
+    <div class="card history-card">
+      <div class="card-title" style="display:flex;justify-content:space-between;align-items:center">
+        <span>Past Weeks</span>
+        <button class="btn btn-danger" onclick="confirmClearAll()" style="font-size:10px;padding:5px 12px">Clear All</button>
+      </div>
+      <div id="history-table-area"></div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>Free tool by <a href="https://theebfcshow.com" target="_blank">The EBFC Show</a> &bull; <a href="https://theebfcshow.com" target="_blank">theebfcshow.com</a></p>
+</footer>
+
+<!-- HELP MODAL -->
+<div class="modal-overlay" id="helpModal" onclick="closeHelp(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeHelp()">&times;</button>
+    <h2>What is PPC%?</h2>
+    <div class="modal-sub">Percent Plan Complete — Last Planner System</div>
+    <p><strong>Percent Plan Complete (PPC%)</strong> is the core metric of the Last Planner System&#174; in Lean Construction. It measures how reliably a team keeps its weekly commitments.</p>
+    <div class="formula-box">PPC% = Completed &divide; Planned &times; 100</div>
+    <p>Each week, the team lists all tasks they <em>commit</em> to completing — not just what they'll try, but what they <strong>promise</strong> to deliver. At week's end, each task is marked done or not done.</p>
+    <p>When a task isn't completed, record a <strong>variance reason</strong> — understanding <em>why</em> plans fail is just as important as tracking when they fail.</p>
+    <div class="benchmarks">
+      <div class="benchmark-pill green"><span class="pill-pct">85%+</span><span class="pill-label">Excellent</span></div>
+      <div class="benchmark-pill blue"><span class="pill-pct">70–84%</span><span class="pill-label">Good</span></div>
+      <div class="benchmark-pill amber"><span class="pill-pct">&lt;70%</span><span class="pill-label">Improve</span></div>
+    </div>
+    <p style="margin-top:16px;font-size:13px">Consistently tracking PPC% drives team accountability, surfaces systemic obstacles, and creates a culture of reliable commitments on the jobsite.</p>
+  </div>
+</div>
+
+<script>
+/* ====== STATE ====== */
+const STORAGE_KEY = 'ppc_tracker_v2';
+let state = { weeks: [], activeWeekId: null };
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) { const p = JSON.parse(raw); state = { weeks: [], activeWeekId: null, ...p }; }
+  } catch(e) { console.warn('load state failed', e); }
+}
+
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  catch(e) { console.warn('save state failed', e); }
+}
+
+/* ====== HELPERS ====== */
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+
+function calcPPC(week) {
+  if (!week.tasks || week.tasks.length === 0) return null;
+  return Math.round((week.tasks.filter(t => t.completed).length / week.tasks.length) * 100);
+}
+
+function ppcClass(ppc) {
+  if (ppc === null) return '';
+  return ppc >= 85 ? 'excellent' : ppc >= 70 ? 'good' : 'improve';
+}
+
+function ppcLabel(ppc) {
+  if (ppc === null) return '—';
+  return ppc >= 85 ? '&#10022; Excellent' : ppc >= 70 ? '&#9679; Good' : '&#9650; Needs Improvement';
+}
+
+function getWeek(id) { return state.weeks.find(w => w.id === id) || null; }
+
+function esc(str) {
+  return String(str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+/* ====== TAB SWITCHING ====== */
+function switchTab(tab) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-' + tab).classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (tab === 'history') renderHistoryView();
+}
+
+/* ====== WEEK MANAGEMENT ====== */
+function createWeek() {
+  const inp = document.getElementById('newWeekLabel');
+  const label = inp.value.trim();
+  if (!label) {
+    inp.focus();
+    inp.style.borderColor = 'var(--ppc-amber)';
+    setTimeout(() => { inp.style.borderColor = ''; }, 1200);
+    return;
+  }
+  const week = { id: uid(), label, tasks: [], closed: false, createdAt: Date.now() };
+  state.weeks.unshift(week);
+  state.activeWeekId = week.id;
+  inp.value = '';
+  saveState();
+  renderWeekView();
+  renderHistoryView();
+}
+
+function closeWeek(id) {
+  const week = getWeek(id);
+  if (!week) return;
+  if (!confirm('Close "' + week.label + '"? It will move to History.')) return;
+  week.closed = true;
+  if (state.activeWeekId === id) {
+    const next = state.weeks.find(w => !w.closed && w.id !== id);
+    state.activeWeekId = next ? next.id : null;
+  }
+  saveState();
+  renderWeekView();
+  renderHistoryView();
+}
+
+function reopenWeek(id) {
+  const week = getWeek(id);
+  if (!week) return;
+  week.closed = false;
+  state.activeWeekId = id;
+  saveState();
+  renderWeekView();
+  renderHistoryView();
+  switchTab('week');
+}
+
+function deleteWeek(id) {
+  const week = getWeek(id);
+  if (!week) return;
+  if (!confirm('Delete "' + week.label + '"? This cannot be undone.')) return;
+  state.weeks = state.weeks.filter(w => w.id !== id);
+  if (state.activeWeekId === id) {
+    const next = state.weeks.find(w => !w.closed);
+    state.activeWeekId = next ? next.id : null;
+  }
+  saveState();
+  renderWeekView();
+  renderHistoryView();
+}
+
+function setActiveWeek(id) {
+  state.activeWeekId = id;
+  saveState();
+  renderWeekView();
+}
+
+function confirmClearAll() {
+  if (!confirm('Delete ALL data? This cannot be undone.')) return;
+  state = { weeks: [], activeWeekId: null };
+  saveState();
+  renderWeekView();
+  renderHistoryView();
+}
+
+/* ====== TASK MANAGEMENT ====== */
+function addTask(weekId) {
+  const inp = document.getElementById('taskInput-' + weekId);
+  if (!inp) return;
+  const text = inp.value.trim();
+  if (!text) { inp.focus(); return; }
+  const week = getWeek(weekId);
+  if (!week) return;
+  week.tasks.push({ id: uid(), text, completed: false, varianceReason: '' });
+  inp.value = '';
+  inp.focus();
+  saveState();
+  renderActiveWeek(week);
+}
+
+function toggleTask(weekId, taskId) {
+  const week = getWeek(weekId);
+  if (!week) return;
+  const task = week.tasks.find(t => t.id === taskId);
+  if (!task) return;
+  task.completed = !task.completed;
+  if (task.completed) task.varianceReason = '';
+  saveState();
+  renderActiveWeek(week);
+  setTimeout(() => {
+    const el = document.querySelector('.ppc-number');
+    if (el) { el.classList.remove('ppc-pop'); void el.offsetWidth; el.classList.add('ppc-pop'); }
+  }, 10);
+}
+
+function setVariance(weekId, taskId, reason) {
+  const week = getWeek(weekId);
+  if (!week) return;
+  const task = week.tasks.find(t => t.id === taskId);
+  if (task) { task.varianceReason = reason; saveState(); }
+}
+
+function deleteTask(weekId, taskId) {
+  const week = getWeek(weekId);
+  if (!week) return;
+  week.tasks = week.tasks.filter(t => t.id !== taskId);
+  saveState();
+  renderActiveWeek(week);
+}
+
+/* ====== RENDER: WEEK VIEW ====== */
+function renderWeekView() {
+  const area = document.getElementById('active-week-area');
+  if (!area) return;
+  const activeWeek = state.activeWeekId ? getWeek(state.activeWeekId) : null;
+  const openWeeks = state.weeks.filter(w => !w.closed);
+
+  if (!activeWeek) {
+    let switcher = '';
+    if (openWeeks.length) {
+      switcher = '<p style="margin-bottom:12px;color:var(--text-secondary);font-size:14px">Open weeks:</p>'
+        + '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:24px">'
+        + openWeeks.map(w => '<button class="btn btn-primary" onclick="setActiveWeek(\'' + w.id + '\')">' + esc(w.label) + '</button>').join('')
+        + '</div>';
+    }
+    area.innerHTML = '<div class="empty-state"><span class="empty-state-icon">&#127959;&#65039;</span><h3>No Active Week</h3><p>Create a new week above to start tracking.</p>' + switcher + '</div>';
+    return;
+  }
+  area.innerHTML = buildWeekHTML(activeWeek, openWeeks);
+}
+
+function buildWeekHTML(week, openWeeks) {
+  const ppc = calcPPC(week);
+  const cls = ppcClass(ppc);
+  const done = week.tasks.filter(t => t.completed).length;
+  const total = week.tasks.length;
+
+  const otherOpen = openWeeks.filter(w => w.id !== week.id);
+  const switcherHtml = otherOpen.length ? '<select class="variance-select" style="min-width:160px" onchange="if(this.value){setActiveWeek(this.value);this.value=\'\'}">'
+    + '<option value="">Switch week&hellip;</option>'
+    + otherOpen.map(w => '<option value="' + w.id + '">' + esc(w.label) + '</option>').join('')
+    + '</select>' : '';
+
+  const tasksHtml = week.tasks.length === 0
+    ? '<div class="tasks-empty">No tasks yet &mdash; add your first commitment above.</div>'
+    : week.tasks.map(task => {
+        const varHtml = !task.completed ? '<div class="variance-row"><span class="variance-label">Variance Reason:</span>'
+          + '<select class="variance-select" onchange="setVariance(\'' + week.id + '\',\'' + task.id + '\',this.value)">'
+          + '<option value=""' + (!task.varianceReason ? ' selected' : '') + '>Select reason&hellip;</option>'
+          + '<option value="prerequisites"' + (task.varianceReason==='prerequisites'?' selected':'') + '>Prerequisites not ready</option>'
+          + '<option value="resources"' + (task.varianceReason==='resources'?' selected':'') + '>Resources unavailable</option>'
+          + '<option value="information"' + (task.varianceReason==='information'?' selected':'') + '>Missing information</option>'
+          + '<option value="priority"' + (task.varianceReason==='priority'?' selected':'') + '>Priority change</option>'
+          + '<option value="other"' + (task.varianceReason==='other'?' selected':'') + '>Other</option>'
+          + '</select></div>' : '';
+        return '<div class="task-item' + (task.completed ? ' completed' : '') + '" id="task-' + task.id + '">'
+          + '<div class="task-item-row">'
+          + '<input type="checkbox" class="task-checkbox"' + (task.completed ? ' checked' : '') + ' onchange="toggleTask(\'' + week.id + '\',\'' + task.id + '\')" />'
+          + '<span class="task-text">' + esc(task.text) + '</span>'
+          + '<button class="task-delete" onclick="deleteTask(\'' + week.id + '\',\'' + task.id + '\')" title="Remove">&times;</button>'
+          + '</div>' + varHtml + '</div>';
+      }).join('');
+
+  return '<div class="card active-week" style="opacity:0;animation:fadeInUp 0.4s ease forwards">'
+    + '<div class="week-header">'
+    + '<div class="week-title-area"><h2>' + esc(week.label) + '</h2><p>' + total + ' task' + (total!==1?'s':'') + ' planned &bull; ' + done + ' completed</p></div>'
+    + '<div class="week-actions">' + switcherHtml + '<button class="btn btn-ghost" onclick="closeWeek(\'' + week.id + '\')">&#10003; Close Week</button></div>'
+    + '</div>'
+    + '<div class="ppc-display ' + cls + '">'
+    + '<span class="ppc-number">' + (ppc !== null ? ppc + '%' : '&mdash;') + '</span>'
+    + '<div class="ppc-label">Percent Plan Complete</div>'
+    + '<div class="ppc-badge">' + ppcLabel(ppc) + '</div>'
+    + '<div class="ppc-meta">' + (total > 0 ? done + ' of ' + total + ' commitments kept' : 'Add tasks to begin tracking') + '</div>'
+    + '</div>'
+    + '<div class="card-title" style="margin-top:4px">Planned Commitments</div>'
+    + '<div class="task-input-row">'
+    + '<input type="text" id="taskInput-' + week.id + '" class="text-input" placeholder="Add a planned commitment&hellip;" maxlength="200" onkeydown="if(event.key===\'Enter\')addTask(\'' + week.id + '\')" />'
+    + '<button class="btn btn-primary" onclick="addTask(\'' + week.id + '\')">+ Add Task</button>'
+    + '</div>'
+    + '<div class="task-list">' + tasksHtml + '</div>'
+    + '</div>';
+}
+
+function renderActiveWeek(week) {
+  const area = document.getElementById('active-week-area');
+  if (area) area.innerHTML = buildWeekHTML(week, state.weeks.filter(w => !w.closed));
+}
+
+/* ====== RENDER: HISTORY ====== */
+function renderHistoryView() {
+  renderChart();
+  renderHistoryTable();
+}
+
+function renderHistoryTable() {
+  const area = document.getElementById('history-table-area');
+  if (!area) return;
+  const closed = state.weeks.filter(w => w.closed);
+  if (!closed.length) {
+    area.innerHTML = '<div class="history-empty">No closed weeks yet &mdash; close a week to see history.</div>';
+    return;
+  }
+  const rows = closed.map(week => {
+    const ppc = calcPPC(week);
+    const cls = ppcClass(ppc);
+    const done = week.tasks.filter(t => t.completed).length;
+    const total = week.tasks.length;
+    return '<tr>'
+      + '<td><span class="hist-week">' + esc(week.label) + '</span></td>'
+      + '<td><span class="hist-ppc ' + cls + '">' + (ppc !== null ? ppc + '%' : '&mdash;') + '</span></td>'
+      + '<td class="hist-bar-cell"><div class="hist-bar-track"><div class="hist-bar-fill ' + cls + '" style="width:' + (ppc||0) + '%"></div></div></td>'
+      + '<td class="hist-tasks">' + done + '/' + total + '</td>'
+      + '<td class="hist-actions">'
+      + '<button class="btn btn-ghost" style="padding:7px 12px;font-size:11px" onclick="reopenWeek(\'' + week.id + '\')">Reopen</button>'
+      + ' <button class="btn btn-danger" onclick="deleteWeek(\'' + week.id + '\')">Delete</button>'
+      + '</td></tr>';
+  }).join('');
+
+  area.innerHTML = '<table class="history-table"><thead><tr>'
+    + '<th>Week</th><th>PPC%</th><th class="hist-bar-cell">Progress</th><th>Tasks</th><th>Actions</th>'
+    + '</tr></thead><tbody>' + rows + '</tbody></table>';
+}
+
+/* ====== RENDER: SVG CHART ====== */
+function renderChart() {
+  const container = document.getElementById('chart-container');
+  if (!container) return;
+
+  const closed = state.weeks.filter(w => w.closed && calcPPC(w) !== null).reverse();
+
+  if (closed.length < 2) {
+    container.innerHTML = '<div class="chart-empty"><div class="chart-empty-icon">&#128200;</div><p>Track 2+ closed weeks to see the trend chart</p></div>';
+    return;
+  }
+
+  const W = 780, H = 260;
+  const pad = { top: 30, right: 24, bottom: 50, left: 52 };
+  const cW = W - pad.left - pad.right;
+  const cH = H - pad.top - pad.bottom;
+
+  const ppcs = closed.map(w => calcPPC(w));
+  const n = ppcs.length;
+
+  function xOf(i) { return pad.left + (n === 1 ? cW / 2 : (i / (n - 1)) * cW); }
+  function yOf(ppc) { return pad.top + (1 - ppc / 100) * cH; }
+
+  // Grid lines & y-axis labels
+  let gridLines = '';
+  [0, 25, 50, 70, 85, 100].forEach(v => {
+    const y = yOf(v);
+    const isRef = v === 70 || v === 85;
+    gridLines += '<line x1="' + pad.left + '" y1="' + y + '" x2="' + (W - pad.right) + '" y2="' + y + '" '
+      + 'stroke="' + (isRef ? (v===85?'#16A34A':'#2563EB') : '#1A2E45') + '" '
+      + 'stroke-width="' + (isRef ? '1.5' : '1') + '" '
+      + 'stroke-dasharray="' + (isRef ? '5,4' : 'none') + '" opacity="' + (isRef ? '0.6' : '0.4') + '"/>';
+    gridLines += '<text x="' + (pad.left - 8) + '" y="' + (y + 4) + '" text-anchor="end" font-family="Rajdhani,sans-serif" font-size="11" fill="' + (isRef?(v===85?'#16A34A':'#2563EB'):'#3E5D7A') + '" font-weight="' + (isRef?'700':'400') + '">' + v + '</text>';
+    if (isRef) {
+      gridLines += '<text x="' + (W - pad.right + 4) + '" y="' + (y + 4) + '" font-family="Rajdhani,sans-serif" font-size="9" fill="' + (v===85?'#16A34A':'#2563EB') + '" font-weight="700">' + (v===85?'EXCELLENT':'GOOD') + '</text>';
+    }
+  });
+
+  // X-axis labels (every label if ≤8, else every other)
+  let xLabels = '';
+  closed.forEach((week, i) => {
+    if (n <= 8 || i % 2 === 0 || i === n-1) {
+      const label = week.label.length > 14 ? week.label.slice(0,13) + '…' : week.label;
+      xLabels += '<text x="' + xOf(i) + '" y="' + (H - pad.bottom + 18) + '" text-anchor="middle" font-family="Rajdhani,sans-serif" font-size="10" fill="#3E5D7A">' + label + '</text>';
+    }
+  });
+
+  // Build smooth path using cubic bezier curves
+  const pts = ppcs.map((ppc, i) => ({ x: xOf(i), y: yOf(ppc) }));
+  let pathD = 'M ' + pts[0].x + ' ' + pts[0].y;
+  for (let i = 1; i < pts.length; i++) {
+    const prev = pts[i-1], cur = pts[i];
+    const cpx = (prev.x + cur.x) / 2;
+    pathD += ' C ' + cpx + ' ' + prev.y + ' ' + cpx + ' ' + cur.y + ' ' + cur.x + ' ' + cur.y;
+  }
+
+  // Gradient fill area
+  const areaD = pathD + ' L ' + pts[pts.length-1].x + ' ' + (H - pad.bottom) + ' L ' + pts[0].x + ' ' + (H - pad.bottom) + ' Z';
+
+  // Dots with color coding
+  const dots = pts.map((pt, i) => {
+    const cls = ppcClass(ppcs[i]);
+    const color = cls === 'excellent' ? '#16A34A' : cls === 'good' ? '#2563EB' : '#D97706';
+    return '<circle cx="' + pt.x + '" cy="' + pt.y + '" r="5" fill="' + color + '" stroke="var(--bg-deep)" stroke-width="2">'
+      + '<title>' + closed[i].label + ': ' + ppcs[i] + '%</title></circle>'
+      + '<text x="' + pt.x + '" y="' + (pt.y - 10) + '" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="13" fill="' + color + '">' + ppcs[i] + '%</text>';
+  }).join('');
+
+  // Estimate path length for animation
+  let pathLen = 0;
+  for (let i = 1; i < pts.length; i++) {
+    pathLen += Math.hypot(pts[i].x - pts[i-1].x, pts[i].y - pts[i-1].y);
+  }
+  pathLen = Math.round(pathLen * 1.5); // approximate bezier length
+
+  const svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">'
+    + '<defs>'
+    + '<linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">'
+    + '<stop offset="0%" stop-color="#2B579A" stop-opacity="0.3"/>'
+    + '<stop offset="100%" stop-color="#2B579A" stop-opacity="0"/>'
+    + '</linearGradient>'
+    + '</defs>'
+    + gridLines
+    + '<path d="' + areaD + '" fill="url(#fillGrad)"/>'
+    + '<path d="' + pathD + '" fill="none" stroke="#3B72C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" '
+    + 'style="stroke-dasharray:' + pathLen + ';stroke-dashoffset:' + pathLen + ';animation:drawLine 1.2s ease 0.1s forwards;--ll:' + pathLen + '"/>'
+    + dots
+    + xLabels
+    + '</svg>';
+
+  container.innerHTML = '<div class="chart-wrap">' + svg + '</div>';
+}
+
+/* ====== EXPORT CSV ====== */
+function exportCSV() {
+  const rows = [['Week', 'PPC%', 'Tasks Planned', 'Tasks Completed', 'Status', 'Task', 'Completed', 'Variance Reason']];
+  state.weeks.forEach(week => {
+    const ppc = calcPPC(week);
+    const done = week.tasks.filter(t => t.completed).length;
+    if (week.tasks.length === 0) {
+      rows.push([week.label, ppc !== null ? ppc + '%' : '', 0, 0, week.closed ? 'Closed' : 'Open', '', '', '']);
+    } else {
+      week.tasks.forEach((task, i) => {
+        rows.push([
+          i === 0 ? week.label : '',
+          i === 0 && ppc !== null ? ppc + '%' : '',
+          i === 0 ? week.tasks.length : '',
+          i === 0 ? done : '',
+          i === 0 ? (week.closed ? 'Closed' : 'Open') : '',
+          task.text,
+          task.completed ? 'Yes' : 'No',
+          task.varianceReason || ''
+        ]);
+      });
+    }
+  });
+
+  const csv = rows.map(r => r.map(cell => '"' + String(cell).replace(/"/g, '""') + '"').join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'ppc-tracker-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ====== MODAL ====== */
+function openHelp() { document.getElementById('helpModal').classList.add('open'); }
+function closeHelp(e) {
+  if (!e || e.target === document.getElementById('helpModal') || e.currentTarget.classList.contains('modal-close')) {
+    document.getElementById('helpModal').classList.remove('open');
+  }
+}
+
+/* ====== INIT ====== */
+loadState();
+renderWeekView();
+renderHistoryView();
+</script>
+</body>
+</html>
