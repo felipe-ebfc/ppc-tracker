@@ -283,6 +283,21 @@
     @keyframes drawLine{from{stroke-dashoffset:var(--ll,2000)}to{stroke-dashoffset:0}}
     .ppc-pop{animation:ppcPop 0.35s ease}
 
+    /* === Viewport-fit: 2-panel active week layout === */
+    .week-2panel{display:flex;gap:20px;align-items:flex-start}
+    .week-left-panel{flex:0 0 35%;min-width:0;display:flex;flex-direction:column;gap:14px}
+    .week-right-panel{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:10px}
+    /* Compact PPC number in left panel — doesn't need to dominate */
+    .ppc-display.ppc-compact{padding:18px 14px 14px;margin-bottom:0}
+    .ppc-display.ppc-compact .ppc-number{font-size:clamp(42px,8vw,68px)}
+    /* Task area scrolls internally instead of pushing the page */
+    .week-task-scroll{max-height:360px;overflow-y:auto;padding-right:4px}
+    @media(max-width:767px){
+      .week-2panel{flex-direction:column}
+      .week-left-panel,.week-right-panel{flex:none;width:100%}
+      .week-task-scroll{max-height:none;overflow-y:visible}
+    }
+
     /* Responsive */
     @media(max-width:640px){
       .site-header{padding:32px 0 24px}
@@ -594,12 +609,14 @@ function buildWeekHTML(week, openWeeks) {
   const total = week.tasks.length;
 
   const otherOpen = openWeeks.filter(w => w.id !== week.id);
-  const switcherHtml = otherOpen.length ? '<select class="variance-select" style="min-width:160px" onchange="if(this.value){setActiveWeek(this.value);this.value=\'\'}">'
-    + '<option value="">Switch week&hellip;</option>'
-    + otherOpen.map(w => '<option value="' + w.id + '">' + esc(w.label) + '</option>').join('')
-    + '</select>' : '';
+  const switcherHtml = otherOpen.length
+    ? '<select class="variance-select" style="width:100%" onchange="if(this.value){setActiveWeek(this.value);this.value=\'\'}">'
+      + '<option value="">Switch week&hellip;</option>'
+      + otherOpen.map(w => '<option value="' + w.id + '">' + esc(w.label) + '</option>').join('')
+      + '</select>'
+    : '';
 
-  /* QC: progress bar with threshold markers */
+  /* Progress bar with threshold markers */
   const progressHtml = total > 0
     ? '<div class="ppc-progress-track"><div class="ppc-progress-fill" style="width:' + (ppc || 0) + '%"></div></div>'
     : '';
@@ -624,32 +641,48 @@ function buildWeekHTML(week, openWeeks) {
           + '</div>' + varHtml + '</div>';
       }).join('');
 
-  return '<div class="card active-week" style="opacity:0;animation:fadeInUp 0.4s ease forwards">'
-    + '<div class="week-header">'
-    + '<div class="week-title-area"><h2>' + esc(week.label) + '</h2><p>' + total + ' task' + (total!==1?'s':'') + ' planned &bull; ' + done + ' completed</p></div>'
-    + '<div class="week-actions">' + switcherHtml + '<button class="btn btn-ghost" onclick="closeWeek(\'' + week.id + '\')">&#10003; Close Week</button></div>'
+  /* ── LEFT PANEL: metrics + controls ── */
+  const leftPanel =
+      '<div class="week-title-area">'
+    + '<h2>' + esc(week.label) + '</h2>'
+    + '<p>' + total + ' task' + (total!==1?'s':'') + ' planned &bull; ' + done + ' completed</p>'
     + '</div>'
-    + '<div class="ppc-display ' + cls + '">'
+    + '<div class="ppc-display ppc-compact ' + cls + '">'
     + '<span class="ppc-number">' + (ppc !== null ? ppc + '%' : '&mdash;') + '</span>'
     + '<div class="ppc-label">Percent Plan Complete</div>'
     + '<div class="ppc-badge">' + ppcLabel(ppc) + '</div>'
     + progressHtml
     + '<div class="ppc-meta">' + (total > 0 ? done + ' of ' + total + ' commitments kept' : 'Add tasks to begin tracking') + '</div>'
     + '</div>'
-    + '<div class="card-title" style="margin-top:4px">Planned Commitments</div>'
+    + '<div style="display:flex;flex-direction:column;gap:8px">'
+    + '<button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="closeWeek(\'' + week.id + '\')">&#10003; Close Week</button>'
+    + switcherHtml
+    + '</div>';
+
+  /* ── RIGHT PANEL: task entry + scrollable list ── */
+  const rightPanel =
+      '<div class="card-title" style="margin-bottom:4px">Planned Commitments</div>'
     + '<div class="task-input-row">'
     + '<input type="text" id="taskInput-' + week.id + '" class="text-input" placeholder="Add a planned commitment&hellip;" maxlength="200" onkeydown="if(event.key===\'Enter\')addTask(\'' + week.id + '\')" />'
     + '<button class="btn btn-primary" onclick="addTask(\'' + week.id + '\')">+ Add</button>'
     + '<button class="btn" style="background:var(--bg-elevated);border:1px solid var(--border-default);color:var(--text-secondary);font-size:13px;padding:10px 14px" onclick="toggleBulkPaste(\'' + week.id + '\')">📋 Paste List</button>'
     + '</div>'
-    + '<div id="bulkPaste-' + week.id + '" style="display:none;margin-bottom:16px">'
-    + '<textarea id="bulkInput-' + week.id + '" class="text-input" style="min-height:120px;resize:vertical;font-size:14px" placeholder="Paste from spreadsheet column — one task per line&#10;&#10;Example:&#10;Install 2nd floor MEP&#10;Pour Level 3 deck&#10;Complete elevator shaft"></textarea>'
+    + '<div id="bulkPaste-' + week.id + '" style="display:none;margin-bottom:4px">'
+    + '<textarea id="bulkInput-' + week.id + '" class="text-input" style="min-height:100px;resize:vertical;font-size:14px" placeholder="Paste from spreadsheet column — one task per line&#10;&#10;Example:&#10;Install 2nd floor MEP&#10;Pour Level 3 deck&#10;Complete elevator shaft"></textarea>'
     + '<div style="display:flex;gap:8px;margin-top:8px;align-items:center">'
     + '<button class="btn btn-primary" onclick="addBulkTasks(\'' + week.id + '\')">Add All</button>'
     + '<span style="font-size:12px;color:var(--text-muted)">One commitment per line</span>'
     + '</div>'
     + '</div>'
-    + '<div class="task-list' + (week.tasks.length >= 6 ? ' two-col' : '') + '">' + tasksHtml + '</div>'
+    + '<div class="week-task-scroll">'
+    + '<div class="task-list' + (week.tasks.length >= 4 ? ' two-col' : '') + '">' + tasksHtml + '</div>'
+    + '</div>';
+
+  return '<div class="card active-week" style="opacity:0;animation:fadeInUp 0.4s ease forwards">'
+    + '<div class="week-2panel">'
+    + '<div class="week-left-panel">' + leftPanel + '</div>'
+    + '<div class="week-right-panel">' + rightPanel + '</div>'
+    + '</div>'
     + '</div>';
 }
 
