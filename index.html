@@ -139,7 +139,9 @@
     /* Tasks */
     .task-input-row{display:flex;gap:10px;margin-bottom:16px}
     .task-input-row .text-input{flex:1;width:auto}
-    .task-list{display:flex;flex-direction:column;gap:8px}
+    .task-list{display:grid;grid-template-columns:1fr;gap:8px}
+    .task-list.two-col{grid-template-columns:1fr 1fr}
+    @media(max-width:600px){.task-list.two-col{grid-template-columns:1fr}}
     .task-item{background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-md);padding:14px 16px;transition:all var(--transition);animation:slideIn 0.25s ease}
     .task-item:hover{border-color:var(--border-subtle);background:var(--bg-elevated)}
     .task-item.completed{opacity:0.75;border-color:var(--ppc-green-border);background:var(--ppc-green-bg)}
@@ -647,7 +649,7 @@ function buildWeekHTML(week, openWeeks) {
     + '<span style="font-size:12px;color:var(--text-muted)">One commitment per line</span>'
     + '</div>'
     + '</div>'
-    + '<div class="task-list">' + tasksHtml + '</div>'
+    + '<div class="task-list' + (week.tasks.length >= 6 ? ' two-col' : '') + '">' + tasksHtml + '</div>'
     + '</div>';
 }
 
