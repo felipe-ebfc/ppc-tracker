@@ -1044,7 +1044,7 @@ function setSimpleDayValue(weekId, dayName, field, rawValue) {
   if (varEl) varEl.innerHTML = buildDayVariancesTableHtml(week, dayName);
 
   /* Update weekly PPC */
-  const weeklyPPC = calcSimpleWeekPPC(week);
+  const weeklyPPC = week.closed ? calcSimpleWeekPPC(week) : null;
   const wPPCEl = document.getElementById('weekly-ppc-' + weekId);
   if (wPPCEl) wPPCEl.className = 'ppc-display ppc-compact ' + (ppcClass(weeklyPPC) || '');
   const wNumEl = document.getElementById('weekly-ppc-num-' + weekId);
@@ -1133,7 +1133,7 @@ function buildDayVariancesHtml(week, dayName) {
 function buildSimpleSummaryHtml(week) {
   const { totalPlanned, totalCompleted } = getSimpleWeekTotals(week);
   if (!totalPlanned) return '';
-  const weeklyPPC = calcSimpleWeekPPC(week);
+  const weeklyPPC = week.closed ? calcSimpleWeekPPC(week) : null;
   const cls = ppcClass(weeklyPPC);
   const ppcColor = cls === 'excellent' ? 'var(--ppc-green)' : cls === 'improve' ? 'var(--ppc-amber)' : cls === 'critical' ? 'var(--ppc-red)' : 'var(--text-muted)';
   return '<div class="stat-chip"><span class="stat-chip-value" style="color:var(--text-secondary)">' + totalPlanned + '</span><span class="stat-chip-label">Planned</span></div>'
@@ -1153,7 +1153,7 @@ function buildVariancePatternHtml(week) {
 
 /* ====== SIMPLE MODE: BUILD WEEK HTML ====== */
 function buildSimpleWeekHTML(week, openWeeks) {
-  const weeklyPPC = calcSimpleWeekPPC(week);
+  const weeklyPPC = week.closed ? calcSimpleWeekPPC(week) : null;
   const cls = ppcClass(weeklyPPC);
   const { totalPlanned, totalCompleted } = getSimpleWeekTotals(week);
 
@@ -1266,7 +1266,7 @@ function buildSimpleWeekHTML(week, openWeeks) {
 function buildWeekHTML(week, openWeeks) {
   if (week.mode === 'simple') return buildSimpleWeekHTML(week, openWeeks);
 
-  const ppc = calcPPC(week);
+  const ppc = week.closed ? calcPPC(week) : null;
   const cls = ppcClass(ppc);
   const done = week.tasks.filter(t => t.completed).length;
   const total = week.tasks.length;
@@ -1280,8 +1280,8 @@ function buildWeekHTML(week, openWeeks) {
       + '</select>'
     : '';
 
-  const progressHtml = total > 0
-    ? '<div class="ppc-progress-track"><div class="ppc-progress-fill" style="width:' + (ppc || 0) + '%"></div></div>'
+  const progressHtml = ppc !== null
+    ? '<div class="ppc-progress-track"><div class="ppc-progress-fill" style="width:' + ppc + '%"></div></div>'
     : '';
 
   const summaryHtml = total > 0
