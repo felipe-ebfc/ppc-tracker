@@ -131,7 +131,6 @@
     .ppc-display.excellent .ppc-progress-fill{background:linear-gradient(90deg,var(--ppc-green),rgba(22,163,74,0.7))}
     .ppc-display.improve .ppc-progress-fill{background:linear-gradient(90deg,var(--ppc-amber),rgba(217,119,6,0.7))}
     .ppc-display.critical .ppc-progress-fill{background:linear-gradient(90deg,var(--ppc-red),rgba(220,38,38,0.7))}
-    /* threshold markers: 60% and 80% */
     .ppc-progress-track::before{content:'';position:absolute;left:60%;top:0;bottom:0;width:1.5px;background:rgba(217,119,6,0.55);z-index:2}
     .ppc-progress-track::after{content:'';position:absolute;left:80%;top:0;bottom:0;width:1.5px;background:rgba(22,163,74,0.55);z-index:2}
 
@@ -141,7 +140,7 @@
     .stat-chip-value{font-family:var(--font-display);font-size:22px;letter-spacing:0.04em;line-height:1;display:block}
     .stat-chip-label{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);display:block;margin-top:3px}
 
-    /* Tasks */
+    /* Tasks (Full Mode) */
     .task-input-row{display:flex;gap:10px;margin-bottom:16px}
     .task-input-row .text-input{flex:1;width:auto}
     .task-list{display:grid;grid-template-columns:1fr;gap:8px}
@@ -254,12 +253,76 @@
     .week-right-panel{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:10px}
     .ppc-display.ppc-compact{padding:18px 14px 14px;margin-bottom:0}
     .ppc-display.ppc-compact .ppc-number{font-size:clamp(42px,8vw,68px)}
-    .week-task-scroll{max-height:360px;overflow-y:auto;padding-right:4px}
+    .week-task-scroll{max-height:520px;overflow-y:auto;padding-right:4px}
     @media(max-width:767px){
       .week-2panel{flex-direction:column}
       .week-left-panel,.week-right-panel{flex:none;width:100%}
       .week-task-scroll{max-height:none;overflow-y:visible}
     }
+
+    /* ===== MODE TOGGLE (New Project Modal) ===== */
+    .modal-field-label{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;display:block}
+    .mode-toggle-row{display:flex;background:var(--bg-surface);border:1px solid var(--border-default);border-radius:var(--radius-md);overflow:hidden;margin-bottom:20px}
+    .mode-toggle-btn{flex:1;background:none;border:none;color:var(--text-secondary);font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:13px 10px;cursor:pointer;transition:all var(--transition);min-height:var(--touch-min);text-align:center;line-height:1.2}
+    .mode-toggle-btn:not(:last-child){border-right:1px solid var(--border-default)}
+    .mode-toggle-btn.active{background:var(--primary);color:white}
+    .mode-toggle-btn small{display:block;font-size:10px;font-weight:500;letter-spacing:0.06em;opacity:0.75;margin-top:2px;text-transform:none}
+    .work-period-section{margin-bottom:20px}
+    .work-period-row{display:flex;gap:8px}
+    .work-period-opt{flex:1;background:var(--bg-surface);border:1.5px solid var(--border-default);border-radius:var(--radius-md);color:var(--text-secondary);font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;padding:12px 6px;cursor:pointer;transition:all var(--transition);min-height:var(--touch-min);text-align:center;line-height:1.3}
+    .work-period-opt.active{background:var(--primary-glow);border-color:var(--primary-light);color:var(--primary-light)}
+    .work-period-opt small{display:block;font-size:10px;font-weight:500;opacity:0.75;margin-top:3px;text-transform:none;letter-spacing:0}
+
+    /* Simple Mode hint in week creator */
+    .simple-mode-hint{display:inline-flex;align-items:center;gap:7px;background:var(--primary-glow);border:1px solid var(--border-default);border-radius:var(--radius-md);padding:8px 14px;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--primary-light);margin-bottom:10px}
+    .simple-mode-hint::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+
+    /* ===== SIMPLE MODE: DAY CARDS ===== */
+    .simple-days-grid{display:flex;flex-direction:column;gap:10px}
+    .simple-day-card{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:16px 18px;transition:border-color var(--transition),background var(--transition)}
+    .simple-day-card.day-complete{border-color:var(--ppc-green-border);background:rgba(22,163,74,0.06)}
+    .simple-day-card.day-partial{border-color:var(--ppc-amber-border);background:rgba(217,119,6,0.05)}
+    .simple-day-card.day-missed{border-color:var(--ppc-red-border);background:rgba(220,38,38,0.05)}
+    .simple-day-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .simple-day-name{font-family:var(--font-display);font-size:22px;letter-spacing:0.04em;color:var(--text-primary)}
+    .simple-day-ppc{font-family:var(--font-display);font-size:20px;letter-spacing:0.04em;transition:color var(--transition)}
+    .simple-day-ppc.excellent{color:var(--ppc-green)}
+    .simple-day-ppc.improve{color:var(--ppc-amber)}
+    .simple-day-ppc.critical{color:var(--ppc-red)}
+    .simple-day-ppc.empty{color:var(--text-muted)}
+    .simple-day-inputs{display:flex;gap:10px;align-items:flex-end}
+    .simple-day-field{display:flex;flex-direction:column;gap:4px;flex:1}
+    .simple-day-field-label{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted)}
+    .simple-day-num{background:var(--bg-input);border:1.5px solid var(--border-default);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-display);font-size:26px;letter-spacing:0.04em;padding:10px;text-align:center;outline:none;width:100%;min-height:52px;transition:all var(--transition);-moz-appearance:textfield}
+    .simple-day-num::-webkit-inner-spin-button,.simple-day-num::-webkit-outer-spin-button{-webkit-appearance:none}
+    .simple-day-num:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px var(--primary-glow);background:var(--bg-elevated)}
+    .simple-day-variances{margin-top:12px;padding-top:10px;border-top:1px solid var(--border-faint)}
+    .simple-var-title{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+    .simple-variance-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+    .simple-variance-row:last-child{margin-bottom:0}
+    .simple-variance-idx{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--ppc-amber);min-width:20px;text-align:right}
+    .simple-day-ok{font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.06em;color:var(--ppc-green)}
+
+    /* Variance Pattern Card */
+    .variance-pattern-card{background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-md);padding:14px 16px;margin-top:10px}
+    .variance-pattern-title{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+    .variance-pattern-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border-faint)}
+    .variance-pattern-row:last-child{border-bottom:none}
+    .vp-count{font-family:var(--font-display);font-size:18px;color:var(--ppc-amber);min-width:24px;text-align:center;flex-shrink:0}
+    .vp-label{font-size:12px;color:var(--text-secondary);flex:1;line-height:1.3}
+    .vp-bar{height:6px;border-radius:3px;background:var(--ppc-amber);flex-shrink:0;min-width:4px;transition:width 0.4s ease}
+
+    /* Mode Badge */
+    .mode-badge{display:inline-flex;align-items:center;gap:4px;background:var(--primary-glow);border:1px solid var(--border-default);border-radius:100px;padding:2px 10px;font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--primary-light);vertical-align:middle}
+
+    /* Explainer Tile */
+    .explainer-tile{background:var(--bg-elevated);border:1px solid var(--border-default);border-left:3px solid var(--accent);border-radius:var(--radius-md);padding:12px 16px;margin-bottom:12px}
+    .explainer-tile p{font-size:12px;color:var(--text-secondary);line-height:1.6;margin:0}
+    .explainer-tile strong{color:var(--accent)}
+
+    /* Lean insight callout */
+    .lean-callout{background:rgba(212,168,39,0.06);border:1px solid rgba(212,168,39,0.2);border-radius:var(--radius-md);padding:10px 14px;margin-top:10px;font-size:12px;color:var(--text-secondary);line-height:1.5}
+    .lean-callout strong{color:var(--accent)}
 
     /* === @media print === */
     @media print {
@@ -273,7 +336,11 @@
       .card::before{display:none!important}
       .ppc-number{color:black!important}
       .ppc-badge{color:black!important;border:1px solid #ccc!important;background:#f5f5f5!important}
+      /* Hatch patterns for PPC zones — grayscale differentiation */
       .ppc-display{background:#f9f9f9!important;border:1px solid #ccc!important}
+      .ppc-display.excellent{background:repeating-linear-gradient(45deg,#f9f9f9,#f9f9f9 5px,white 5px,white 10px)!important}
+      .ppc-display.improve{background:repeating-linear-gradient(-45deg,#f5f5f5,#f5f5f5 5px,white 5px,white 10px)!important}
+      .ppc-display.critical{background:repeating-linear-gradient(90deg,#efefef,#efefef 3px,white 3px,white 6px)!important}
       .ppc-display::after{display:none!important}
       .task-item{background:white!important;border:1px solid #ddd!important;break-inside:avoid}
       .task-text{color:black!important}
@@ -287,6 +354,26 @@
       #view-history{display:none!important}
       .history-table th,.history-table td{color:black!important;border-color:#ccc!important}
       .hist-ppc{color:black!important}
+      /* Simple Mode print */
+      .simple-mode-hint{display:none!important}
+      .mode-badge{display:none!important}
+      .simple-day-card{background:white!important;border:1px solid #ddd!important;break-inside:avoid}
+      .simple-day-card.day-complete{border-left:5px solid #000!important;background:none!important}
+      .simple-day-card.day-partial{border-left:5px dashed #555!important;background:none!important}
+      .simple-day-card.day-missed{border-left:5px solid #aaa!important;background:repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(0,0,0,0.04) 4px,rgba(0,0,0,0.04) 8px)!important}
+      .simple-day-name{color:black!important}
+      .simple-day-ppc{color:black!important}
+      .simple-day-num{color:black!important;border:1px solid #ccc!important;background:white!important}
+      .simple-day-ok{color:black!important}
+      .simple-variance-idx{color:black!important}
+      .simple-variance-row select{display:none}
+      .simple-variance-row::after{content:attr(data-label);font-size:12px;color:#333}
+      .variance-pattern-card{background:#f9f9f9!important;border:1px solid #ddd!important}
+      .vp-count,.vp-label{color:black!important}
+      .vp-bar{background:#666!important}
+      .explainer-tile{background:#f9f9f9!important;border:1px solid #ddd!important;border-left:3px solid #999!important}
+      .explainer-tile p,.lean-callout{color:#333!important}
+      .lean-callout{background:#f9f9f9!important;border-color:#ccc!important}
       @page{margin:0.75in}
     }
 
@@ -308,6 +395,7 @@
       .nav-tab{font-size:13px;padding:12px 10px;letter-spacing:0.05em}
       .summary-stats{gap:6px}
       .project-select{max-width:100%}
+      .work-period-row{gap:6px}
     }
 
     ::-webkit-scrollbar{width:6px;height:6px}
@@ -340,6 +428,7 @@
   <div id="view-week" class="view active">
     <div class="card week-creator">
       <div class="card-title" style="font-size:16px">Start New Week</div>
+      <div id="week-creator-hint"></div>
       <div class="week-creator-row">
         <input type="text" id="newWeekLabel" class="text-input" placeholder="e.g. Week of Mar 9, 2026" maxlength="80" onkeydown="if(event.key==='Enter')createWeek()"/>
         <button class="btn btn-accent" onclick="createWeek()">+ New Week</button>
@@ -376,25 +465,59 @@
     <div class="modal-sub">Percent Plan Complete — Last Planner System</div>
     <p><strong>Percent Plan Complete (PPC%)</strong> is the core metric of the Last Planner System&#174; in Lean Construction. It measures how reliably a team keeps its weekly commitments.</p>
     <div class="formula-box">PPC% = Completed &divide; Planned &times; 100</div>
-    <p>Each week, Last Planners list all commitments they <em>promise</em> to complete. At week's end, each is marked <strong>Completed</strong> or not. When a commitment isn't kept, record the <strong>variance reason</strong> — understanding <em>why</em> plans fail is just as important as tracking when they fail.</p>
+    <p>Each week, Last Planners list all commitments they <em>promise</em> to complete. At week&rsquo;s end, each is marked <strong>Completed</strong> or not. When a commitment isn&rsquo;t kept, record the <strong>variance reason</strong> &mdash; understanding <em>why</em> plans fail is just as important as tracking when they fail.</p>
     <div class="benchmarks">
       <div class="benchmark-pill green"><span class="pill-pct">80%+</span><span class="pill-label">Excellent</span></div>
-      <div class="benchmark-pill amber"><span class="pill-pct">60–79%</span><span class="pill-label">Improve</span></div>
+      <div class="benchmark-pill amber"><span class="pill-pct">60&ndash;79%</span><span class="pill-label">Improve</span></div>
       <div class="benchmark-pill red"><span class="pill-pct">&lt;60%</span><span class="pill-label">Critical</span></div>
     </div>
-    <p style="margin-top:16px;font-size:13px">Consistently tracking PPC% drives team accountability, surfaces systemic obstacles, and creates a culture of reliable commitments on the jobsite.</p>
+    <p style="margin-top:16px;font-size:13px">Teams that honestly track variance patterns typically see PPC jump from 50&ndash;60% to 75&ndash;85% within months. PPC without variance tracking is just blame.</p>
   </div>
 </div>
 
 <!-- NEW PROJECT MODAL -->
 <div class="modal-overlay" id="newProjectModal" onclick="closeNewProjectModal(event)">
-  <div class="modal" style="max-width:420px">
+  <div class="modal" style="max-width:460px">
     <button class="modal-close" onclick="closeNewProjectModal()">&times;</button>
     <h2>New Project</h2>
     <div class="modal-sub">Multi-Project Tracker</div>
-    <p>Create a new project to track commitment reliability independently from your current project.</p>
-    <input type="text" id="newProjectName" class="text-input" placeholder="e.g. Tower A — Foundation" maxlength="60" style="margin-bottom:16px" onkeydown="if(event.key==='Enter')createProject()"/>
-    <button class="btn btn-accent" style="width:100%;justify-content:center" onclick="createProject()">Create Project</button>
+
+    <label class="modal-field-label">Project Name</label>
+    <input type="text" id="newProjectName" class="text-input" placeholder="e.g. Tower A — Foundation" maxlength="60" style="margin-bottom:20px" onkeydown="if(event.key==='Enter')createProject()"/>
+
+    <label class="modal-field-label">Tracking Mode</label>
+    <div class="mode-toggle-row">
+      <button class="mode-toggle-btn active" data-mode="full" onclick="selectProjectMode('full')">
+        Full Mode
+        <small>Task-by-task commitments</small>
+      </button>
+      <button class="mode-toggle-btn" data-mode="simple" onclick="selectProjectMode('simple')">
+        Simple Mode
+        <small>Daily planned vs. completed</small>
+      </button>
+    </div>
+    <input type="hidden" id="newProjectModeValue" value="full" />
+
+    <div id="work-period-section" style="display:none">
+      <label class="modal-field-label">Work Period</label>
+      <div class="work-period-row">
+        <button class="work-period-opt active" data-period="5" onclick="selectWorkPeriod('5')">
+          5-Day
+          <small>Mon &ndash; Fri</small>
+        </button>
+        <button class="work-period-opt" data-period="6" onclick="selectWorkPeriod('6')">
+          6-Day
+          <small>Mon &ndash; Sat</small>
+        </button>
+        <button class="work-period-opt" data-period="7" onclick="selectWorkPeriod('7')">
+          7-Day
+          <small>Mon &ndash; Sun</small>
+        </button>
+      </div>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:10px;margin-bottom:0">Work period is locked at project creation. Teams build habits with consistent weekly rhythms.</p>
+    </div>
+
+    <button class="btn btn-accent" style="width:100%;justify-content:center;margin-top:4px" onclick="createProject()">Create Project</button>
   </div>
 </div>
 
@@ -402,6 +525,7 @@
 /* ====== CONSTANTS ====== */
 const STORAGE_KEY = 'ppc_tracker_v3';
 
+/* Full Mode variance reasons (legacy, compact labels) */
 const VARIANCE_REASONS = [
   { value: 'prerequisites', label: 'Prerequisites' },
   { value: 'resources',     label: 'Resources' },
@@ -413,9 +537,22 @@ const VARIANCE_REASONS = [
   { value: 'prior_work',    label: 'Prior Work' },
 ];
 
+/* LCI-Standard 9 variance categories (Simple Mode) */
+const LCI_VARIANCE_REASONS = [
+  { value: 'prerequisites', label: 'Prerequisite work not complete' },
+  { value: 'materials',     label: 'Materials not available' },
+  { value: 'labor',         label: 'Labor not available' },
+  { value: 'equipment',     label: 'Equipment / tools not available' },
+  { value: 'information',   label: 'Information not complete (drawings, RFIs, design)' },
+  { value: 'space',         label: 'Space conflict / access issue' },
+  { value: 'weather',       label: 'Weather' },
+  { value: 'safety',        label: 'Safety / inspection issue' },
+  { value: 'planning',      label: 'Planning error / overcommitment' },
+];
+
 /* ====== STATE ====== */
 let state = {
-  projects: [{ id: 'default', name: 'Default Project', weeks: [], activeWeekId: null }],
+  projects: [{ id: 'default', name: 'Default Project', mode: 'full', workDays: ['Mon','Tue','Wed','Thu','Fri'], weeks: [], activeWeekId: null }],
   activeProjectId: 'default'
 };
 
@@ -430,7 +567,6 @@ function loadState() {
       const parsed = JSON.parse(raw);
       state = { ...state, ...parsed };
     } else {
-      // Migrate from v2 key
       const oldRaw = localStorage.getItem('ppc_tracker_v2');
       if (oldRaw) {
         const old = JSON.parse(oldRaw);
@@ -438,11 +574,15 @@ function loadState() {
         state.projects[0].activeWeekId = old.activeWeekId || null;
       }
     }
-    // Ensure projects array exists (guard against bad saved state)
     if (!Array.isArray(state.projects) || !state.projects.length) {
-      state.projects = [{ id: 'default', name: 'Default Project', weeks: [], activeWeekId: null }];
+      state.projects = [{ id: 'default', name: 'Default Project', mode: 'full', workDays: ['Mon','Tue','Wed','Thu','Fri'], weeks: [], activeWeekId: null }];
       state.activeProjectId = 'default';
     }
+    /* Normalize existing projects that pre-date Simple Mode */
+    state.projects.forEach(p => {
+      if (!p.mode) p.mode = 'full';
+      if (!p.workDays) p.workDays = ['Mon','Tue','Wed','Thu','Fri'];
+    });
   } catch(e) { console.warn('load state failed', e); }
 }
 
@@ -455,18 +595,18 @@ function saveState() {
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
 
 function calcPPC(week) {
+  if (week.mode === 'simple') return calcSimpleWeekPPC(week);
   if (!week.tasks || week.tasks.length === 0) return null;
   return Math.round((week.tasks.filter(t => t.completed).length / week.tasks.length) * 100);
 }
 
-// PPC zones: >=80 green (excellent), 60-79 amber (improve), <60 red (critical)
 function ppcClass(ppc) {
-  if (ppc === null) return '';
+  if (ppc === null || ppc === undefined) return '';
   return ppc >= 80 ? 'excellent' : ppc >= 60 ? 'improve' : 'critical';
 }
 
 function ppcLabel(ppc) {
-  if (ppc === null) return '&mdash;';
+  if (ppc === null || ppc === undefined) return '&mdash;';
   return ppc >= 80 ? '&#10022; Excellent' : ppc >= 60 ? '&#9650; Needs Improvement' : '&#9888; Critical';
 }
 
@@ -480,8 +620,23 @@ function esc(str) {
     .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
 }
 
+/* Returns { done, total } for both full and simple mode weeks */
+function getWeekStats(week) {
+  if (week.mode === 'simple') {
+    const { totalPlanned, totalCompleted } = getSimpleWeekTotals(week);
+    return { done: totalCompleted, total: totalPlanned };
+  }
+  const done = week.tasks ? week.tasks.filter(t => t.completed).length : 0;
+  const total = week.tasks ? week.tasks.length : 0;
+  return { done, total };
+}
+
 function getTopVariance(week) {
-  const incomplete = week.tasks.filter(t => !t.completed && t.varianceReason);
+  if (week.mode === 'simple') {
+    const pattern = getSimpleVariancePattern(week);
+    return pattern.length ? pattern[0].label : null;
+  }
+  const incomplete = (week.tasks || []).filter(t => !t.completed && t.varianceReason);
   if (!incomplete.length) return null;
   const counts = {};
   incomplete.forEach(t => { counts[t.varianceReason] = (counts[t.varianceReason] || 0) + 1; });
@@ -491,13 +646,63 @@ function getTopVariance(week) {
   return found ? found.label : top[0];
 }
 
+/* ====== SIMPLE MODE HELPERS ====== */
+function calcDayPPC(day) {
+  if (!day || day.planned === null || day.planned === undefined) return null;
+  if (day.completed === null || day.completed === undefined) return null;
+  if (day.planned === 0) return null;
+  return Math.round((day.completed / day.planned) * 100);
+}
+
+function calcSimpleWeekPPC(week) {
+  if (!week.workDays || !week.days) return null;
+  const days = week.workDays.map(d => week.days[d]);
+  const allEntered = days.every(d => d && d.planned !== null && d.planned !== undefined && d.completed !== null && d.completed !== undefined);
+  if (!allEntered) return null;
+  const totalPlanned = days.reduce((s, d) => s + (d.planned || 0), 0);
+  const totalCompleted = days.reduce((s, d) => s + (d.completed || 0), 0);
+  if (totalPlanned === 0) return null;
+  return Math.round((totalCompleted / totalPlanned) * 100);
+}
+
+function getSimpleWeekTotals(week) {
+  if (!week.workDays || !week.days) return { totalPlanned: 0, totalCompleted: 0 };
+  const entered = week.workDays.map(d => week.days[d]).filter(d => d && d.planned !== null && d.planned !== undefined);
+  const totalPlanned = entered.reduce((s, d) => s + (d.planned || 0), 0);
+  const totalCompleted = entered.reduce((s, d) => s + (d.completed || 0), 0);
+  return { totalPlanned, totalCompleted };
+}
+
+function getSimpleVariancePattern(week) {
+  if (!week.workDays || !week.days) return [];
+  const counts = {};
+  week.workDays.forEach(dayName => {
+    const day = week.days[dayName];
+    if (day && day.variances) {
+      day.variances.forEach(v => { if (v) counts[v] = (counts[v] || 0) + 1; });
+    }
+  });
+  return Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([reason, count]) => ({
+      reason, count,
+      label: (LCI_VARIANCE_REASONS.find(r => r.value === reason) || { label: reason }).label
+    }));
+}
+
+function createSimpleWeekObj(label, workDays) {
+  const days = {};
+  workDays.forEach(d => { days[d] = { planned: null, completed: null, variances: [] }; });
+  return { id: uid(), label, mode: 'simple', workDays: [...workDays], days, closed: false, createdAt: Date.now() };
+}
+
 /* ====== PROJECT MANAGEMENT ====== */
 function renderProjectBar() {
   const bar = document.getElementById('project-bar');
   if (!bar) return;
   const activeId = state.activeProjectId;
   const opts = state.projects.map(p =>
-    '<option value="' + p.id + '"' + (p.id === activeId ? ' selected' : '') + '>' + esc(p.name) + '</option>'
+    '<option value="' + p.id + '"' + (p.id === activeId ? ' selected' : '') + '>' + esc(p.name) + (p.mode === 'simple' ? ' [S]' : '') + '</option>'
   ).join('');
   const delBtn = state.projects.length > 1
     ? '<button class="btn-proj-del" onclick="deleteProject(\'' + activeId + '\')" title="Delete project" aria-label="Delete project">&#128465;</button>'
@@ -516,6 +721,8 @@ function switchProject(id) {
 }
 
 function openNewProjectModal() {
+  selectProjectMode('full');
+  selectWorkPeriod('5');
   document.getElementById('newProjectModal').classList.add('open');
   setTimeout(() => document.getElementById('newProjectName').focus(), 80);
 }
@@ -524,14 +731,37 @@ function closeNewProjectModal(e) {
   if (!e || e.target === document.getElementById('newProjectModal') || e.currentTarget.classList.contains('modal-close')) {
     document.getElementById('newProjectModal').classList.remove('open');
     document.getElementById('newProjectName').value = '';
+    selectProjectMode('full');
   }
+}
+
+function selectProjectMode(mode) {
+  document.getElementById('newProjectModeValue').value = mode;
+  document.querySelectorAll('.mode-toggle-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.mode === mode);
+  });
+  document.getElementById('work-period-section').style.display = mode === 'simple' ? 'block' : 'none';
+}
+
+function selectWorkPeriod(period) {
+  document.querySelectorAll('.work-period-opt').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.period === period);
+  });
 }
 
 function createProject() {
   const inp = document.getElementById('newProjectName');
   const name = inp.value.trim();
   if (!name) { inp.focus(); return; }
-  const project = { id: uid(), name, weeks: [], activeWeekId: null };
+  const mode = document.getElementById('newProjectModeValue').value || 'full';
+  let workDays = ['Mon','Tue','Wed','Thu','Fri'];
+  if (mode === 'simple') {
+    const activeBtn = document.querySelector('.work-period-opt.active');
+    const period = activeBtn ? activeBtn.dataset.period : '5';
+    if (period === '6') workDays = ['Mon','Tue','Wed','Thu','Fri','Sat'];
+    else if (period === '7') workDays = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  }
+  const project = { id: uid(), name, mode, workDays, weeks: [], activeWeekId: null };
   state.projects.push(project);
   state.activeProjectId = project.id;
   saveState();
@@ -569,8 +799,13 @@ function createWeek() {
     setTimeout(() => { inp.style.borderColor = ''; inp.style.boxShadow = ''; }, 1200);
     return;
   }
-  const week = { id: uid(), label, tasks: [], closed: false, createdAt: Date.now() };
   const proj = getActiveProject();
+  let week;
+  if (proj.mode === 'simple') {
+    week = createSimpleWeekObj(label, proj.workDays);
+  } else {
+    week = { id: uid(), label, tasks: [], closed: false, createdAt: Date.now() };
+  }
   proj.weeks.unshift(week);
   proj.activeWeekId = week.id;
   inp.value = '';
@@ -637,7 +872,7 @@ function confirmClearAll() {
   renderHistoryView();
 }
 
-/* ====== TASK MANAGEMENT ====== */
+/* ====== FULL MODE: TASK MANAGEMENT ====== */
 function addTask(weekId) {
   const inp = document.getElementById('taskInput-' + weekId);
   if (!inp) return;
@@ -703,7 +938,7 @@ function deleteTask(weekId, taskId) {
   renderActiveWeek(week);
 }
 
-/* ====== VARIANCE OPTIONS HTML ====== */
+/* ====== FULL MODE: VARIANCE OPTIONS HTML ====== */
 function variantOptionsHtml(selected) {
   return '<option value=""' + (!selected ? ' selected' : '') + '>Select variance reason&hellip;</option>'
     + VARIANCE_REASONS.map(r =>
@@ -711,29 +946,264 @@ function variantOptionsHtml(selected) {
       ).join('');
 }
 
-/* ====== RENDER: WEEK VIEW ====== */
-function renderWeekView() {
-  const area = document.getElementById('active-week-area');
-  if (!area) return;
-  const proj = getActiveProject();
-  const activeWeek = proj.activeWeekId ? proj.weeks.find(w => w.id === proj.activeWeekId) : null;
-  const openWeeks = proj.weeks.filter(w => !w.closed);
-
-  if (!activeWeek) {
-    let switcher = '';
-    if (openWeeks.length) {
-      switcher = '<p style="margin-bottom:12px;color:var(--text-secondary);font-size:14px">Open weeks:</p>'
-        + '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:24px">'
-        + openWeeks.map(w => '<button class="btn btn-primary" onclick="setActiveWeek(\'' + w.id + '\')">' + esc(w.label) + '</button>').join('')
-        + '</div>';
-    }
-    area.innerHTML = '<div class="empty-state"><span class="empty-state-icon">&#127959;&#65039;</span><h3>No Active Week</h3><p>Create a new week above to start tracking commitments.</p>' + switcher + '</div>';
-    return;
-  }
-  area.innerHTML = buildWeekHTML(activeWeek, openWeeks);
+/* ====== SIMPLE MODE: VARIANCE OPTIONS HTML ====== */
+function lciVarianceOptionsHtml(selected) {
+  return '<option value=""' + (!selected ? ' selected' : '') + '>Select reason&hellip;</option>'
+    + LCI_VARIANCE_REASONS.map(r =>
+        '<option value="' + r.value + '"' + (selected === r.value ? ' selected' : '') + '>' + r.label + '</option>'
+      ).join('');
 }
 
+/* ====== SIMPLE MODE: DAY VALUE INPUT ====== */
+function setSimpleDayValue(weekId, dayName, field, rawValue) {
+  const week = getWeek(weekId);
+  if (!week || !week.days || !week.days[dayName]) return;
+  const day = week.days[dayName];
+
+  const num = (rawValue === '' || rawValue === null || rawValue === undefined)
+    ? null
+    : Math.max(0, parseInt(rawValue, 10) || 0);
+  day[field] = num;
+
+  /* Cap completed at planned */
+  if (day.planned !== null && day.completed !== null && day.completed > day.planned) {
+    day.completed = day.planned;
+    const compEl = document.querySelector('#day-card-' + weekId + '-' + dayName + ' .sdn-completed');
+    if (compEl) compEl.value = day.completed;
+  }
+
+  /* Sync variance array length to missed count */
+  if (day.planned !== null && day.completed !== null) {
+    const missed = Math.max(0, day.planned - day.completed);
+    while (day.variances.length > missed) day.variances.pop();
+    while (day.variances.length < missed) day.variances.push('');
+  } else {
+    day.variances = [];
+  }
+
+  saveState();
+
+  /* Update day PPC badge */
+  const dayPPC = calcDayPPC(day);
+  const ppcEl = document.getElementById('day-ppc-' + weekId + '-' + dayName);
+  if (ppcEl) {
+    ppcEl.textContent = dayPPC !== null ? dayPPC + '%' : '\u2014';
+    ppcEl.className = 'simple-day-ppc ' + (dayPPC !== null ? ppcClass(dayPPC) : 'empty');
+  }
+
+  /* Update day card border class */
+  const cardEl = document.getElementById('day-card-' + weekId + '-' + dayName);
+  if (cardEl) {
+    cardEl.className = 'simple-day-card'
+      + (dayPPC === null ? '' : dayPPC >= 80 ? ' day-complete' : dayPPC >= 60 ? ' day-partial' : ' day-missed');
+  }
+
+  /* Update variance section */
+  const varEl = document.getElementById('day-variances-' + weekId + '-' + dayName);
+  if (varEl) varEl.innerHTML = buildDayVariancesHtml(week, dayName);
+
+  /* Update weekly PPC */
+  const weeklyPPC = calcSimpleWeekPPC(week);
+  const wPPCEl = document.getElementById('weekly-ppc-' + weekId);
+  if (wPPCEl) wPPCEl.className = 'ppc-display ppc-compact ' + (ppcClass(weeklyPPC) || '');
+  const wNumEl = document.getElementById('weekly-ppc-num-' + weekId);
+  if (wNumEl) wNumEl.textContent = weeklyPPC !== null ? weeklyPPC + '%' : '\u2014';
+  const pendEl = document.getElementById('weekly-ppc-pending-' + weekId);
+  if (pendEl) pendEl.style.display = weeklyPPC !== null ? 'none' : '';
+  const wMetaEl = document.getElementById('weekly-ppc-meta-' + weekId);
+  if (wMetaEl) {
+    const { totalPlanned, totalCompleted } = getSimpleWeekTotals(week);
+    wMetaEl.textContent = weeklyPPC !== null
+      ? totalCompleted + ' of ' + totalPlanned + ' commitments kept'
+      : '';
+  }
+  const wBadgeEl = document.getElementById('weekly-ppc-badge-' + weekId);
+  if (wBadgeEl) {
+    wBadgeEl.style.display = weeklyPPC !== null ? '' : 'none';
+    wBadgeEl.innerHTML = weeklyPPC !== null ? ppcLabel(weeklyPPC) : '';
+  }
+
+  /* Update summary stats */
+  const sumEl = document.getElementById('simple-summary-' + weekId);
+  if (sumEl) sumEl.innerHTML = buildSimpleSummaryHtml(week);
+
+  /* Update variance pattern */
+  const patEl = document.getElementById('variance-pattern-' + weekId);
+  if (patEl) patEl.innerHTML = buildVariancePatternHtml(week);
+}
+
+function setSimpleDayVariance(weekId, dayName, varIdx, reason) {
+  const week = getWeek(weekId);
+  if (!week || !week.days || !week.days[dayName]) return;
+  if (!week.days[dayName].variances) week.days[dayName].variances = [];
+  week.days[dayName].variances[varIdx] = reason;
+  saveState();
+  /* Update variance pattern display */
+  const patEl = document.getElementById('variance-pattern-' + weekId);
+  if (patEl) patEl.innerHTML = buildVariancePatternHtml(week);
+}
+
+/* ====== SIMPLE MODE: BUILD HTML HELPERS ====== */
+function buildDayVariancesHtml(week, dayName) {
+  const day = week.days[dayName];
+  if (!day || day.planned === null || day.completed === null) return '';
+  const missed = Math.max(0, day.planned - day.completed);
+  if (missed === 0) {
+    return '<div class="simple-day-ok">&#10003; All commitments kept</div>';
+  }
+  return '<div class="simple-var-title">' + missed + ' missed &mdash; variance reason' + (missed > 1 ? 's' : '') + ':</div>'
+    + Array.from({ length: missed }, (_, i) =>
+        '<div class="simple-variance-row" data-label="' + esc((LCI_VARIANCE_REASONS.find(r => r.value === (day.variances[i] || '')) || { label: '' }).label) + '">'
+        + '<span class="simple-variance-idx">' + (i + 1) + '.</span>'
+        + '<select class="variance-select" style="flex:1;min-width:0" onchange="setSimpleDayVariance(\'' + week.id + '\',\'' + dayName + '\',' + i + ',this.value)">'
+        + lciVarianceOptionsHtml(day.variances[i] || '')
+        + '</select>'
+        + '</div>'
+      ).join('');
+}
+
+function buildSimpleSummaryHtml(week) {
+  const { totalPlanned, totalCompleted } = getSimpleWeekTotals(week);
+  if (!totalPlanned) return '';
+  const weeklyPPC = calcSimpleWeekPPC(week);
+  const cls = ppcClass(weeklyPPC);
+  const ppcColor = cls === 'excellent' ? 'var(--ppc-green)' : cls === 'improve' ? 'var(--ppc-amber)' : cls === 'critical' ? 'var(--ppc-red)' : 'var(--text-muted)';
+  return '<div class="stat-chip"><span class="stat-chip-value" style="color:var(--text-secondary)">' + totalPlanned + '</span><span class="stat-chip-label">Planned</span></div>'
+    + '<div class="stat-chip"><span class="stat-chip-value" style="color:var(--ppc-green)">' + totalCompleted + '</span><span class="stat-chip-label">Completed</span></div>'
+    + '<div class="stat-chip"><span class="stat-chip-value" style="color:' + ppcColor + '">' + (weeklyPPC !== null ? weeklyPPC + '%' : '&mdash;') + '</span><span class="stat-chip-label">PPC%</span></div>';
+}
+
+function buildVariancePatternHtml(week) {
+  const pattern = getSimpleVariancePattern(week);
+  if (!pattern.length) return '<div style="font-family:var(--font-ui);font-size:11px;color:var(--text-muted);text-align:center;padding:8px 0">No variances recorded yet</div>';
+  const maxCount = pattern[0].count;
+  return '<div class="variance-pattern-title">Variance Pattern This Week</div>'
+    + pattern.map(({ label, count }) =>
+        '<div class="variance-pattern-row">'
+        + '<span class="vp-count">' + count + '</span>'
+        + '<span class="vp-label">' + esc(label) + '</span>'
+        + '<div class="vp-bar" style="width:' + Math.round(count / maxCount * 64) + 'px"></div>'
+        + '</div>'
+      ).join('');
+}
+
+/* ====== SIMPLE MODE: BUILD WEEK HTML ====== */
+function buildSimpleWeekHTML(week, openWeeks) {
+  const weeklyPPC = calcSimpleWeekPPC(week);
+  const cls = ppcClass(weeklyPPC);
+  const { totalPlanned, totalCompleted } = getSimpleWeekTotals(week);
+
+  const otherOpen = openWeeks.filter(w => w.id !== week.id);
+  const switcherHtml = otherOpen.length
+    ? '<select class="variance-select" style="width:100%" onchange="if(this.value){setActiveWeek(this.value);this.value=\'\'}">'
+      + '<option value="">Switch week&hellip;</option>'
+      + otherOpen.map(w => '<option value="' + w.id + '">' + esc(w.label) + '</option>').join('')
+      + '</select>'
+    : '';
+
+  const progressHtml = weeklyPPC !== null
+    ? '<div class="ppc-progress-track" style="max-width:100%;margin-top:10px"><div class="ppc-progress-fill" style="width:' + weeklyPPC + '%"></div></div>'
+    : '';
+
+  const ppcDisplay =
+    '<div class="ppc-display ppc-compact ' + cls + '" id="weekly-ppc-' + week.id + '">'
+    + '<span class="ppc-number" id="weekly-ppc-num-' + week.id + '">' + (weeklyPPC !== null ? weeklyPPC + '%' : '&mdash;') + '</span>'
+    + '<div class="ppc-label">Weekly PPC%</div>'
+    + '<div class="ppc-badge" id="weekly-ppc-badge-' + week.id + '"' + (weeklyPPC === null ? ' style="display:none"' : '') + '>' + (weeklyPPC !== null ? ppcLabel(weeklyPPC) : '') + '</div>'
+    + progressHtml
+    + '<div class="ppc-meta" id="weekly-ppc-pending-' + week.id + '"' + (weeklyPPC !== null ? ' style="display:none"' : '') + '>'
+    + 'Enter all ' + week.workDays.length + ' days to calculate'
+    + '</div>'
+    + '<div class="ppc-meta" id="weekly-ppc-meta-' + week.id + '">'
+    + (weeklyPPC !== null ? totalCompleted + ' of ' + totalPlanned + ' commitments kept' : '')
+    + '</div>'
+    + '</div>';
+
+  const summaryHtml = totalPlanned > 0
+    ? '<div class="summary-stats" id="simple-summary-' + week.id + '">' + buildSimpleSummaryHtml(week) + '</div>'
+    : '<div class="summary-stats" id="simple-summary-' + week.id + '"></div>';
+
+  const leftPanel =
+    '<div class="week-title-area">'
+    + '<h2>' + esc(week.label) + '</h2>'
+    + '<p>' + week.workDays.length + '-day week &nbsp;<span class="mode-badge">Simple Mode</span></p>'
+    + '</div>'
+    + ppcDisplay
+    + summaryHtml
+    + '<div style="display:flex;flex-direction:column;gap:8px">'
+    + '<button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="closeWeek(\'' + week.id + '\')">&#10003; Close Week</button>'
+    + switcherHtml
+    + '</div>';
+
+  /* Day cards */
+  const dayCardsHtml = week.workDays.map(dayName => {
+    const day = week.days[dayName] || { planned: null, completed: null, variances: [] };
+    const dayPPC = calcDayPPC(day);
+    const dayClass = dayPPC === null ? '' : dayPPC >= 80 ? ' day-complete' : dayPPC >= 60 ? ' day-partial' : ' day-missed';
+    const dayPPCCls = dayPPC !== null ? ppcClass(dayPPC) : 'empty';
+
+    return '<div class="simple-day-card' + dayClass + '" id="day-card-' + week.id + '-' + dayName + '">'
+      + '<div class="simple-day-header">'
+      + '<span class="simple-day-name">' + dayName + '</span>'
+      + '<span class="simple-day-ppc ' + dayPPCCls + '" id="day-ppc-' + week.id + '-' + dayName + '">'
+      + (dayPPC !== null ? dayPPC + '%' : '&mdash;') + '</span>'
+      + '</div>'
+      + '<div class="simple-day-inputs">'
+      + '<div class="simple-day-field">'
+      + '<span class="simple-day-field-label">Planned</span>'
+      + '<input type="number" class="simple-day-num sdn-planned" min="0" max="999" placeholder="\u2014"'
+      + ' value="' + (day.planned !== null && day.planned !== undefined ? day.planned : '') + '"'
+      + ' onblur="setSimpleDayValue(\'' + week.id + '\',\'' + dayName + '\',\'planned\',this.value)" />'
+      + '</div>'
+      + '<div class="simple-day-field">'
+      + '<span class="simple-day-field-label">Completed</span>'
+      + '<input type="number" class="simple-day-num sdn-completed" min="0" max="999" placeholder="\u2014"'
+      + ' value="' + (day.completed !== null && day.completed !== undefined ? day.completed : '') + '"'
+      + ' onblur="setSimpleDayValue(\'' + week.id + '\',\'' + dayName + '\',\'completed\',this.value)" />'
+      + '</div>'
+      + '</div>'
+      + '<div class="simple-day-variances" id="day-variances-' + week.id + '-' + dayName + '">'
+      + buildDayVariancesHtml(week, dayName)
+      + '</div>'
+      + '</div>';
+  }).join('');
+
+  /* Variance pattern */
+  const hasAnyVariances = getSimpleVariancePattern(week).length > 0;
+  const patternHtml =
+    '<div class="variance-pattern-card" id="variance-pattern-' + week.id + '">'
+    + buildVariancePatternHtml(week)
+    + '</div>';
+
+  const explainer =
+    '<div class="explainer-tile">'
+    + '<p><strong>How PPC is calculated:</strong> Total Completed &divide; Total Planned &times; 100. '
+    + 'Weekly PPC shows only after all ' + week.workDays.length + ' days are entered &mdash; so Monday&rsquo;s number doesn&rsquo;t mislead the team. '
+    + 'Track <em>why</em> plans fail. That&rsquo;s where the learning lives.</p>'
+    + '</div>'
+    + '<div class="lean-callout">'
+    + '<strong>Lean insight:</strong> Top causes are almost always <em>Prerequisites</em> and <em>Information</em> &mdash; failures that happen before work starts. '
+    + 'Honest variance tracking drives PPC from 50&ndash;60% to 75&ndash;85% within months.'
+    + '</div>';
+
+  const rightPanel =
+    explainer
+    + '<div class="card-title" style="margin-bottom:8px;margin-top:4px">Daily Entry</div>'
+    + '<div class="simple-days-grid">' + dayCardsHtml + '</div>'
+    + patternHtml;
+
+  return '<div class="card active-week" style="opacity:0;animation:fadeInUp 0.4s ease forwards">'
+    + '<div class="week-2panel">'
+    + '<div class="week-left-panel">' + leftPanel + '</div>'
+    + '<div class="week-right-panel week-task-scroll">' + rightPanel + '</div>'
+    + '</div>'
+    + '</div>';
+}
+
+/* ====== FULL MODE: BUILD WEEK HTML ====== */
 function buildWeekHTML(week, openWeeks) {
+  if (week.mode === 'simple') return buildSimpleWeekHTML(week, openWeeks);
+
   const ppc = calcPPC(week);
   const cls = ppcClass(ppc);
   const done = week.tasks.filter(t => t.completed).length;
@@ -752,7 +1222,6 @@ function buildWeekHTML(week, openWeeks) {
     ? '<div class="ppc-progress-track"><div class="ppc-progress-fill" style="width:' + (ppc || 0) + '%"></div></div>'
     : '';
 
-  // Summary stats strip
   const summaryHtml = total > 0
     ? '<div class="summary-stats">'
       + '<div class="stat-chip"><span class="stat-chip-value" style="color:var(--text-secondary)">' + total + '</span><span class="stat-chip-label">Planned</span></div>'
@@ -779,7 +1248,6 @@ function buildWeekHTML(week, openWeeks) {
           + '</div>' + varHtml + '</div>';
       }).join('');
 
-  /* LEFT PANEL */
   const leftPanel =
     '<div class="week-title-area">'
     + '<h2>' + esc(week.label) + '</h2>'
@@ -797,7 +1265,6 @@ function buildWeekHTML(week, openWeeks) {
     + switcherHtml
     + '</div>';
 
-  /* RIGHT PANEL */
   const rightPanel =
     summaryHtml
     + '<div class="card-title" style="margin-bottom:4px">Planned Commitments</div>'
@@ -823,6 +1290,39 @@ function buildWeekHTML(week, openWeeks) {
     + '<div class="week-right-panel">' + rightPanel + '</div>'
     + '</div>'
     + '</div>';
+}
+
+/* ====== RENDER: WEEK VIEW ====== */
+function renderWeekView() {
+  const area = document.getElementById('active-week-area');
+  if (!area) return;
+  const proj = getActiveProject();
+  const activeWeek = proj.activeWeekId ? proj.weeks.find(w => w.id === proj.activeWeekId) : null;
+  const openWeeks = proj.weeks.filter(w => !w.closed);
+
+  /* Update week creator hint */
+  const hintEl = document.getElementById('week-creator-hint');
+  if (hintEl) {
+    if (proj.mode === 'simple') {
+      hintEl.innerHTML = '<div class="simple-mode-hint">Simple Mode &mdash; '
+        + proj.workDays.length + '-day week (' + proj.workDays.join(', ') + ')</div>';
+    } else {
+      hintEl.innerHTML = '';
+    }
+  }
+
+  if (!activeWeek) {
+    let switcher = '';
+    if (openWeeks.length) {
+      switcher = '<p style="margin-bottom:12px;color:var(--text-secondary);font-size:14px">Open weeks:</p>'
+        + '<div style="display:flex;flex-direction:column;gap:8px;margin-bottom:24px">'
+        + openWeeks.map(w => '<button class="btn btn-primary" onclick="setActiveWeek(\'' + w.id + '\')">' + esc(w.label) + '</button>').join('')
+        + '</div>';
+    }
+    area.innerHTML = '<div class="empty-state"><span class="empty-state-icon">&#127959;&#65039;</span><h3>No Active Week</h3><p>Create a new week above to start tracking commitments.</p>' + switcher + '</div>';
+    return;
+  }
+  area.innerHTML = buildWeekHTML(activeWeek, openWeeks);
 }
 
 function renderActiveWeek(week) {
@@ -867,21 +1367,19 @@ function renderHistoryTable() {
     return;
   }
 
-  // Build sparkline from all closed weeks in chronological order
   const allPPCs = closed.slice().reverse().map(w => calcPPC(w)).filter(p => p !== null);
 
   const rows = closed.map((week, idx) => {
     const ppc = calcPPC(week);
     const cls = ppcClass(ppc);
-    const done = week.tasks.filter(t => t.completed).length;
-    const total = week.tasks.length;
+    const { done, total } = getWeekStats(week);
     const topVar = getTopVariance(week);
-    // Mini sparkline uses up to this week's data (chronological slice)
     const weekIdx = closed.length - 1 - idx;
     const sparkPPCs = allPPCs.slice(0, weekIdx + 1).filter(p => p !== null);
     const sparkHtml = sparkPPCs.length >= 2 ? buildSparkline(sparkPPCs, 60, 28) : '';
+    const modeBadge = week.mode === 'simple' ? ' <span class="mode-badge" style="font-size:9px">S</span>' : '';
     return '<tr>'
-      + '<td><span class="hist-week">' + esc(week.label) + '</span></td>'
+      + '<td><span class="hist-week">' + esc(week.label) + modeBadge + '</span></td>'
       + '<td><span class="hist-ppc ' + cls + '">' + (ppc !== null ? ppc + '%' : '&mdash;') + '</span></td>'
       + '<td class="hist-bar-cell"><div class="hist-bar-track"><div class="hist-bar-fill ' + cls + '" style="width:' + (ppc||0) + '%"></div></div></td>'
       + '<td class="hist-tasks">' + done + '/' + total + '</td>'
@@ -920,7 +1418,6 @@ function renderChart() {
   function xOf(i) { return pad.left + (n === 1 ? cW / 2 : (i / (n - 1)) * cW); }
   function yOf(ppc) { return pad.top + (1 - ppc / 100) * cH; }
 
-  // Grid lines at 0, 25, 50, 60 (amber threshold), 80 (green threshold), 100
   let gridLines = '';
   [0, 25, 50, 60, 80, 100].forEach(v => {
     const y = yOf(v);
@@ -955,8 +1452,8 @@ function renderChart() {
   const areaD = pathD + ' L ' + pts[pts.length-1].x.toFixed(1) + ' ' + (H - pad.bottom) + ' L ' + pts[0].x.toFixed(1) + ' ' + (H - pad.bottom) + ' Z';
 
   const dots = pts.map((pt, i) => {
-    const cls = ppcClass(ppcs[i]);
-    const color = cls === 'excellent' ? '#16A34A' : cls === 'improve' ? '#D97706' : '#DC2626';
+    const c = ppcClass(ppcs[i]);
+    const color = c === 'excellent' ? '#16A34A' : c === 'improve' ? '#D97706' : '#DC2626';
     return '<circle cx="' + pt.x.toFixed(1) + '" cy="' + pt.y.toFixed(1) + '" r="6" fill="' + color + '" stroke="#080E17" stroke-width="2.5">'
       + '<title>' + esc(closed[i].label) + ': ' + ppcs[i] + '%</title></circle>'
       + '<text x="' + pt.x.toFixed(1) + '" y="' + (pt.y - 12).toFixed(1) + '" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="14" fill="' + color + '">' + ppcs[i] + '%</text>';
@@ -989,26 +1486,47 @@ function renderChart() {
 /* ====== EXPORT CSV ====== */
 function exportCSV() {
   const proj = getActiveProject();
-  const rows = [['Project', 'Week', 'PPC%', 'Planned', 'Completed', 'Status', 'Commitment', 'Done', 'Variance']];
+  const rows = [['Project','Week','Mode','PPC%','Planned','Completed','Status','Day/Task','Result','Variance']];
   proj.weeks.forEach(week => {
     const ppc = calcPPC(week);
-    const done = week.tasks.filter(t => t.completed).length;
-    if (week.tasks.length === 0) {
-      rows.push([proj.name, week.label, ppc !== null ? ppc + '%' : '', 0, 0, week.closed ? 'Closed' : 'Open', '', '', '']);
-    } else {
-      week.tasks.forEach((task, i) => {
+    if (week.mode === 'simple') {
+      week.workDays.forEach((dayName, i) => {
+        const day = week.days[dayName] || {};
+        const dayPPC = calcDayPPC(day);
+        const { totalPlanned, totalCompleted } = getSimpleWeekTotals(week);
         rows.push([
           i === 0 ? proj.name : '',
           i === 0 ? week.label : '',
+          i === 0 ? 'Simple' : '',
           i === 0 && ppc !== null ? ppc + '%' : '',
-          i === 0 ? week.tasks.length : '',
-          i === 0 ? done : '',
+          i === 0 ? totalPlanned : '',
+          i === 0 ? totalCompleted : '',
           i === 0 ? (week.closed ? 'Closed' : 'Open') : '',
-          task.text,
-          task.completed ? 'Yes' : 'No',
-          task.varianceReason || ''
+          dayName,
+          dayPPC !== null ? dayPPC + '%' : '',
+          (day.variances || []).filter(v => v).join('; ')
         ]);
       });
+    } else {
+      const { done, total } = getWeekStats(week);
+      if (!week.tasks || week.tasks.length === 0) {
+        rows.push([proj.name, week.label, 'Full', ppc !== null ? ppc + '%' : '', 0, 0, week.closed ? 'Closed' : 'Open', '', '', '']);
+      } else {
+        week.tasks.forEach((task, i) => {
+          rows.push([
+            i === 0 ? proj.name : '',
+            i === 0 ? week.label : '',
+            i === 0 ? 'Full' : '',
+            i === 0 && ppc !== null ? ppc + '%' : '',
+            i === 0 ? total : '',
+            i === 0 ? done : '',
+            i === 0 ? (week.closed ? 'Closed' : 'Open') : '',
+            task.text,
+            task.completed ? 'Yes' : 'No',
+            task.varianceReason || ''
+          ]);
+        });
+      }
     }
   });
   const csv = rows.map(r => r.map(cell => '"' + String(cell).replace(/"/g, '""') + '"').join(',')).join('\n');
@@ -1021,7 +1539,7 @@ function exportCSV() {
   URL.revokeObjectURL(url);
 }
 
-/* ====== MODAL ====== */
+/* ====== MODALS ====== */
 function openHelp() { document.getElementById('helpModal').classList.add('open'); }
 function closeHelp(e) {
   if (!e || e.target === document.getElementById('helpModal') || e.currentTarget.classList.contains('modal-close')) {
@@ -1032,7 +1550,6 @@ function closeHelp(e) {
 /* ====== SERVICE WORKER ====== */
 function registerSW() {
   if (!('serviceWorker' in navigator)) return;
-  // sw.js lives at the same origin — full offline cache support
   navigator.serviceWorker.register('/sw.js').catch(() => {});
 }
 
