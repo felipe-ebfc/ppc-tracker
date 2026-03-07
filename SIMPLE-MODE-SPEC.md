@@ -63,6 +63,7 @@
 - Team PPC only — no individual tracking (anti-weaponization)
 - Variance is the point — PPC without variance is just blame
 - LCI Communities of Practice standard
+- **Dashboards radiate information at a glance. Forms can be a journey with scrolling.** — This is a DASHBOARD, not a form. Everything above the fold.
 
 ---
 *Source: Felipe Engineer-Manriquez, March 6 2026*

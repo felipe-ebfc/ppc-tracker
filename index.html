@@ -258,6 +258,15 @@
       .week-2panel{flex-direction:column}
       .week-left-panel,.week-right-panel{flex:none;width:100%}
       .week-task-scroll{max-height:none;overflow-y:visible}
+      /* Simple Mode dashboard: stack on mobile, PPC above table */
+      .simple-dashboard{grid-template-columns:1fr}
+      .simple-dash-right{order:-1}
+      .simple-dash-controls{min-width:0}
+    }
+    @media(max-width:480px){
+      .sdt-num{width:50px;font-size:18px}
+      .sdt-ppc-cell{font-size:16px;padding:4px 4px!important}
+      .sdt-dayname{font-size:18px}
     }
 
     /* ===== MODE TOGGLE (New Project Modal) ===== */
@@ -277,31 +286,43 @@
     .simple-mode-hint{display:inline-flex;align-items:center;gap:7px;background:var(--primary-glow);border:1px solid var(--border-default);border-radius:var(--radius-md);padding:8px 14px;font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--primary-light);margin-bottom:10px}
     .simple-mode-hint::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
 
-    /* ===== SIMPLE MODE: DAY CARDS ===== */
-    .simple-days-grid{display:flex;flex-direction:column;gap:10px}
-    .simple-day-card{background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:16px 18px;transition:border-color var(--transition),background var(--transition)}
-    .simple-day-card.day-complete{border-color:var(--ppc-green-border);background:rgba(22,163,74,0.06)}
-    .simple-day-card.day-partial{border-color:var(--ppc-amber-border);background:rgba(217,119,6,0.05)}
-    .simple-day-card.day-missed{border-color:var(--ppc-red-border);background:rgba(220,38,38,0.05)}
-    .simple-day-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-    .simple-day-name{font-family:var(--font-display);font-size:22px;letter-spacing:0.04em;color:var(--text-primary)}
-    .simple-day-ppc{font-family:var(--font-display);font-size:20px;letter-spacing:0.04em;transition:color var(--transition)}
-    .simple-day-ppc.excellent{color:var(--ppc-green)}
-    .simple-day-ppc.improve{color:var(--ppc-amber)}
-    .simple-day-ppc.critical{color:var(--ppc-red)}
-    .simple-day-ppc.empty{color:var(--text-muted)}
-    .simple-day-inputs{display:flex;gap:10px;align-items:flex-end}
-    .simple-day-field{display:flex;flex-direction:column;gap:4px;flex:1}
-    .simple-day-field-label{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted)}
-    .simple-day-num{background:var(--bg-input);border:1.5px solid var(--border-default);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-display);font-size:26px;letter-spacing:0.04em;padding:10px;text-align:center;outline:none;width:100%;min-height:52px;transition:all var(--transition);-moz-appearance:textfield}
-    .simple-day-num::-webkit-inner-spin-button,.simple-day-num::-webkit-outer-spin-button{-webkit-appearance:none}
-    .simple-day-num:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px var(--primary-glow);background:var(--bg-elevated)}
-    .simple-day-variances{margin-top:12px;padding-top:10px;border-top:1px solid var(--border-faint)}
-    .simple-var-title{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
-    .simple-variance-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+    /* ===== SIMPLE MODE: DASHBOARD LAYOUT ===== */
+    .simple-dash-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+    .simple-dash-controls{display:flex;flex-direction:column;gap:8px;min-width:150px}
+    .simple-dashboard{display:grid;grid-template-columns:60fr 40fr;gap:20px;align-items:start}
+    .simple-dash-left{min-width:0}
+    .simple-dash-right{min-width:0;display:flex;flex-direction:column;gap:12px}
+    .simple-table-label{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+    .simple-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .simple-entry-table{width:100%;border-collapse:separate;border-spacing:0}
+    .simple-entry-table thead th{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);padding:6px 6px 8px;text-align:center;border-bottom:1px solid var(--border-subtle);white-space:nowrap}
+    .simple-entry-table thead th:first-child{text-align:left;padding-left:4px}
+    .simple-entry-table thead th:last-child{text-align:left}
+    .simple-entry-table tbody td{padding:3px 4px;border-bottom:1px solid var(--border-faint);vertical-align:middle}
+    .simple-entry-table tfoot td{padding:6px 4px;border-top:1.5px solid var(--border-subtle);vertical-align:middle}
+    .simple-entry-table tbody tr:last-child td{border-bottom:none}
+    .sdt-row.day-complete td{background:rgba(22,163,74,0.06)}
+    .sdt-row.day-partial td{background:rgba(217,119,6,0.04)}
+    .sdt-row.day-missed td{background:rgba(220,38,38,0.04)}
+    .sdt-day-cell{padding-left:4px!important;white-space:nowrap}
+    .sdt-dayname{font-family:var(--font-display);font-size:20px;letter-spacing:0.04em;color:var(--text-primary)}
+    .sdt-input-cell{text-align:center}
+    .sdt-num{background:var(--bg-input);border:1.5px solid var(--border-default);border-radius:var(--radius-sm);color:var(--text-primary);font-family:var(--font-display);font-size:20px;letter-spacing:0.04em;text-align:center;width:62px;height:44px;outline:none;transition:all var(--transition);-moz-appearance:textfield;display:block;margin:0 auto}
+    .sdt-num::-webkit-inner-spin-button,.sdt-num::-webkit-outer-spin-button{-webkit-appearance:none}
+    .sdt-num:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px var(--primary-glow);background:var(--bg-elevated)}
+    .sdt-ppc-cell{text-align:center;font-family:var(--font-display);font-size:18px;letter-spacing:0.04em;white-space:nowrap;padding:4px 8px!important}
+    .sdt-ppc-cell.excellent{color:var(--ppc-green)}.sdt-ppc-cell.improve{color:var(--ppc-amber)}.sdt-ppc-cell.critical{color:var(--ppc-red)}.sdt-ppc-cell.empty{color:var(--text-muted)}
+    .sdt-variance-cell{padding:3px 4px!important;min-width:100px}
+    .sdt-var-select{background:var(--bg-input);border:1px solid var(--border-default);border-radius:var(--radius-sm);color:var(--text-secondary);font-family:var(--font-body);font-size:12px;padding:6px 8px;width:100%;min-height:44px;cursor:pointer;outline:none;transition:all var(--transition);display:block;margin-bottom:2px}
+    .sdt-var-select:last-child{margin-bottom:0}
+    .sdt-var-select:focus{border-color:var(--primary-light);color:var(--text-primary)}
+    .sdt-var-select option{background:var(--bg-card)}
+    .sdt-var-ok{font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:0.04em;color:var(--ppc-green);display:block;text-align:center;padding:12px 0}
+    .sdt-total-label{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);padding-left:4px}
+    .sdt-total-val{font-family:var(--font-display);font-size:20px;display:block;text-align:center}
+    /* Keep .simple-variance-row for print data-label attribute */
+    .simple-variance-row{margin-bottom:2px}
     .simple-variance-row:last-child{margin-bottom:0}
-    .simple-variance-idx{font-family:var(--font-ui);font-size:11px;font-weight:700;color:var(--ppc-amber);min-width:20px;text-align:right}
-    .simple-day-ok{font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.06em;color:var(--ppc-green)}
 
     /* Variance Pattern Card */
     .variance-pattern-card{background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-md);padding:14px 16px;margin-top:10px}
@@ -357,17 +378,19 @@
       /* Simple Mode print */
       .simple-mode-hint{display:none!important}
       .mode-badge{display:none!important}
-      .simple-day-card{background:white!important;border:1px solid #ddd!important;break-inside:avoid}
-      .simple-day-card.day-complete{border-left:5px solid #000!important;background:none!important}
-      .simple-day-card.day-partial{border-left:5px dashed #555!important;background:none!important}
-      .simple-day-card.day-missed{border-left:5px solid #aaa!important;background:repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(0,0,0,0.04) 4px,rgba(0,0,0,0.04) 8px)!important}
-      .simple-day-name{color:black!important}
-      .simple-day-ppc{color:black!important}
-      .simple-day-num{color:black!important;border:1px solid #ccc!important;background:white!important}
-      .simple-day-ok{color:black!important}
-      .simple-variance-idx{color:black!important}
-      .simple-variance-row select{display:none}
-      .simple-variance-row::after{content:attr(data-label);font-size:12px;color:#333}
+      .simple-dashboard{display:block!important}
+      .simple-dash-right{margin-bottom:16px}
+      .simple-entry-table th,.simple-entry-table td{color:black!important;border-color:#ccc!important;background:none!important}
+      .sdt-row.day-complete td{border-left:4px solid #000!important}
+      .sdt-row.day-partial td{border-left:4px dashed #555!important}
+      .sdt-row.day-missed td{background:repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(0,0,0,0.04) 4px,rgba(0,0,0,0.04) 8px)!important}
+      .sdt-dayname{color:black!important}
+      .sdt-ppc-cell{color:black!important}
+      .sdt-num{color:black!important;border:1px solid #ccc!important;background:white!important}
+      .sdt-var-ok{color:black!important}
+      .sdt-var-select{display:none!important}
+      .simple-variance-row::after{content:attr(data-label);font-size:11px;color:#333;display:block}
+      .sdt-total-val,.sdt-total-label{color:black!important}
       .variance-pattern-card{background:#f9f9f9!important;border:1px solid #ddd!important}
       .vp-count,.vp-label{color:black!important}
       .vp-bar{background:#666!important}
@@ -988,19 +1011,19 @@ function setSimpleDayValue(weekId, dayName, field, rawValue) {
   const ppcEl = document.getElementById('day-ppc-' + weekId + '-' + dayName);
   if (ppcEl) {
     ppcEl.textContent = dayPPC !== null ? dayPPC + '%' : '\u2014';
-    ppcEl.className = 'simple-day-ppc ' + (dayPPC !== null ? ppcClass(dayPPC) : 'empty');
+    ppcEl.className = 'sdt-ppc-cell ' + (dayPPC !== null ? ppcClass(dayPPC) : 'empty');
   }
 
   /* Update day card border class */
   const cardEl = document.getElementById('day-card-' + weekId + '-' + dayName);
   if (cardEl) {
-    cardEl.className = 'simple-day-card'
+    cardEl.className = 'sdt-row'
       + (dayPPC === null ? '' : dayPPC >= 80 ? ' day-complete' : dayPPC >= 60 ? ' day-partial' : ' day-missed');
   }
 
   /* Update variance section */
   const varEl = document.getElementById('day-variances-' + weekId + '-' + dayName);
-  if (varEl) varEl.innerHTML = buildDayVariancesHtml(week, dayName);
+  if (varEl) varEl.innerHTML = buildDayVariancesTableHtml(week, dayName);
 
   /* Update weekly PPC */
   const weeklyPPC = calcSimpleWeekPPC(week);
@@ -1030,6 +1053,19 @@ function setSimpleDayValue(weekId, dayName, field, rawValue) {
   /* Update variance pattern */
   const patEl = document.getElementById('variance-pattern-' + weekId);
   if (patEl) patEl.innerHTML = buildVariancePatternHtml(week);
+
+  /* Update dashboard totals row */
+  const { totalPlanned: tp2, totalCompleted: tc2 } = getSimpleWeekTotals(week);
+  const totPlanEl = document.getElementById('sdt-total-planned-' + weekId);
+  if (totPlanEl) totPlanEl.textContent = tp2 || '\u2014';
+  const totCompEl = document.getElementById('sdt-total-completed-' + weekId);
+  if (totCompEl) totCompEl.textContent = tc2 || '\u2014';
+  const totPPCEl = document.getElementById('sdt-total-ppc-' + weekId);
+  if (totPPCEl) {
+    const wp2 = calcSimpleWeekPPC(week);
+    totPPCEl.textContent = wp2 !== null ? wp2 + '%' : '\u2014';
+    totPPCEl.className = 'sdt-ppc-cell ' + (ppcClass(wp2) || 'empty');
+  }
 }
 
 function setSimpleDayVariance(weekId, dayName, varIdx, reason) {
@@ -1044,6 +1080,20 @@ function setSimpleDayVariance(weekId, dayName, varIdx, reason) {
 }
 
 /* ====== SIMPLE MODE: BUILD HTML HELPERS ====== */
+function buildDayVariancesTableHtml(week, dayName) {
+  const day = week.days[dayName];
+  if (!day || day.planned === null || day.completed === null) return '';
+  const missed = Math.max(0, day.planned - day.completed);
+  if (missed === 0) return '<span class="sdt-var-ok">&#10003;</span>';
+  return Array.from({ length: missed }, (_, i) =>
+    '<div class="simple-variance-row" data-label="' + esc((LCI_VARIANCE_REASONS.find(r => r.value === (day.variances[i] || '')) || { label: '' }).label) + '">'
+    + '<select class="sdt-var-select" onchange="setSimpleDayVariance(\'' + week.id + '\',\'' + dayName + '\',' + i + ',this.value)">'
+    + lciVarianceOptionsHtml(day.variances[i] || '')
+    + '</select>'
+    + '</div>'
+  ).join('');
+}
+
 function buildDayVariancesHtml(week, dayName) {
   const day = week.days[dayName];
   if (!day || day.planned === null || day.completed === null) return '';
