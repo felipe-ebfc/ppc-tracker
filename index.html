@@ -37,7 +37,7 @@
     button, input, select, a { touch-action: manipulation; }
     :focus-visible { outline: 2px solid var(--primary-light); outline-offset: 2px; }
 
-    #app{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 16px 80px}
+    #app{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 16px 40px}
 
     /* === PROJECT BAR === */
     .project-bar{display:flex;align-items:center;gap:8px;padding:12px 0 4px;flex-wrap:wrap}
@@ -51,17 +51,18 @@
     .btn-proj-del:hover{color:#EF4444;border-color:rgba(239,68,68,0.3);background:rgba(239,68,68,0.08)}
 
     /* Header */
-    .site-header{padding:24px 0 24px;text-align:center;opacity:0;transform:translateY(-16px);animation:fadeInDown 0.6s ease 0.1s forwards}
-    .header-badge{display:inline-flex;align-items:center;gap:8px;background:var(--primary-glow);border:1px solid var(--border-default);border-radius:100px;padding:5px 14px;font-family:var(--font-ui);font-size:13px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--primary-light);margin-bottom:16px}
+    .site-header{padding:10px 0 8px;text-align:center;opacity:0;transform:translateY(-16px);animation:fadeInDown 0.6s ease 0.1s forwards}
+    .header-badge{display:inline-flex;align-items:center;gap:8px;background:var(--primary-glow);border:1px solid var(--border-default);border-radius:100px;padding:4px 12px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--primary-light);margin-bottom:8px}
     .header-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);animation:pulseDot 2s ease infinite}
-    .site-title{font-family:var(--font-display);font-size:clamp(52px,10vw,88px);letter-spacing:0.04em;line-height:0.9;margin-bottom:10px}
+    .site-title{font-family:var(--font-display);font-size:clamp(40px,6vw,62px);letter-spacing:0.04em;line-height:0.9;margin-bottom:4px}
     .site-title span{color:var(--accent)}
-    .site-subtitle{font-family:var(--font-ui);font-size:14px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:20px}
-    .header-actions{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+    .site-subtitle{font-family:var(--font-ui);font-size:14px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:10px}
+    .header-actions{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+    .header-actions .btn{padding:7px 13px;min-height:36px;font-size:13px}
 
     /* Nav */
-    .nav-tabs{display:flex;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:5px;margin:0 0 28px;opacity:0;animation:fadeIn 0.5s ease 0.5s forwards}
-    .nav-tab{flex:1;background:none;border:none;color:var(--text-secondary);font-family:var(--font-ui);font-size:17px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:13px 16px;border-radius:calc(var(--radius-lg) - 5px);cursor:pointer;transition:all var(--transition);white-space:nowrap;min-height:var(--touch-min)}
+    .nav-tabs{display:flex;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:4px;margin:0 0 14px;opacity:0;animation:fadeIn 0.5s ease 0.5s forwards}
+    .nav-tab{flex:1;background:none;border:none;color:var(--text-secondary);font-family:var(--font-ui);font-size:15px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:10px 16px;border-radius:calc(var(--radius-lg) - 4px);cursor:pointer;transition:all var(--transition);white-space:nowrap;min-height:40px}
     .nav-tab:hover{color:var(--text-primary);background:var(--bg-elevated)}
     .nav-tab.active{background:var(--primary);color:white;box-shadow:0 2px 12px var(--primary-glow-strong)}
     .nav-tab:active{transform:scale(0.98)}
@@ -135,10 +136,10 @@
     .ppc-progress-track::after{content:'';position:absolute;left:80%;top:0;bottom:0;width:1.5px;background:rgba(22,163,74,0.55);z-index:2}
 
     /* Summary Stats Strip */
-    .summary-stats{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
-    .stat-chip{flex:1;min-width:72px;background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-md);padding:10px 10px 8px;text-align:center}
-    .stat-chip-value{font-family:var(--font-display);font-size:22px;letter-spacing:0.04em;line-height:1;display:block}
-    .stat-chip-label{font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);display:block;margin-top:3px}
+    .summary-stats{display:flex;gap:5px;margin-bottom:6px;flex-wrap:wrap}
+    .stat-chip{flex:1;min-width:58px;background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-md);padding:6px 8px 5px;text-align:center}
+    .stat-chip-value{font-family:var(--font-display);font-size:18px;letter-spacing:0.04em;line-height:1;display:block}
+    .stat-chip-label{font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:var(--text-muted);display:block;margin-top:2px}
 
     /* Tasks (Full Mode) */
     .task-input-row{display:flex;gap:10px;margin-bottom:16px}
@@ -248,11 +249,15 @@
     .ppc-pop{animation:ppcPop 0.35s ease}
 
     /* 2-panel layout */
-    .week-2panel{display:flex;gap:20px;align-items:flex-start}
-    .week-left-panel{flex:0 0 35%;min-width:0;display:flex;flex-direction:column;gap:14px}
-    .week-right-panel{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:10px}
-    .ppc-display.ppc-compact{padding:18px 14px 14px;margin-bottom:0}
-    .ppc-display.ppc-compact .ppc-number{font-size:clamp(42px,8vw,68px)}
+    .week-2panel{display:flex;gap:14px;align-items:flex-start}
+    .week-left-panel{flex:0 0 35%;min-width:0;display:flex;flex-direction:column;gap:8px}
+    .week-right-panel{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:8px}
+    .ppc-display.ppc-compact{padding:8px 12px 6px;margin-bottom:0}
+    .ppc-display.ppc-compact .ppc-number{font-size:clamp(32px,5.5vw,52px)}
+    .ppc-display.ppc-compact .ppc-label{font-size:12px;margin-top:1px;margin-bottom:4px}
+    .ppc-display.ppc-compact .ppc-badge{font-size:13px;padding:4px 10px}
+    .ppc-display.ppc-compact .ppc-meta{font-size:12px;margin-top:4px}
+    .ppc-display.ppc-compact .ppc-progress-track{margin-top:6px;max-width:100%}
     .week-task-scroll{max-height:520px;overflow-y:auto;padding-right:4px}
     @media(max-width:767px){
       .week-2panel{flex-direction:column}
@@ -261,7 +266,7 @@
       /* Simple Mode dashboard: stack on mobile, PPC above table */
       .simple-dashboard{grid-template-columns:1fr}
       .simple-dash-right{order:-1}
-      .simple-dash-controls{min-width:0}
+      .simple-dash-controls{flex-direction:column;min-width:0}
     }
     @media(max-width:480px){
       .sdt-num{width:50px;font-size:18px}
@@ -287,12 +292,15 @@
     .simple-mode-hint::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
 
     /* ===== SIMPLE MODE: DASHBOARD LAYOUT ===== */
-    .simple-dash-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
-    .simple-dash-controls{display:flex;flex-direction:column;gap:8px;min-width:150px}
-    .simple-dashboard{display:grid;grid-template-columns:60fr 40fr;gap:20px;align-items:start}
+    .simple-dash-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:nowrap}
+    .simple-dash-controls{display:flex;flex-direction:row;gap:6px;align-items:center;flex-shrink:0}
+    .simple-dashboard{display:grid;grid-template-columns:60fr 40fr;gap:14px;align-items:start}
     .simple-dash-left{min-width:0}
-    .simple-dash-right{min-width:0;display:flex;flex-direction:column;gap:12px}
-    .simple-table-label{font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
+    .simple-dash-right{min-width:0;display:flex;flex-direction:column;gap:6px}
+    .simple-table-label{font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+    /* Card padding overrides for compact week view */
+    .card.week-creator{padding:12px 16px;margin-bottom:10px}
+    .card.active-week{padding:14px 16px}
     .simple-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
     .simple-entry-table{width:100%;border-collapse:separate;border-spacing:0}
     .simple-entry-table thead th{font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);padding:6px 6px 8px;text-align:center;border-bottom:1px solid var(--border-subtle);white-space:nowrap}
@@ -325,13 +333,18 @@
     .simple-variance-row:last-child{margin-bottom:0}
 
     /* Variance Pattern Card */
-    .variance-pattern-card{background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-md);padding:14px 16px;margin-top:10px}
-    .variance-pattern-title{font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
-    .variance-pattern-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border-faint)}
+    .variance-pattern-card{background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-md);padding:8px 10px;margin-top:0}
+    .variance-pattern-title{font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+    .variance-pattern-row{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--border-faint)}
     .variance-pattern-row:last-child{border-bottom:none}
-    .vp-count{font-family:var(--font-display);font-size:18px;color:var(--ppc-amber);min-width:24px;text-align:center;flex-shrink:0}
-    .vp-label{font-size:13px;color:var(--text-secondary);flex:1;line-height:1.3}
-    .vp-bar{height:6px;border-radius:3px;background:var(--ppc-amber);flex-shrink:0;min-width:4px;transition:width 0.4s ease}
+    .vp-count{font-family:var(--font-display);font-size:16px;color:var(--ppc-amber);min-width:20px;text-align:center;flex-shrink:0}
+    .vp-label{font-size:12px;color:var(--text-secondary);flex:1;line-height:1.3}
+    .vp-bar{height:4px;border-radius:2px;background:var(--ppc-amber);flex-shrink:0;min-width:4px;transition:width 0.4s ease}
+    /* Variance pills (inline, compact) */
+    .vp-pills{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+    .vp-pill{display:inline-flex;align-items:center;gap:5px;background:var(--ppc-amber-bg);border:1px solid var(--ppc-amber-border);border-radius:100px;padding:2px 8px}
+    .vp-pill-count{font-family:var(--font-display);font-size:14px;color:var(--ppc-amber);line-height:1}
+    .vp-pill-label{font-size:12px;color:var(--text-secondary)}
 
     /* Mode Badge */
     .mode-badge{display:inline-flex;align-items:center;gap:4px;background:var(--primary-glow);border:1px solid var(--border-default);border-radius:100px;padding:2px 10px;font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--primary-light);vertical-align:middle}
@@ -1125,16 +1138,13 @@ function buildSimpleSummaryHtml(week) {
 
 function buildVariancePatternHtml(week) {
   const pattern = getSimpleVariancePattern(week);
-  if (!pattern.length) return '<div style="font-family:var(--font-ui);font-size:13px;color:var(--text-muted);text-align:center;padding:8px 0">No variances recorded yet</div>';
-  const maxCount = pattern[0].count;
-  return '<div class="variance-pattern-title">Variance Pattern This Week</div>'
-    + pattern.map(({ label, count }) =>
-        '<div class="variance-pattern-row">'
-        + '<span class="vp-count">' + count + '</span>'
-        + '<span class="vp-label">' + esc(label) + '</span>'
-        + '<div class="vp-bar" style="width:' + Math.round(count / maxCount * 64) + 'px"></div>'
-        + '</div>'
-      ).join('');
+  if (!pattern.length) return '<div style="font-family:var(--font-ui);font-size:12px;color:var(--text-muted);padding:4px 0">No variances yet</div>';
+  return '<div class="variance-pattern-title">Top Variances</div>'
+    + '<div class="vp-pills">'
+    + pattern.slice(0, 3).map(({ label, count }) =>
+        '<span class="vp-pill"><span class="vp-pill-count">' + count + 'x</span><span class="vp-pill-label">' + esc(label) + '</span></span>'
+      ).join('')
+    + '</div>';
 }
 
 /* ====== SIMPLE MODE: BUILD WEEK HTML ====== */
@@ -1145,7 +1155,7 @@ function buildSimpleWeekHTML(week, openWeeks) {
 
   const otherOpen = openWeeks.filter(w => w.id !== week.id);
   const switcherHtml = otherOpen.length
-    ? '<select class="variance-select" style="width:100%" onchange="if(this.value){setActiveWeek(this.value);this.value=\'\'}">'
+    ? '<select class="variance-select" style="min-height:36px;height:36px;padding:5px 8px;font-size:13px;width:auto;max-width:160px" onchange="if(this.value){setActiveWeek(this.value);this.value=\'\'}">'
       + '<option value="">Switch week\u2026</option>'
       + otherOpen.map(w => '<option value="' + w.id + '">' + esc(w.label) + '</option>').join('')
       + '</select>'
@@ -1179,13 +1189,7 @@ function buildSimpleWeekHTML(week, openWeeks) {
     + buildVariancePatternHtml(week)
     + '</div>';
 
-  const explainer =
-    '<div class="explainer-tile">'
-    + '<p><strong>PPC%</strong> = Completed &divide; Planned &times; 100. Weekly PPC shows only after all '
-    + week.workDays.length + ' days are entered. Track <em>why</em> plans fail &mdash; that&rsquo;s where the learning lives.</p>'
-    + '</div>';
-
-  const rightCol = ppcDisplay + summaryHtml + patternHtml + explainer;
+  const rightCol = ppcDisplay + summaryHtml + patternHtml;
 
   /* LEFT COLUMN — compact daily entry table */
   const tableRows = week.workDays.map(dayName => {
@@ -1232,13 +1236,15 @@ function buildSimpleWeekHTML(week, openWeeks) {
     + '</table>'
     + '</div>';
 
-  /* Week header — title + controls */
+  /* Week header — single tight row: title + inline controls */
   const header =
     '<div class="simple-dash-header">'
-    + '<div><h2 style="font-family:var(--font-ui);font-size:20px;font-weight:700;color:var(--text-primary);letter-spacing:0.02em">' + esc(week.label) + '</h2>'
-    + '<p style="font-size:13px;color:var(--text-secondary);margin-top:2px">' + week.workDays.length + '-day week &nbsp;<span class="mode-badge">Simple Mode</span></p></div>'
+    + '<div style="min-width:0;overflow:hidden">'
+    + '<h2 style="font-family:var(--font-ui);font-size:17px;font-weight:700;color:var(--text-primary);letter-spacing:0.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + esc(week.label) + '</h2>'
+    + '<span style="font-size:12px;color:var(--text-muted);letter-spacing:0.04em">' + week.workDays.length + '-day&nbsp;&nbsp;<span class="mode-badge">Simple</span></span>'
+    + '</div>'
     + '<div class="simple-dash-controls">'
-    + '<button class="btn btn-ghost" style="width:100%;justify-content:center;font-size:14px;padding:10px 14px" onclick="closeWeek(\'' + week.id + '\')">&#10003; Close Week</button>'
+    + '<button class="btn btn-ghost" style="font-size:13px;padding:6px 12px;min-height:36px;white-space:nowrap" onclick="closeWeek(\'' + week.id + '\')">&#10003; Close Week</button>'
     + switcherHtml
     + '</div>'
     + '</div>';
@@ -1264,7 +1270,7 @@ function buildWeekHTML(week, openWeeks) {
 
   const otherOpen = openWeeks.filter(w => w.id !== week.id);
   const switcherHtml = otherOpen.length
-    ? '<select class="variance-select" style="width:100%" onchange="if(this.value){setActiveWeek(this.value);this.value=\'\'}">'
+    ? '<select class="variance-select" style="min-height:36px;height:36px;padding:5px 8px;font-size:13px" onchange="if(this.value){setActiveWeek(this.value);this.value=\'\'}">'
       + '<option value="">Switch week&hellip;</option>'
       + otherOpen.map(w => '<option value="' + w.id + '">' + esc(w.label) + '</option>').join('')
       + '</select>'
