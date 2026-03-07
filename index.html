@@ -40,7 +40,7 @@
     #app{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 16px 40px}
 
     /* === PROJECT BAR === */
-    .project-bar{display:flex;align-items:center;gap:8px;padding:12px 0 4px;flex-wrap:wrap}
+    .project-bar{display:flex;align-items:center;gap:8px;padding:5px 0 2px;flex-wrap:wrap}
     .project-bar-label{font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap}
     .project-select{background:var(--bg-surface);border:1px solid var(--border-default);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-ui);font-size:14px;font-weight:600;padding:8px 12px;cursor:pointer;outline:none;transition:all var(--transition);min-height:40px;flex:1;max-width:280px}
     .project-select:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px var(--primary-glow)}
@@ -51,17 +51,17 @@
     .btn-proj-del:hover{color:#EF4444;border-color:rgba(239,68,68,0.3);background:rgba(239,68,68,0.08)}
 
     /* Header */
-    .site-header{padding:10px 0 8px;text-align:center;opacity:0;transform:translateY(-16px);animation:fadeInDown 0.6s ease 0.1s forwards}
-    .header-badge{display:inline-flex;align-items:center;gap:8px;background:var(--primary-glow);border:1px solid var(--border-default);border-radius:100px;padding:4px 12px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--primary-light);margin-bottom:8px}
+    .site-header{padding:4px 0 3px;text-align:center;opacity:0;transform:translateY(-16px);animation:fadeInDown 0.6s ease 0.1s forwards}
+    .header-badge{display:inline-flex;align-items:center;gap:8px;background:var(--primary-glow);border:1px solid var(--border-default);border-radius:100px;padding:3px 10px;font-family:var(--font-ui);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--primary-light);margin-bottom:3px}
     .header-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);animation:pulseDot 2s ease infinite}
-    .site-title{font-family:var(--font-display);font-size:clamp(40px,6vw,62px);letter-spacing:0.04em;line-height:0.9;margin-bottom:4px}
+    .site-title{font-family:var(--font-display);font-size:clamp(30px,3.8vw,44px);letter-spacing:0.04em;line-height:0.9;margin-bottom:2px}
     .site-title span{color:var(--accent)}
-    .site-subtitle{font-family:var(--font-ui);font-size:14px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:10px}
+    .site-subtitle{font-family:var(--font-ui);font-size:12px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:4px}
     .header-actions{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
     .header-actions .btn{padding:7px 13px;min-height:36px;font-size:13px}
 
     /* Nav */
-    .nav-tabs{display:flex;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:4px;margin:0 0 14px;opacity:0;animation:fadeIn 0.5s ease 0.5s forwards}
+    .nav-tabs{display:flex;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:4px;margin:0 0 8px;opacity:0;animation:fadeIn 0.5s ease 0.5s forwards}
     .nav-tab{flex:1;background:none;border:none;color:var(--text-secondary);font-family:var(--font-ui);font-size:15px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:10px 16px;border-radius:calc(var(--radius-lg) - 4px);cursor:pointer;transition:all var(--transition);white-space:nowrap;min-height:40px}
     .nav-tab:hover{color:var(--text-primary);background:var(--bg-elevated)}
     .nav-tab.active{background:var(--primary);color:white;box-shadow:0 2px 12px var(--primary-glow-strong)}
@@ -71,9 +71,9 @@
     .view{display:none}.view.active{display:block}
 
     /* Cards */
-    .card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
+    .card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:16px;margin-bottom:10px;position:relative;overflow:hidden}
     .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border-default),transparent)}
-    .card-title{font-family:var(--font-ui);font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px}
+    .card-title{font-family:var(--font-ui);font-size:14px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px}
 
     /* Buttons */
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:var(--radius-md);font-family:var(--font-ui);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all var(--transition);white-space:nowrap;text-decoration:none;min-height:var(--touch-min)}
@@ -102,8 +102,8 @@
 
     /* Active Week */
     .active-week{opacity:0;animation:fadeInUp 0.5s ease 0.4s forwards}
-    .week-title-area h2{font-family:var(--font-ui);font-size:22px;font-weight:700;color:var(--text-primary);letter-spacing:0.02em}
-    .week-title-area p{font-size:15px;color:var(--text-secondary);margin-top:2px}
+    .week-title-area h2{font-family:var(--font-ui);font-size:18px;font-weight:700;color:var(--text-primary);letter-spacing:0.02em}
+    .week-title-area p{font-size:13px;color:var(--text-secondary);margin-top:2px}
 
     /* PPC Display */
     .ppc-display{text-align:center;padding:28px 20px 20px;background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-lg);margin-bottom:20px;position:relative;overflow:hidden}
@@ -142,12 +142,12 @@
     .stat-chip-label{font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:var(--text-muted);display:block;margin-top:2px}
 
     /* Tasks (Full Mode) */
-    .task-input-row{display:flex;gap:10px;margin-bottom:16px}
+    .task-input-row{display:flex;gap:10px;margin-bottom:8px}
     .task-input-row .text-input{flex:1;width:auto}
     .task-list{display:grid;grid-template-columns:1fr;gap:8px}
     .task-list.two-col{grid-template-columns:1fr 1fr}
     @media(max-width:600px){.task-list.two-col{grid-template-columns:1fr}}
-    .task-item{background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-md);padding:14px 16px;transition:all var(--transition);animation:slideIn 0.25s ease}
+    .task-item{background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-md);padding:9px 12px;transition:all var(--transition);animation:slideIn 0.25s ease}
     .task-item:hover{border-color:var(--border-subtle);background:var(--bg-elevated)}
     .task-item.completed{opacity:0.75;border-color:var(--ppc-green-border);background:var(--ppc-green-bg)}
     .task-item-row{display:flex;align-items:center;gap:12px}
@@ -249,8 +249,8 @@
     .ppc-pop{animation:ppcPop 0.35s ease}
 
     /* 2-panel layout */
-    .week-2panel{display:flex;gap:14px;align-items:flex-start}
-    .week-left-panel{flex:0 0 35%;min-width:0;display:flex;flex-direction:column;gap:8px}
+    .week-2panel{display:flex;gap:12px;align-items:flex-start}
+    .week-left-panel{flex:0 0 32%;min-width:0;display:flex;flex-direction:column;gap:6px}
     .week-right-panel{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:8px}
     .ppc-display.ppc-compact{padding:8px 12px 6px;margin-bottom:0}
     .ppc-display.ppc-compact .ppc-number{font-size:clamp(32px,5.5vw,52px)}
@@ -292,49 +292,49 @@
     .simple-mode-hint::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
 
     /* ===== SIMPLE MODE: DASHBOARD LAYOUT ===== */
-    .simple-dash-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:nowrap}
+    .simple-dash-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px;flex-wrap:nowrap}
     .simple-dash-controls{display:flex;flex-direction:row;gap:6px;align-items:center;flex-shrink:0}
-    .simple-dashboard{display:grid;grid-template-columns:60fr 40fr;gap:14px;align-items:start}
+    .simple-dashboard{display:grid;grid-template-columns:60fr 40fr;gap:10px;align-items:start}
     .simple-dash-left{min-width:0}
     .simple-dash-right{min-width:0;display:flex;flex-direction:column;gap:6px}
     .simple-table-label{font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
     /* Card padding overrides for compact week view */
-    .card.week-creator{padding:12px 16px;margin-bottom:10px}
-    .card.active-week{padding:14px 16px}
+    .card.week-creator{padding:7px 14px;margin-bottom:6px}
+    .card.active-week{padding:10px 14px}
     .simple-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
     .simple-entry-table{width:100%;border-collapse:separate;border-spacing:0}
     .simple-entry-table thead th{font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);padding:6px 6px 8px;text-align:center;border-bottom:1px solid var(--border-subtle);white-space:nowrap}
     .simple-entry-table thead th:first-child{text-align:left;padding-left:4px}
     .simple-entry-table thead th:last-child{text-align:left}
-    .simple-entry-table tbody td{padding:3px 4px;border-bottom:1px solid var(--border-faint);vertical-align:middle}
-    .simple-entry-table tfoot td{padding:6px 4px;border-top:1.5px solid var(--border-subtle);vertical-align:middle}
+    .simple-entry-table tbody td{padding:2px 4px;border-bottom:1px solid var(--border-faint);vertical-align:middle}
+    .simple-entry-table tfoot td{padding:4px 4px;border-top:1.5px solid var(--border-subtle);vertical-align:middle}
     .simple-entry-table tbody tr:last-child td{border-bottom:none}
     .sdt-row.day-complete td{background:rgba(22,163,74,0.06)}
     .sdt-row.day-partial td{background:rgba(217,119,6,0.04)}
     .sdt-row.day-missed td{background:rgba(220,38,38,0.04)}
     .sdt-day-cell{padding-left:4px!important;white-space:nowrap}
-    .sdt-dayname{font-family:var(--font-display);font-size:20px;letter-spacing:0.04em;color:var(--text-primary)}
+    .sdt-dayname{font-family:var(--font-display);font-size:17px;letter-spacing:0.04em;color:var(--text-primary)}
     .sdt-input-cell{text-align:center}
-    .sdt-num{background:var(--bg-input);border:1.5px solid var(--border-default);border-radius:var(--radius-sm);color:var(--text-primary);font-family:var(--font-display);font-size:20px;letter-spacing:0.04em;text-align:center;width:62px;height:44px;outline:none;transition:all var(--transition);-moz-appearance:textfield;display:block;margin:0 auto}
+    .sdt-num{background:var(--bg-input);border:1.5px solid var(--border-default);border-radius:var(--radius-sm);color:var(--text-primary);font-family:var(--font-display);font-size:18px;letter-spacing:0.04em;text-align:center;width:56px;height:34px;outline:none;transition:all var(--transition);-moz-appearance:textfield;display:block;margin:0 auto}
     .sdt-num::-webkit-inner-spin-button,.sdt-num::-webkit-outer-spin-button{-webkit-appearance:none}
     .sdt-num:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px var(--primary-glow);background:var(--bg-elevated)}
     .sdt-ppc-cell{text-align:center;font-family:var(--font-display);font-size:18px;letter-spacing:0.04em;white-space:nowrap;padding:4px 8px!important}
     .sdt-ppc-cell.excellent{color:var(--ppc-green)}.sdt-ppc-cell.improve{color:var(--ppc-amber)}.sdt-ppc-cell.critical{color:var(--ppc-red)}.sdt-ppc-cell.empty{color:var(--text-muted)}
     .sdt-variance-cell{padding:3px 4px!important;min-width:100px}
-    .sdt-var-select{background:var(--bg-input);border:1px solid var(--border-default);border-radius:var(--radius-sm);color:var(--text-secondary);font-family:var(--font-body);font-size:14px;padding:6px 8px;width:100%;min-height:44px;cursor:pointer;outline:none;transition:all var(--transition);display:block;margin-bottom:2px}
+    .sdt-var-select{background:var(--bg-input);border:1px solid var(--border-default);border-radius:var(--radius-sm);color:var(--text-secondary);font-family:var(--font-body);font-size:13px;padding:4px 6px;width:100%;min-height:34px;cursor:pointer;outline:none;transition:all var(--transition);display:block;margin-bottom:2px}
     .sdt-var-select:last-child{margin-bottom:0}
     .sdt-var-select:focus{border-color:var(--primary-light);color:var(--text-primary)}
     .sdt-var-select option{background:var(--bg-card)}
     .sdt-var-ok{font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:0.04em;color:var(--ppc-green);display:block;text-align:center;padding:12px 0}
     .sdt-total-label{font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);padding-left:4px}
-    .sdt-total-val{font-family:var(--font-display);font-size:20px;display:block;text-align:center}
+    .sdt-total-val{font-family:var(--font-display);font-size:17px;display:block;text-align:center}
     /* Keep .simple-variance-row for print data-label attribute */
     .simple-variance-row{margin-bottom:2px}
     .simple-variance-row:last-child{margin-bottom:0}
 
     /* Variance Pattern Card */
-    .variance-pattern-card{background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-md);padding:8px 10px;margin-top:0}
-    .variance-pattern-title{font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
+    .variance-pattern-card{background:none;border:none;padding:2px 0;margin-top:2px}
+    .variance-pattern-title{display:none}
     .variance-pattern-row{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--border-faint)}
     .variance-pattern-row:last-child{border-bottom:none}
     .vp-count{font-family:var(--font-display);font-size:16px;color:var(--ppc-amber);min-width:20px;text-align:center;flex-shrink:0}
@@ -348,6 +348,10 @@
 
     /* Mode Badge */
     .mode-badge{display:inline-flex;align-items:center;gap:4px;background:var(--primary-glow);border:1px solid var(--border-default);border-radius:100px;padding:2px 10px;font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--primary-light);vertical-align:middle}
+
+    /* PPC info button */
+    .ppc-info-btn{background:none;border:none;color:var(--text-muted);font-size:13px;cursor:pointer;padding:0 0 0 3px;line-height:1;vertical-align:middle;opacity:0.55;transition:opacity var(--transition)}
+    .ppc-info-btn:hover{opacity:1;color:var(--primary-light)}
 
     /* Explainer Tile */
     .explainer-tile{background:var(--bg-elevated);border:1px solid var(--border-default);border-left:3px solid var(--accent);border-radius:var(--radius-md);padding:12px 16px;margin-bottom:12px}
@@ -363,7 +367,7 @@
       body{background:white!important;color:black!important}
       body::before,body::after{display:none!important}
       .project-bar,.nav-tabs,.header-actions,.week-actions,.task-input-row,
-      [id^="bulkPaste-"],.btn,.task-delete,.modal-overlay{display:none!important}
+      [id^="bulkPaste-"],.btn,.task-delete,.modal-overlay,.ppc-info-btn{display:none!important}
       #app{padding:0}
       .site-header{opacity:1!important;transform:none!important;animation:none!important;padding:16px 0}
       .card{background:white!important;border:1px solid #ccc!important;box-shadow:none!important;break-inside:avoid}
@@ -415,8 +419,10 @@
 
     /* Responsive */
     @media(max-width:640px){
-      .site-header{padding:20px 0 16px}
-      .card{padding:20px 16px}
+      .site-header{padding:8px 0 6px}
+      .card{padding:16px 14px}
+      .card.week-creator{padding:10px 14px;margin-bottom:8px}
+      .card.active-week{padding:12px 14px}
       .week-creator-row{flex-direction:column}
       .week-creator-row .btn{width:100%;justify-content:center}
       .task-input-row{flex-direction:column}
@@ -427,9 +433,8 @@
       .history-table{font-size:13px}
       .history-table tbody td{padding:12px 10px}
       .modal{padding:24px 20px}
-      .ppc-number{font-size:86px}
-      .nav-tab{font-size:14px;padding:12px 10px;letter-spacing:0.05em}
-      .summary-stats{gap:6px}
+      .nav-tab{font-size:14px;padding:9px 10px;letter-spacing:0.05em}
+      .summary-stats{gap:5px}
       .project-select{max-width:100%}
       .work-period-row{gap:6px}
     }
@@ -1138,9 +1143,8 @@ function buildSimpleSummaryHtml(week) {
 
 function buildVariancePatternHtml(week) {
   const pattern = getSimpleVariancePattern(week);
-  if (!pattern.length) return '<div style="font-family:var(--font-ui);font-size:12px;color:var(--text-muted);padding:4px 0">No variances yet</div>';
-  return '<div class="variance-pattern-title">Top Variances</div>'
-    + '<div class="vp-pills">'
+  if (!pattern.length) return '<div style="font-family:var(--font-ui);font-size:11px;color:var(--text-muted);padding:2px 0">No variances yet</div>';
+  return '<div class="vp-pills">'
     + pattern.slice(0, 3).map(({ label, count }) =>
         '<span class="vp-pill"><span class="vp-pill-count">' + count + 'x</span><span class="vp-pill-label">' + esc(label) + '</span></span>'
       ).join('')
@@ -1169,7 +1173,7 @@ function buildSimpleWeekHTML(week, openWeeks) {
   const ppcDisplay =
     '<div class="ppc-display ppc-compact ' + cls + '" id="weekly-ppc-' + week.id + '">'
     + '<span class="ppc-number" id="weekly-ppc-num-' + week.id + '">' + (weeklyPPC !== null ? weeklyPPC + '%' : '&mdash;') + '</span>'
-    + '<div class="ppc-label">Weekly PPC%</div>'
+    + '<div class="ppc-label">Weekly PPC% <button class="ppc-info-btn" onclick="openHelp()" title="What is PPC%?">&#9432;</button></div>'
     + '<div class="ppc-badge" id="weekly-ppc-badge-' + week.id + '"' + (weeklyPPC === null ? ' style="display:none"' : '') + '>' + (weeklyPPC !== null ? ppcLabel(weeklyPPC) : '') + '</div>'
     + progressHtml
     + '<div class="ppc-meta" id="weekly-ppc-pending-' + week.id + '"' + (weeklyPPC !== null ? ' style="display:none"' : '') + '>'
@@ -1307,25 +1311,26 @@ function buildWeekHTML(week, openWeeks) {
       }).join('');
 
   const leftPanel =
-    '<div class="week-title-area">'
-    + '<h2>' + esc(week.label) + '</h2>'
-    + '<p>' + total + ' commitment' + (total !== 1 ? 's' : '') + ' planned &bull; ' + done + ' completed</p>'
+    '<div class="simple-dash-header" style="margin-bottom:6px">'
+    + '<div style="min-width:0;overflow:hidden">'
+    + '<h2 style="font-family:var(--font-ui);font-size:15px;font-weight:700;color:var(--text-primary);letter-spacing:0.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + esc(week.label) + '</h2>'
+    + '<span style="font-size:11px;color:var(--text-muted)">' + total + ' commitment' + (total !== 1 ? 's' : '') + ' &bull; ' + done + ' done</span>'
+    + '</div>'
+    + '<div class="simple-dash-controls">'
+    + '<button class="btn btn-ghost" style="font-size:12px;padding:5px 10px;min-height:32px;white-space:nowrap" onclick="closeWeek(\'' + week.id + '\')">&#10003; Close</button>'
+    + switcherHtml
+    + '</div>'
     + '</div>'
     + '<div class="ppc-display ppc-compact ' + cls + '">'
     + '<span class="ppc-number">' + (ppc !== null ? ppc + '%' : '&mdash;') + '</span>'
-    + '<div class="ppc-label">Percent Plan Complete</div>'
+    + '<div class="ppc-label">PPC% <button class="ppc-info-btn" onclick="openHelp()" title="What is PPC%?">&#9432;</button></div>'
     + '<div class="ppc-badge">' + ppcLabel(ppc) + '</div>'
     + progressHtml
-    + '<div class="ppc-meta">' + (total > 0 ? done + ' of ' + total + ' commitments kept' : 'Add commitments to begin') + '</div>'
-    + '</div>'
-    + '<div style="display:flex;flex-direction:column;gap:8px">'
-    + '<button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="closeWeek(\'' + week.id + '\')">&#10003; Close Week</button>'
-    + switcherHtml
+    + '<div class="ppc-meta">' + (total > 0 ? done + ' of ' + total + ' kept' : 'Add commitments to begin') + '</div>'
     + '</div>';
 
   const rightPanel =
     summaryHtml
-    + '<div class="card-title" style="margin-bottom:4px">Planned Commitments</div>'
     + '<div class="task-input-row">'
     + '<input type="text" id="taskInput-' + week.id + '" class="text-input" placeholder="Add a planned commitment&hellip;" maxlength="200" onkeydown="if(event.key===\'Enter\')addTask(\'' + week.id + '\')" />'
     + '<button class="btn btn-primary" onclick="addTask(\'' + week.id + '\')">+ Add</button>'
