@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#080E17">
   <title>PPC% Tracker — Last Planner System</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏗</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,41 +15,43 @@
     :root {
       --bg-deep:#080E17;--bg-base:#0D1826;--bg-surface:#132035;--bg-card:#182840;--bg-elevated:#1E3050;--bg-input:#0F1D2E;
       --border-faint:#1A2E45;--border-subtle:#243A57;--border-default:#2E4D72;--border-active:#3A6496;
-      --primary:#2B579A;--primary-light:#3B72C8;--primary-glow:rgba(43,87,154,0.25);--primary-glow-strong:rgba(59,114,200,0.4);
-      --accent:#E8960A;--accent-light:#F5A820;--accent-glow:rgba(232,150,10,0.2);
+      --ebfc-navy:#004AAD;--ebfc-gold:#D4A827;
+      --primary:#004AAD;--primary-light:#1A6FD4;--primary-glow:rgba(0,74,173,0.25);--primary-glow-strong:rgba(0,74,173,0.4);
+      --accent:#D4A827;--accent-light:#E5BC3A;--accent-glow:rgba(212,168,39,0.2);
       --ppc-green:#16A34A;--ppc-green-bg:rgba(22,163,74,0.12);--ppc-green-border:rgba(22,163,74,0.3);
-      --ppc-blue:#2563EB;--ppc-blue-bg:rgba(37,99,235,0.12);--ppc-blue-border:rgba(37,99,235,0.3);
       --ppc-amber:#D97706;--ppc-amber-bg:rgba(217,119,6,0.12);--ppc-amber-border:rgba(217,119,6,0.3);
-      /* QC: bumped text-muted for WCAG AA compliance at small sizes */
+      --ppc-red:#DC2626;--ppc-red-bg:rgba(220,38,38,0.12);--ppc-red-border:rgba(220,38,38,0.3);
       --text-primary:#EAF0F8;--text-secondary:#8AAEC8;--text-muted:#5A7A96;
       --font-display:'Bebas Neue',sans-serif;--font-ui:'Rajdhani',sans-serif;--font-body:'Karla',sans-serif;
       --radius-sm:6px;--radius-md:10px;--radius-lg:16px;--radius-xl:24px;
       --shadow-md:0 4px 16px rgba(0,0,0,0.5);--shadow-lg:0 8px 32px rgba(0,0,0,0.6);
       --transition:0.18s ease;
-      /* Minimum touch target */
       --touch-min:44px;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
     body{background:var(--bg-deep);color:var(--text-primary);font-family:var(--font-body);line-height:1.6;min-height:100vh;overflow-x:hidden}
-    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(43,87,154,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(43,87,154,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,74,173,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,74,173,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
     body::after{content:'';position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--primary-light),var(--accent));z-index:1000}
 
-    /* QC: touch-action on all interactive elements to kill double-tap zoom delay */
-    button, input, select, a {
-      touch-action: manipulation;
-    }
+    button, input, select, a { touch-action: manipulation; }
+    :focus-visible { outline: 2px solid var(--primary-light); outline-offset: 2px; }
 
-    /* QC: visible focus ring for keyboard/assistive navigation */
-    :focus-visible {
-      outline: 2px solid var(--primary-light);
-      outline-offset: 2px;
-    }
+    #app{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 16px 80px}
 
-    #app{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 16px 80px}
+    /* === PROJECT BAR === */
+    .project-bar{display:flex;align-items:center;gap:8px;padding:12px 0 4px;flex-wrap:wrap}
+    .project-bar-label{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap}
+    .project-select{background:var(--bg-surface);border:1px solid var(--border-default);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-ui);font-size:14px;font-weight:600;padding:8px 12px;cursor:pointer;outline:none;transition:all var(--transition);min-height:40px;flex:1;max-width:280px}
+    .project-select:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px var(--primary-glow)}
+    .project-select option{background:var(--bg-card)}
+    .btn-proj-new{display:inline-flex;align-items:center;gap:5px;background:var(--primary-glow);border:1px solid var(--border-default);border-radius:var(--radius-md);color:var(--primary-light);font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:8px 14px;cursor:pointer;min-height:40px;transition:all var(--transition)}
+    .btn-proj-new:hover{background:var(--primary-glow-strong);border-color:var(--border-active);color:var(--text-primary)}
+    .btn-proj-del{background:none;border:1px solid transparent;border-radius:var(--radius-md);color:var(--text-muted);font-size:17px;padding:6px 10px;cursor:pointer;min-height:40px;min-width:40px;display:inline-flex;align-items:center;justify-content:center;transition:all var(--transition)}
+    .btn-proj-del:hover{color:#EF4444;border-color:rgba(239,68,68,0.3);background:rgba(239,68,68,0.08)}
 
     /* Header */
-    .site-header{padding:48px 0 32px;text-align:center;opacity:0;transform:translateY(-16px);animation:fadeInDown 0.6s ease 0.1s forwards}
+    .site-header{padding:24px 0 24px;text-align:center;opacity:0;transform:translateY(-16px);animation:fadeInDown 0.6s ease 0.1s forwards}
     .header-badge{display:inline-flex;align-items:center;gap:8px;background:var(--primary-glow);border:1px solid var(--border-default);border-radius:100px;padding:5px 14px;font-family:var(--font-ui);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--primary-light);margin-bottom:16px}
     .header-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);animation:pulseDot 2s ease infinite}
     .site-title{font-family:var(--font-display);font-size:clamp(52px,10vw,88px);letter-spacing:0.04em;line-height:0.9;margin-bottom:10px}
@@ -56,7 +61,6 @@
 
     /* Nav */
     .nav-tabs{display:flex;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:5px;margin:0 0 28px;opacity:0;animation:fadeIn 0.5s ease 0.5s forwards}
-    /* QC: increased nav-tab padding for 44px+ touch target height */
     .nav-tab{flex:1;background:none;border:none;color:var(--text-secondary);font-family:var(--font-ui);font-size:15px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:13px 16px;border-radius:calc(var(--radius-lg) - 5px);cursor:pointer;transition:all var(--transition);white-space:nowrap;min-height:var(--touch-min)}
     .nav-tab:hover{color:var(--text-primary);background:var(--bg-elevated)}
     .nav-tab.active{background:var(--primary);color:white;box-shadow:0 2px 12px var(--primary-glow-strong)}
@@ -68,10 +72,9 @@
     /* Cards */
     .card{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:24px;margin-bottom:16px;position:relative;overflow:hidden}
     .card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--border-default),transparent)}
-    /* QC: bumped card-title from 11px→12px and text-muted color lightened via variable change above */
     .card-title{font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px}
 
-    /* Buttons — QC: all buttons get min-height 44px, larger padding for construction gloves */
+    /* Buttons */
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:var(--radius-md);font-family:var(--font-ui);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:all var(--transition);white-space:nowrap;text-decoration:none;min-height:var(--touch-min)}
     .btn-primary{background:var(--primary);color:white;padding:14px 24px;font-size:14px}
     .btn-primary:hover{background:var(--primary-light);box-shadow:0 4px 16px var(--primary-glow-strong);transform:translateY(-1px)}
@@ -82,12 +85,11 @@
     .btn-ghost{background:var(--bg-surface);color:var(--text-secondary);border:1px solid var(--border-subtle);padding:12px 20px;font-size:13px}
     .btn-ghost:hover{background:var(--bg-elevated);color:var(--text-primary);border-color:var(--border-default)}
     .btn-ghost:active{transform:scale(0.97)}
-    /* QC: btn-danger padding bumped to be touchable; was 8px 14px */
     .btn-danger{background:rgba(220,38,38,0.12);color:#EF4444;border:1px solid rgba(220,38,38,0.25);padding:10px 16px;font-size:12px}
     .btn-danger:hover{background:rgba(220,38,38,0.2);border-color:rgba(220,38,38,0.4)}
     .btn-danger:active{transform:scale(0.97)}
 
-    /* Inputs — QC: taller for fat fingers */
+    /* Inputs */
     .text-input{background:var(--bg-input);border:1.5px solid var(--border-default);border-radius:var(--radius-md);color:var(--text-primary);font-family:var(--font-body);font-size:16px;padding:14px 16px;transition:all var(--transition);outline:none;width:100%;min-height:var(--touch-min)}
     .text-input:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px var(--primary-glow);background:var(--bg-elevated)}
     .text-input::placeholder{color:var(--text-muted)}
@@ -99,42 +101,45 @@
 
     /* Active Week */
     .active-week{opacity:0;animation:fadeInUp 0.5s ease 0.4s forwards}
-    .week-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px;flex-wrap:wrap}
     .week-title-area h2{font-family:var(--font-ui);font-size:22px;font-weight:700;color:var(--text-primary);letter-spacing:0.02em}
-    /* QC: task count line bumped to text-secondary (was secondary but let's be explicit) */
     .week-title-area p{font-size:13px;color:var(--text-secondary);margin-top:2px}
-    .week-actions{display:flex;gap:8px;flex-wrap:wrap}
 
     /* PPC Display */
     .ppc-display{text-align:center;padding:28px 20px 20px;background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-lg);margin-bottom:20px;position:relative;overflow:hidden}
     .ppc-display::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.4s ease;pointer-events:none;border-radius:var(--radius-lg)}
     .ppc-display.excellent::after{background:radial-gradient(ellipse at center,rgba(22,163,74,0.08) 0%,transparent 70%);opacity:1}
-    .ppc-display.good::after{background:radial-gradient(ellipse at center,rgba(37,99,235,0.08) 0%,transparent 70%);opacity:1}
     .ppc-display.improve::after{background:radial-gradient(ellipse at center,rgba(217,119,6,0.08) 0%,transparent 70%);opacity:1}
+    .ppc-display.critical::after{background:radial-gradient(ellipse at center,rgba(220,38,38,0.1) 0%,transparent 70%);opacity:1}
     .ppc-number{font-family:var(--font-display);font-size:clamp(80px,18vw,120px);line-height:1;letter-spacing:0.02em;display:block;transition:color 0.4s ease;position:relative;z-index:1}
     .ppc-display.excellent .ppc-number{color:var(--ppc-green)}
-    .ppc-display.good .ppc-number{color:var(--ppc-blue)}
     .ppc-display.improve .ppc-number{color:var(--ppc-amber)}
+    .ppc-display.critical .ppc-number{color:var(--ppc-red)}
     .ppc-label{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-muted);margin-top:4px;margin-bottom:12px;position:relative;z-index:1}
     .ppc-badge{display:inline-flex;align-items:center;gap:7px;padding:7px 18px;border-radius:100px;font-family:var(--font-ui);font-size:13px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;transition:all 0.4s ease;position:relative;z-index:1}
     .ppc-badge::before{content:'';width:7px;height:7px;border-radius:50%}
     .ppc-display.excellent .ppc-badge{background:var(--ppc-green-bg);color:var(--ppc-green);border:1px solid var(--ppc-green-border)}
     .ppc-display.excellent .ppc-badge::before{background:var(--ppc-green)}
-    .ppc-display.good .ppc-badge{background:var(--ppc-blue-bg);color:var(--ppc-blue);border:1px solid var(--ppc-blue-border)}
-    .ppc-display.good .ppc-badge::before{background:var(--ppc-blue)}
     .ppc-display.improve .ppc-badge{background:var(--ppc-amber-bg);color:var(--ppc-amber);border:1px solid var(--ppc-amber-border)}
     .ppc-display.improve .ppc-badge::before{background:var(--ppc-amber)}
+    .ppc-display.critical .ppc-badge{background:var(--ppc-red-bg);color:var(--ppc-red);border:1px solid var(--ppc-red-border)}
+    .ppc-display.critical .ppc-badge::before{background:var(--ppc-red)}
     .ppc-meta{font-family:var(--font-ui);font-size:13px;color:var(--text-muted);margin-top:10px;letter-spacing:0.04em;position:relative;z-index:1}
 
-    /* QC: Progress bar below PPC number — visual reinforcement of the number */
+    /* Progress bar */
     .ppc-progress-track{width:100%;max-width:320px;margin:14px auto 0;height:8px;background:var(--bg-deep);border-radius:4px;overflow:hidden;position:relative;z-index:1;border:1px solid var(--border-faint)}
     .ppc-progress-fill{height:100%;border-radius:4px;transition:width 0.6s cubic-bezier(0.4,0,0.2,1),background-color 0.4s ease}
     .ppc-display.excellent .ppc-progress-fill{background:linear-gradient(90deg,var(--ppc-green),rgba(22,163,74,0.7))}
-    .ppc-display.good .ppc-progress-fill{background:linear-gradient(90deg,var(--ppc-blue),rgba(37,99,235,0.7))}
     .ppc-display.improve .ppc-progress-fill{background:linear-gradient(90deg,var(--ppc-amber),rgba(217,119,6,0.7))}
-    /* Threshold marker lines on the progress bar */
-    .ppc-progress-track::before{content:'';position:absolute;left:70%;top:0;bottom:0;width:1.5px;background:rgba(37,99,235,0.5);z-index:2}
-    .ppc-progress-track::after{content:'';position:absolute;left:85%;top:0;bottom:0;width:1.5px;background:rgba(22,163,74,0.5);z-index:2}
+    .ppc-display.critical .ppc-progress-fill{background:linear-gradient(90deg,var(--ppc-red),rgba(220,38,38,0.7))}
+    /* threshold markers: 60% and 80% */
+    .ppc-progress-track::before{content:'';position:absolute;left:60%;top:0;bottom:0;width:1.5px;background:rgba(217,119,6,0.55);z-index:2}
+    .ppc-progress-track::after{content:'';position:absolute;left:80%;top:0;bottom:0;width:1.5px;background:rgba(22,163,74,0.55);z-index:2}
+
+    /* Summary Stats Strip */
+    .summary-stats{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+    .stat-chip{flex:1;min-width:72px;background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-md);padding:10px 10px 8px;text-align:center}
+    .stat-chip-value{font-family:var(--font-display);font-size:22px;letter-spacing:0.04em;line-height:1;display:block}
+    .stat-chip-label{font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-muted);display:block;margin-top:3px}
 
     /* Tasks */
     .task-input-row{display:flex;gap:10px;margin-bottom:16px}
@@ -145,57 +150,23 @@
     .task-item{background:var(--bg-surface);border:1px solid var(--border-faint);border-radius:var(--radius-md);padding:14px 16px;transition:all var(--transition);animation:slideIn 0.25s ease}
     .task-item:hover{border-color:var(--border-subtle);background:var(--bg-elevated)}
     .task-item.completed{opacity:0.75;border-color:var(--ppc-green-border);background:var(--ppc-green-bg)}
-
     .task-item-row{display:flex;align-items:center;gap:12px}
-
-    /* QC: checkbox bumped to 26x26 and uses a larger invisible hit area via ::before */
-    .task-checkbox{
-      -webkit-appearance:none;appearance:none;
-      width:26px;height:26px;min-width:26px;
-      border:2px solid var(--border-active);border-radius:6px;
-      background:var(--bg-input);cursor:pointer;position:relative;
-      transition:all var(--transition);
-      /* Expand touch area without affecting layout */
-      padding:9px;
-    }
+    .task-checkbox{-webkit-appearance:none;appearance:none;width:26px;height:26px;min-width:26px;border:2px solid var(--border-active);border-radius:6px;background:var(--bg-input);cursor:pointer;position:relative;transition:all var(--transition);padding:9px}
     .task-checkbox:checked{background:var(--ppc-green);border-color:var(--ppc-green)}
     .task-checkbox:checked::after{content:'';position:absolute;top:4px;left:8px;width:6px;height:10px;border:2.5px solid white;border-top:none;border-left:none;transform:rotate(45deg)}
     .task-checkbox:hover{border-color:var(--primary-light);box-shadow:0 0 0 3px var(--primary-glow)}
     .task-checkbox:active{transform:scale(0.9)}
-
     .task-text{flex:1;font-size:15px;font-weight:500;color:var(--text-primary);transition:all var(--transition);line-height:1.4}
     .task-item.completed .task-text{text-decoration:line-through;color:var(--text-muted)}
-
-    /* QC: task-delete — was opacity:0 until hover, INVISIBLE on iPad/touch!
-       Now always shown at low opacity; full opacity on hover.
-       On touch devices (hover:none), always full opacity. */
-    .task-delete{
-      background:none;border:none;color:var(--text-muted);cursor:pointer;
-      padding:8px 10px;border-radius:var(--radius-sm);font-size:18px;
-      transition:all var(--transition);opacity:0.35;line-height:1;
-      min-width:var(--touch-min);min-height:var(--touch-min);
-      display:flex;align-items:center;justify-content:center;
-    }
+    .task-delete{background:none;border:none;color:var(--text-muted);cursor:pointer;padding:8px 10px;border-radius:var(--radius-sm);font-size:18px;transition:all var(--transition);opacity:0.35;line-height:1;min-width:var(--touch-min);min-height:var(--touch-min);display:flex;align-items:center;justify-content:center}
     .task-item:hover .task-delete{opacity:1}
     .task-delete:hover{color:#EF4444;background:rgba(239,68,68,0.12)}
     .task-delete:active{transform:scale(0.85)}
-
-    /* Always full opacity on touch devices */
-    @media (hover: none) {
-      .task-delete { opacity: 0.6; }
-    }
+    @media (hover: none) { .task-delete { opacity: 0.6; } }
 
     .variance-row{margin-top:10px;padding-top:10px;border-top:1px solid var(--border-faint);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
     .variance-label{font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap}
-    /* QC: variance select — bumped font-size and taller for touch */
-    .variance-select{
-      flex:1;min-width:160px;
-      background:var(--bg-input);border:1px solid var(--border-default);
-      border-radius:var(--radius-md);color:var(--text-secondary);
-      font-family:var(--font-body);font-size:14px;
-      padding:10px 12px;cursor:pointer;outline:none;
-      transition:all var(--transition);min-height:44px;
-    }
+    .variance-select{flex:1;min-width:160px;background:var(--bg-input);border:1px solid var(--border-default);border-radius:var(--radius-md);color:var(--text-secondary);font-family:var(--font-body);font-size:14px;padding:10px 12px;cursor:pointer;outline:none;transition:all var(--transition);min-height:44px}
     .variance-select:focus{border-color:var(--primary-light);box-shadow:0 0 0 3px var(--primary-glow);color:var(--text-primary)}
     .variance-select option{background:var(--bg-card)}
     .tasks-empty{text-align:center;padding:32px 20px;color:var(--text-muted);font-family:var(--font-ui);font-size:13px;letter-spacing:0.06em;text-transform:uppercase}
@@ -211,26 +182,28 @@
     /* History Table */
     .history-card{opacity:0;animation:fadeInUp 0.5s ease 0.35s forwards}
     .history-table{width:100%;border-collapse:separate;border-spacing:0;font-size:14px}
-    /* QC: table header bumped from 10px→12px */
     .history-table thead th{font-family:var(--font-ui);font-size:12px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);padding:10px 14px;text-align:left;border-bottom:1px solid var(--border-default);white-space:nowrap}
     .history-table tbody tr{transition:background var(--transition)}
     .history-table tbody tr:hover td{background:var(--bg-surface)}
-    /* QC: table rows taller for touch tap */
     .history-table tbody td{padding:15px 14px;border-bottom:1px solid var(--border-faint);vertical-align:middle}
     .history-table tbody tr:last-child td{border-bottom:none}
     .hist-week{font-family:var(--font-ui);font-weight:600;font-size:14px;color:var(--text-primary)}
     .hist-ppc{font-family:var(--font-display);font-size:24px;letter-spacing:0.04em}
-    .hist-ppc.excellent{color:var(--ppc-green)}.hist-ppc.good{color:var(--ppc-blue)}.hist-ppc.improve{color:var(--ppc-amber)}
-    .hist-bar-cell{width:120px}
+    .hist-ppc.excellent{color:var(--ppc-green)}.hist-ppc.improve{color:var(--ppc-amber)}.hist-ppc.critical{color:var(--ppc-red)}
+    .hist-bar-cell{width:100px}
     .hist-bar-track{width:100%;height:8px;background:var(--bg-surface);border-radius:4px;overflow:hidden;border:1px solid var(--border-faint)}
     .hist-bar-fill{height:100%;border-radius:4px;transition:width 0.6s ease}
-    .hist-bar-fill.excellent{background:var(--ppc-green)}.hist-bar-fill.good{background:var(--ppc-blue)}.hist-bar-fill.improve{background:var(--ppc-amber)}
+    .hist-bar-fill.excellent{background:var(--ppc-green)}.hist-bar-fill.improve{background:var(--ppc-amber)}.hist-bar-fill.critical{background:var(--ppc-red)}
     .hist-tasks{color:var(--text-secondary);font-size:13px;white-space:nowrap;font-family:var(--font-ui);font-weight:600;letter-spacing:0.04em}
+    .hist-variance{font-family:var(--font-ui);font-size:12px;color:var(--ppc-amber)}
+    .hist-spark{white-space:nowrap}
     .hist-actions{white-space:nowrap}
-    /* QC: history empty state gets an icon like the other empty states */
     .history-empty{text-align:center;padding:48px 20px;color:var(--text-muted)}
     .history-empty .history-empty-icon{font-size:36px;margin-bottom:12px;opacity:0.4}
     .history-empty p{font-family:var(--font-ui);font-size:13px;letter-spacing:0.06em;text-transform:uppercase}
+
+    /* Sparkline */
+    .sparkline{display:inline-block;vertical-align:middle}
 
     /* Empty State */
     .empty-state{text-align:center;padding:60px 20px;opacity:0;animation:fadeIn 0.6s ease 0.5s forwards}
@@ -241,17 +214,9 @@
     /* Modal */
     .modal-overlay{position:fixed;inset:0;background:rgba(6,12,22,0.85);backdrop-filter:blur(4px);z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.25s ease}
     .modal-overlay.open{opacity:1;pointer-events:all}
-    .modal{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-xl);padding:32px;max-width:520px;width:100%;box-shadow:var(--shadow-lg),0 0 60px rgba(43,87,154,0.15);transform:translateY(20px) scale(0.97);transition:transform 0.25s ease;position:relative}
+    .modal{background:var(--bg-card);border:1px solid var(--border-default);border-radius:var(--radius-xl);padding:32px;max-width:520px;width:100%;box-shadow:var(--shadow-lg),0 0 60px rgba(0,74,173,0.15);transform:translateY(20px) scale(0.97);transition:transform 0.25s ease;position:relative}
     .modal-overlay.open .modal{transform:translateY(0) scale(1)}
-    /* QC: modal-close bumped from 32px→44px touch target */
-    .modal-close{
-      position:absolute;top:14px;right:14px;
-      background:var(--bg-surface);border:1px solid var(--border-subtle);
-      border-radius:var(--radius-md);color:var(--text-secondary);cursor:pointer;
-      width:44px;height:44px;
-      display:flex;align-items:center;justify-content:center;
-      font-size:20px;transition:all var(--transition);
-    }
+    .modal-close{position:absolute;top:14px;right:14px;background:var(--bg-surface);border:1px solid var(--border-subtle);border-radius:var(--radius-md);color:var(--text-secondary);cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:20px;transition:all var(--transition)}
     .modal-close:hover{background:var(--bg-elevated);color:var(--text-primary);border-color:var(--border-default)}
     .modal-close:active{transform:scale(0.92)}
     .modal h2{font-family:var(--font-ui);font-size:22px;font-weight:700;color:var(--text-primary);margin-bottom:6px;letter-spacing:0.02em}
@@ -262,8 +227,8 @@
     .benchmarks{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
     .benchmark-pill{flex:1;min-width:90px;text-align:center;padding:14px;border-radius:var(--radius-md);border:1px solid}
     .benchmark-pill.green{background:var(--ppc-green-bg);border-color:var(--ppc-green-border);color:var(--ppc-green)}
-    .benchmark-pill.blue{background:var(--ppc-blue-bg);border-color:var(--ppc-blue-border);color:var(--ppc-blue)}
     .benchmark-pill.amber{background:var(--ppc-amber-bg);border-color:var(--ppc-amber-border);color:var(--ppc-amber)}
+    .benchmark-pill.red{background:var(--ppc-red-bg);border-color:var(--ppc-red-border);color:var(--ppc-red)}
     .pill-pct{font-family:var(--font-display);font-size:28px;display:block;line-height:1}
     .pill-label{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-top:4px;opacity:0.85}
 
@@ -283,14 +248,12 @@
     @keyframes drawLine{from{stroke-dashoffset:var(--ll,2000)}to{stroke-dashoffset:0}}
     .ppc-pop{animation:ppcPop 0.35s ease}
 
-    /* === Viewport-fit: 2-panel active week layout === */
+    /* 2-panel layout */
     .week-2panel{display:flex;gap:20px;align-items:flex-start}
     .week-left-panel{flex:0 0 35%;min-width:0;display:flex;flex-direction:column;gap:14px}
     .week-right-panel{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:10px}
-    /* Compact PPC number in left panel — doesn't need to dominate */
     .ppc-display.ppc-compact{padding:18px 14px 14px;margin-bottom:0}
     .ppc-display.ppc-compact .ppc-number{font-size:clamp(42px,8vw,68px)}
-    /* Task area scrolls internally instead of pushing the page */
     .week-task-scroll{max-height:360px;overflow-y:auto;padding-right:4px}
     @media(max-width:767px){
       .week-2panel{flex-direction:column}
@@ -298,24 +261,53 @@
       .week-task-scroll{max-height:none;overflow-y:visible}
     }
 
+    /* === @media print === */
+    @media print {
+      body{background:white!important;color:black!important}
+      body::before,body::after{display:none!important}
+      .project-bar,.nav-tabs,.header-actions,.week-actions,.task-input-row,
+      [id^="bulkPaste-"],.btn,.task-delete,.modal-overlay{display:none!important}
+      #app{padding:0}
+      .site-header{opacity:1!important;transform:none!important;animation:none!important;padding:16px 0}
+      .card{background:white!important;border:1px solid #ccc!important;box-shadow:none!important;break-inside:avoid}
+      .card::before{display:none!important}
+      .ppc-number{color:black!important}
+      .ppc-badge{color:black!important;border:1px solid #ccc!important;background:#f5f5f5!important}
+      .ppc-display{background:#f9f9f9!important;border:1px solid #ccc!important}
+      .ppc-display::after{display:none!important}
+      .task-item{background:white!important;border:1px solid #ddd!important;break-inside:avoid}
+      .task-text{color:black!important}
+      .task-item.completed .task-text{text-decoration:line-through;color:#666!important}
+      .variance-row{display:none!important}
+      .summary-stats{flex-wrap:wrap}
+      .stat-chip{border:1px solid #ddd!important;background:#f9f9f9!important}
+      .stat-chip-value,.stat-chip-label{color:black!important}
+      .site-footer{display:block!important;border-top:1px solid #ccc;color:#666}
+      .site-footer a{color:#004AAD}
+      #view-history{display:none!important}
+      .history-table th,.history-table td{color:black!important;border-color:#ccc!important}
+      .hist-ppc{color:black!important}
+      @page{margin:0.75in}
+    }
+
     /* Responsive */
     @media(max-width:640px){
-      .site-header{padding:32px 0 24px}
+      .site-header{padding:20px 0 16px}
       .card{padding:20px 16px}
       .week-creator-row{flex-direction:column}
       .week-creator-row .btn{width:100%;justify-content:center}
       .task-input-row{flex-direction:column}
       .task-input-row .btn{width:100%;justify-content:center}
-      .week-header{flex-direction:column;align-items:flex-start}
       .week-actions{width:100%}
       .week-actions .btn{flex:1;justify-content:center;min-width:0}
-      .hist-bar-cell{display:none}
+      .hist-bar-cell,.hist-spark{display:none}
       .history-table{font-size:13px}
       .history-table tbody td{padding:12px 10px}
       .modal{padding:24px 20px}
       .ppc-number{font-size:86px}
-      /* QC: on mobile, nav tabs stack more comfortably */
       .nav-tab{font-size:13px;padding:12px 10px;letter-spacing:0.05em}
+      .summary-stats{gap:6px}
+      .project-select{max-width:100%}
     }
 
     ::-webkit-scrollbar{width:6px;height:6px}
@@ -326,13 +318,17 @@
 </head>
 <body>
 <div id="app">
+
+  <div class="project-bar" id="project-bar"></div>
+
   <header class="site-header">
     <div class="header-badge">Last Planner System</div>
     <h1 class="site-title">PPC<span>%</span> Tracker</h1>
-    <p class="site-subtitle">Weekly Commitment Tracking</p>
+    <p class="site-subtitle">Weekly Commitment Reliability</p>
     <div class="header-actions">
       <button class="btn btn-ghost" onclick="openHelp()">? What is PPC%?</button>
       <button class="btn btn-ghost" onclick="exportCSV()">&#8595; Export CSV</button>
+      <button class="btn btn-ghost" onclick="window.print()">&#9113; Print / PDF</button>
     </div>
   </header>
 
@@ -345,7 +341,7 @@
     <div class="card week-creator">
       <div class="card-title" style="font-size:16px">Start New Week</div>
       <div class="week-creator-row">
-        <input type="text" id="newWeekLabel" class="text-input" placeholder="e.g. Week of Feb 24, 2026" maxlength="80" onkeydown="if(event.key==='Enter')createWeek()"/>
+        <input type="text" id="newWeekLabel" class="text-input" placeholder="e.g. Week of Mar 9, 2026" maxlength="80" onkeydown="if(event.key==='Enter')createWeek()"/>
         <button class="btn btn-accent" onclick="createWeek()">+ New Week</button>
       </div>
     </div>
@@ -365,10 +361,11 @@
       <div id="history-table-area"></div>
     </div>
   </div>
+
 </div>
 
 <footer class="site-footer">
-  <p>Free tool by <a href="https://theebfcshow.com" target="_blank">The EBFC Show</a> &bull; <a href="https://theebfcshow.com" target="_blank">theebfcshow.com</a></p>
+  <p>Built by <a href="https://ebfc.ai" target="_blank" rel="noopener">EBFC AI</a> &mdash; Easier. Better. Faster. Cheaper.</p>
 </footer>
 
 <!-- HELP MODAL -->
@@ -379,26 +376,73 @@
     <div class="modal-sub">Percent Plan Complete — Last Planner System</div>
     <p><strong>Percent Plan Complete (PPC%)</strong> is the core metric of the Last Planner System&#174; in Lean Construction. It measures how reliably a team keeps its weekly commitments.</p>
     <div class="formula-box">PPC% = Completed &divide; Planned &times; 100</div>
-    <p>Each week, the team lists all tasks they <em>commit</em> to completing — not just what they'll try, but what they <strong>promise</strong> to deliver. At week's end, each task is marked done or not done.</p>
-    <p>When a task isn't completed, record a <strong>variance reason</strong> — understanding <em>why</em> plans fail is just as important as tracking when they fail.</p>
+    <p>Each week, Last Planners list all commitments they <em>promise</em> to complete. At week's end, each is marked <strong>Completed</strong> or not. When a commitment isn't kept, record the <strong>variance reason</strong> — understanding <em>why</em> plans fail is just as important as tracking when they fail.</p>
     <div class="benchmarks">
-      <div class="benchmark-pill green"><span class="pill-pct">85%+</span><span class="pill-label">Excellent</span></div>
-      <div class="benchmark-pill blue"><span class="pill-pct">70–84%</span><span class="pill-label">Good</span></div>
-      <div class="benchmark-pill amber"><span class="pill-pct">&lt;70%</span><span class="pill-label">Improve</span></div>
+      <div class="benchmark-pill green"><span class="pill-pct">80%+</span><span class="pill-label">Excellent</span></div>
+      <div class="benchmark-pill amber"><span class="pill-pct">60–79%</span><span class="pill-label">Improve</span></div>
+      <div class="benchmark-pill red"><span class="pill-pct">&lt;60%</span><span class="pill-label">Critical</span></div>
     </div>
     <p style="margin-top:16px;font-size:13px">Consistently tracking PPC% drives team accountability, surfaces systemic obstacles, and creates a culture of reliable commitments on the jobsite.</p>
   </div>
 </div>
 
+<!-- NEW PROJECT MODAL -->
+<div class="modal-overlay" id="newProjectModal" onclick="closeNewProjectModal(event)">
+  <div class="modal" style="max-width:420px">
+    <button class="modal-close" onclick="closeNewProjectModal()">&times;</button>
+    <h2>New Project</h2>
+    <div class="modal-sub">Multi-Project Tracker</div>
+    <p>Create a new project to track commitment reliability independently from your current project.</p>
+    <input type="text" id="newProjectName" class="text-input" placeholder="e.g. Tower A — Foundation" maxlength="60" style="margin-bottom:16px" onkeydown="if(event.key==='Enter')createProject()"/>
+    <button class="btn btn-accent" style="width:100%;justify-content:center" onclick="createProject()">Create Project</button>
+  </div>
+</div>
+
 <script>
+/* ====== CONSTANTS ====== */
+const STORAGE_KEY = 'ppc_tracker_v3';
+
+const VARIANCE_REASONS = [
+  { value: 'prerequisites', label: 'Prerequisites' },
+  { value: 'resources',     label: 'Resources' },
+  { value: 'weather',       label: 'Weather' },
+  { value: 'design',        label: 'Design' },
+  { value: 'information',   label: 'Information' },
+  { value: 'equipment',     label: 'Equipment' },
+  { value: 'space',         label: 'Space' },
+  { value: 'prior_work',    label: 'Prior Work' },
+];
+
 /* ====== STATE ====== */
-const STORAGE_KEY = 'ppc_tracker_v2';
-let state = { weeks: [], activeWeekId: null };
+let state = {
+  projects: [{ id: 'default', name: 'Default Project', weeks: [], activeWeekId: null }],
+  activeProjectId: 'default'
+};
+
+function getActiveProject() {
+  return state.projects.find(p => p.id === state.activeProjectId) || state.projects[0];
+}
 
 function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) { const p = JSON.parse(raw); state = { weeks: [], activeWeekId: null, ...p }; }
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      state = { ...state, ...parsed };
+    } else {
+      // Migrate from v2 key
+      const oldRaw = localStorage.getItem('ppc_tracker_v2');
+      if (oldRaw) {
+        const old = JSON.parse(oldRaw);
+        state.projects[0].weeks = old.weeks || [];
+        state.projects[0].activeWeekId = old.activeWeekId || null;
+      }
+    }
+    // Ensure projects array exists (guard against bad saved state)
+    if (!Array.isArray(state.projects) || !state.projects.length) {
+      state.projects = [{ id: 'default', name: 'Default Project', weeks: [], activeWeekId: null }];
+      state.activeProjectId = 'default';
+    }
   } catch(e) { console.warn('load state failed', e); }
 }
 
@@ -415,22 +459,94 @@ function calcPPC(week) {
   return Math.round((week.tasks.filter(t => t.completed).length / week.tasks.length) * 100);
 }
 
+// PPC zones: >=80 green (excellent), 60-79 amber (improve), <60 red (critical)
 function ppcClass(ppc) {
   if (ppc === null) return '';
-  return ppc >= 85 ? 'excellent' : ppc >= 70 ? 'good' : 'improve';
+  return ppc >= 80 ? 'excellent' : ppc >= 60 ? 'improve' : 'critical';
 }
 
 function ppcLabel(ppc) {
-  if (ppc === null) return '—';
-  return ppc >= 85 ? '&#10022; Excellent' : ppc >= 70 ? '&#9679; Good' : '&#9650; Needs Improvement';
+  if (ppc === null) return '&mdash;';
+  return ppc >= 80 ? '&#10022; Excellent' : ppc >= 60 ? '&#9650; Needs Improvement' : '&#9888; Critical';
 }
 
-function getWeek(id) { return state.weeks.find(w => w.id === id) || null; }
+function getWeek(id) {
+  return getActiveProject().weeks.find(w => w.id === id) || null;
+}
 
 function esc(str) {
   return String(str)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
+function getTopVariance(week) {
+  const incomplete = week.tasks.filter(t => !t.completed && t.varianceReason);
+  if (!incomplete.length) return null;
+  const counts = {};
+  incomplete.forEach(t => { counts[t.varianceReason] = (counts[t.varianceReason] || 0) + 1; });
+  const top = Object.entries(counts).sort((a,b) => b[1]-a[1])[0];
+  if (!top) return null;
+  const found = VARIANCE_REASONS.find(r => r.value === top[0]);
+  return found ? found.label : top[0];
+}
+
+/* ====== PROJECT MANAGEMENT ====== */
+function renderProjectBar() {
+  const bar = document.getElementById('project-bar');
+  if (!bar) return;
+  const activeId = state.activeProjectId;
+  const opts = state.projects.map(p =>
+    '<option value="' + p.id + '"' + (p.id === activeId ? ' selected' : '') + '>' + esc(p.name) + '</option>'
+  ).join('');
+  const delBtn = state.projects.length > 1
+    ? '<button class="btn-proj-del" onclick="deleteProject(\'' + activeId + '\')" title="Delete project" aria-label="Delete project">&#128465;</button>'
+    : '';
+  bar.innerHTML =
+    '<span class="project-bar-label">Project</span>'
+    + '<select class="project-select" onchange="switchProject(this.value)">' + opts + '</select>'
+    + '<button class="btn-proj-new" onclick="openNewProjectModal()">+ New</button>'
+    + delBtn;
+}
+
+function switchProject(id) {
+  state.activeProjectId = id;
+  saveState();
+  renderAll();
+}
+
+function openNewProjectModal() {
+  document.getElementById('newProjectModal').classList.add('open');
+  setTimeout(() => document.getElementById('newProjectName').focus(), 80);
+}
+
+function closeNewProjectModal(e) {
+  if (!e || e.target === document.getElementById('newProjectModal') || e.currentTarget.classList.contains('modal-close')) {
+    document.getElementById('newProjectModal').classList.remove('open');
+    document.getElementById('newProjectName').value = '';
+  }
+}
+
+function createProject() {
+  const inp = document.getElementById('newProjectName');
+  const name = inp.value.trim();
+  if (!name) { inp.focus(); return; }
+  const project = { id: uid(), name, weeks: [], activeWeekId: null };
+  state.projects.push(project);
+  state.activeProjectId = project.id;
+  saveState();
+  closeNewProjectModal();
+  renderAll();
+}
+
+function deleteProject(id) {
+  const proj = state.projects.find(p => p.id === id);
+  if (!proj) return;
+  if (!confirm('Delete project "' + proj.name + '" and ALL its data? This cannot be undone.')) return;
+  state.projects = state.projects.filter(p => p.id !== id);
+  state.activeProjectId = state.projects[0].id;
+  saveState();
+  renderAll();
 }
 
 /* ====== TAB SWITCHING ====== */
@@ -454,8 +570,9 @@ function createWeek() {
     return;
   }
   const week = { id: uid(), label, tasks: [], closed: false, createdAt: Date.now() };
-  state.weeks.unshift(week);
-  state.activeWeekId = week.id;
+  const proj = getActiveProject();
+  proj.weeks.unshift(week);
+  proj.activeWeekId = week.id;
   inp.value = '';
   saveState();
   renderWeekView();
@@ -467,9 +584,10 @@ function closeWeek(id) {
   if (!week) return;
   if (!confirm('Close "' + week.label + '"? It will move to History.')) return;
   week.closed = true;
-  if (state.activeWeekId === id) {
-    const next = state.weeks.find(w => !w.closed && w.id !== id);
-    state.activeWeekId = next ? next.id : null;
+  const proj = getActiveProject();
+  if (proj.activeWeekId === id) {
+    const next = proj.weeks.find(w => !w.closed && w.id !== id);
+    proj.activeWeekId = next ? next.id : null;
   }
   saveState();
   renderWeekView();
@@ -477,10 +595,11 @@ function closeWeek(id) {
 }
 
 function reopenWeek(id) {
-  const week = getWeek(id);
+  const proj = getActiveProject();
+  const week = proj.weeks.find(w => w.id === id);
   if (!week) return;
   week.closed = false;
-  state.activeWeekId = id;
+  proj.activeWeekId = id;
   saveState();
   renderWeekView();
   renderHistoryView();
@@ -488,13 +607,14 @@ function reopenWeek(id) {
 }
 
 function deleteWeek(id) {
-  const week = getWeek(id);
+  const proj = getActiveProject();
+  const week = proj.weeks.find(w => w.id === id);
   if (!week) return;
   if (!confirm('Delete "' + week.label + '"? This cannot be undone.')) return;
-  state.weeks = state.weeks.filter(w => w.id !== id);
-  if (state.activeWeekId === id) {
-    const next = state.weeks.find(w => !w.closed);
-    state.activeWeekId = next ? next.id : null;
+  proj.weeks = proj.weeks.filter(w => w.id !== id);
+  if (proj.activeWeekId === id) {
+    const next = proj.weeks.find(w => !w.closed);
+    proj.activeWeekId = next ? next.id : null;
   }
   saveState();
   renderWeekView();
@@ -502,14 +622,16 @@ function deleteWeek(id) {
 }
 
 function setActiveWeek(id) {
-  state.activeWeekId = id;
+  getActiveProject().activeWeekId = id;
   saveState();
   renderWeekView();
 }
 
 function confirmClearAll() {
-  if (!confirm('Delete ALL data? This cannot be undone.')) return;
-  state = { weeks: [], activeWeekId: null };
+  const proj = getActiveProject();
+  if (!confirm('Delete ALL data for "' + proj.name + '"? This cannot be undone.')) return;
+  proj.weeks = [];
+  proj.activeWeekId = null;
   saveState();
   renderWeekView();
   renderHistoryView();
@@ -581,12 +703,21 @@ function deleteTask(weekId, taskId) {
   renderActiveWeek(week);
 }
 
+/* ====== VARIANCE OPTIONS HTML ====== */
+function variantOptionsHtml(selected) {
+  return '<option value=""' + (!selected ? ' selected' : '') + '>Select variance reason&hellip;</option>'
+    + VARIANCE_REASONS.map(r =>
+        '<option value="' + r.value + '"' + (selected === r.value ? ' selected' : '') + '>' + r.label + '</option>'
+      ).join('');
+}
+
 /* ====== RENDER: WEEK VIEW ====== */
 function renderWeekView() {
   const area = document.getElementById('active-week-area');
   if (!area) return;
-  const activeWeek = state.activeWeekId ? getWeek(state.activeWeekId) : null;
-  const openWeeks = state.weeks.filter(w => !w.closed);
+  const proj = getActiveProject();
+  const activeWeek = proj.activeWeekId ? proj.weeks.find(w => w.id === proj.activeWeekId) : null;
+  const openWeeks = proj.weeks.filter(w => !w.closed);
 
   if (!activeWeek) {
     let switcher = '';
@@ -596,7 +727,7 @@ function renderWeekView() {
         + openWeeks.map(w => '<button class="btn btn-primary" onclick="setActiveWeek(\'' + w.id + '\')">' + esc(w.label) + '</button>').join('')
         + '</div>';
     }
-    area.innerHTML = '<div class="empty-state"><span class="empty-state-icon">&#127959;&#65039;</span><h3>No Active Week</h3><p>Create a new week above to start tracking.</p>' + switcher + '</div>';
+    area.innerHTML = '<div class="empty-state"><span class="empty-state-icon">&#127959;&#65039;</span><h3>No Active Week</h3><p>Create a new week above to start tracking commitments.</p>' + switcher + '</div>';
     return;
   }
   area.innerHTML = buildWeekHTML(activeWeek, openWeeks);
@@ -607,6 +738,7 @@ function buildWeekHTML(week, openWeeks) {
   const cls = ppcClass(ppc);
   const done = week.tasks.filter(t => t.completed).length;
   const total = week.tasks.length;
+  const topVar = getTopVariance(week);
 
   const otherOpen = openWeeks.filter(w => w.id !== week.id);
   const switcherHtml = otherOpen.length
@@ -616,59 +748,66 @@ function buildWeekHTML(week, openWeeks) {
       + '</select>'
     : '';
 
-  /* Progress bar with threshold markers */
   const progressHtml = total > 0
     ? '<div class="ppc-progress-track"><div class="ppc-progress-fill" style="width:' + (ppc || 0) + '%"></div></div>'
     : '';
 
+  // Summary stats strip
+  const summaryHtml = total > 0
+    ? '<div class="summary-stats">'
+      + '<div class="stat-chip"><span class="stat-chip-value" style="color:var(--text-secondary)">' + total + '</span><span class="stat-chip-label">Planned</span></div>'
+      + '<div class="stat-chip"><span class="stat-chip-value" style="color:var(--ppc-green)">' + done + '</span><span class="stat-chip-label">Completed</span></div>'
+      + '<div class="stat-chip"><span class="stat-chip-value" style="color:' + (cls === 'excellent' ? 'var(--ppc-green)' : cls === 'improve' ? 'var(--ppc-amber)' : 'var(--ppc-red)') + '">' + (ppc !== null ? ppc + '%' : '&mdash;') + '</span><span class="stat-chip-label">PPC%</span></div>'
+      + (topVar ? '<div class="stat-chip"><span class="stat-chip-value" style="font-size:13px;letter-spacing:0;color:var(--ppc-amber)">' + esc(topVar) + '</span><span class="stat-chip-label">Top Variance</span></div>' : '')
+      + '</div>'
+    : '';
+
   const tasksHtml = week.tasks.length === 0
-    ? '<div class="tasks-empty">No tasks yet &mdash; add your first commitment above.</div>'
+    ? '<div class="tasks-empty">No commitments yet &mdash; add your first above.</div>'
     : week.tasks.map(task => {
-        const varHtml = !task.completed ? '<div class="variance-row"><span class="variance-label">Variance:</span>'
-          + '<select class="variance-select" onchange="setVariance(\'' + week.id + '\',\'' + task.id + '\',this.value)">'
-          + '<option value=""' + (!task.varianceReason ? ' selected' : '') + '>Select reason&hellip;</option>'
-          + '<option value="prerequisites"' + (task.varianceReason==='prerequisites'?' selected':'') + '>Prerequisites not ready</option>'
-          + '<option value="resources"' + (task.varianceReason==='resources'?' selected':'') + '>Resources unavailable</option>'
-          + '<option value="information"' + (task.varianceReason==='information'?' selected':'') + '>Missing information</option>'
-          + '<option value="priority"' + (task.varianceReason==='priority'?' selected':'') + '>Priority change</option>'
-          + '<option value="other"' + (task.varianceReason==='other'?' selected':'') + '>Other</option>'
-          + '</select></div>' : '';
+        const varHtml = !task.completed
+          ? '<div class="variance-row"><span class="variance-label">Variance:</span>'
+            + '<select class="variance-select" onchange="setVariance(\'' + week.id + '\',\'' + task.id + '\',this.value)">'
+            + variantOptionsHtml(task.varianceReason)
+            + '</select></div>'
+          : '';
         return '<div class="task-item' + (task.completed ? ' completed' : '') + '" id="task-' + task.id + '">'
           + '<div class="task-item-row">'
           + '<input type="checkbox" class="task-checkbox"' + (task.completed ? ' checked' : '') + ' onchange="toggleTask(\'' + week.id + '\',\'' + task.id + '\')" />'
           + '<span class="task-text">' + esc(task.text) + '</span>'
-          + '<button class="task-delete" onclick="deleteTask(\'' + week.id + '\',\'' + task.id + '\')" title="Remove task" aria-label="Remove task">&times;</button>'
+          + '<button class="task-delete" onclick="deleteTask(\'' + week.id + '\',\'' + task.id + '\')" title="Remove commitment" aria-label="Remove commitment">&times;</button>'
           + '</div>' + varHtml + '</div>';
       }).join('');
 
-  /* ── LEFT PANEL: metrics + controls ── */
+  /* LEFT PANEL */
   const leftPanel =
-      '<div class="week-title-area">'
+    '<div class="week-title-area">'
     + '<h2>' + esc(week.label) + '</h2>'
-    + '<p>' + total + ' task' + (total!==1?'s':'') + ' planned &bull; ' + done + ' completed</p>'
+    + '<p>' + total + ' commitment' + (total !== 1 ? 's' : '') + ' planned &bull; ' + done + ' completed</p>'
     + '</div>'
     + '<div class="ppc-display ppc-compact ' + cls + '">'
     + '<span class="ppc-number">' + (ppc !== null ? ppc + '%' : '&mdash;') + '</span>'
     + '<div class="ppc-label">Percent Plan Complete</div>'
     + '<div class="ppc-badge">' + ppcLabel(ppc) + '</div>'
     + progressHtml
-    + '<div class="ppc-meta">' + (total > 0 ? done + ' of ' + total + ' commitments kept' : 'Add tasks to begin tracking') + '</div>'
+    + '<div class="ppc-meta">' + (total > 0 ? done + ' of ' + total + ' commitments kept' : 'Add commitments to begin') + '</div>'
     + '</div>'
     + '<div style="display:flex;flex-direction:column;gap:8px">'
     + '<button class="btn btn-ghost" style="width:100%;justify-content:center" onclick="closeWeek(\'' + week.id + '\')">&#10003; Close Week</button>'
     + switcherHtml
     + '</div>';
 
-  /* ── RIGHT PANEL: task entry + scrollable list ── */
+  /* RIGHT PANEL */
   const rightPanel =
-      '<div class="card-title" style="margin-bottom:4px">Planned Commitments</div>'
+    summaryHtml
+    + '<div class="card-title" style="margin-bottom:4px">Planned Commitments</div>'
     + '<div class="task-input-row">'
     + '<input type="text" id="taskInput-' + week.id + '" class="text-input" placeholder="Add a planned commitment&hellip;" maxlength="200" onkeydown="if(event.key===\'Enter\')addTask(\'' + week.id + '\')" />'
     + '<button class="btn btn-primary" onclick="addTask(\'' + week.id + '\')">+ Add</button>'
-    + '<button class="btn" style="background:var(--bg-elevated);border:1px solid var(--border-default);color:var(--text-secondary);font-size:13px;padding:10px 14px" onclick="toggleBulkPaste(\'' + week.id + '\')">📋 Paste List</button>'
+    + '<button class="btn" style="background:var(--bg-elevated);border:1px solid var(--border-default);color:var(--text-secondary);font-size:13px;padding:10px 14px" onclick="toggleBulkPaste(\'' + week.id + '\')">&#128203; Paste List</button>'
     + '</div>'
     + '<div id="bulkPaste-' + week.id + '" style="display:none;margin-bottom:4px">'
-    + '<textarea id="bulkInput-' + week.id + '" class="text-input" style="min-height:100px;resize:vertical;font-size:14px" placeholder="Paste from spreadsheet column — one task per line&#10;&#10;Example:&#10;Install 2nd floor MEP&#10;Pour Level 3 deck&#10;Complete elevator shaft"></textarea>'
+    + '<textarea id="bulkInput-' + week.id + '" class="text-input" style="min-height:100px;resize:vertical;font-size:14px" placeholder="Paste from spreadsheet — one commitment per line&#10;&#10;Example:&#10;Install 2nd floor MEP&#10;Pour Level 3 deck&#10;Complete elevator shaft"></textarea>'
     + '<div style="display:flex;gap:8px;margin-top:8px;align-items:center">'
     + '<button class="btn btn-primary" onclick="addBulkTasks(\'' + week.id + '\')">Add All</button>'
     + '<span style="font-size:12px;color:var(--text-muted)">One commitment per line</span>'
@@ -688,7 +827,7 @@ function buildWeekHTML(week, openWeeks) {
 
 function renderActiveWeek(week) {
   const area = document.getElementById('active-week-area');
-  if (area) area.innerHTML = buildWeekHTML(week, state.weeks.filter(w => !w.closed));
+  if (area) area.innerHTML = buildWeekHTML(week, getActiveProject().weeks.filter(w => !w.closed));
 }
 
 /* ====== RENDER: HISTORY ====== */
@@ -697,25 +836,57 @@ function renderHistoryView() {
   renderHistoryTable();
 }
 
+function buildSparkline(ppcs, w, h) {
+  if (ppcs.length < 2) return '';
+  const pad = 2;
+  const n = ppcs.length;
+  const xOf = i => pad + (i / (n - 1)) * (w - pad * 2);
+  const yOf = p => pad + (1 - p / 100) * (h - pad * 2);
+  let d = 'M ' + xOf(0).toFixed(1) + ' ' + yOf(ppcs[0]).toFixed(1);
+  for (let i = 1; i < n; i++) {
+    const cx = ((xOf(i-1) + xOf(i)) / 2).toFixed(1);
+    d += ' C ' + cx + ' ' + yOf(ppcs[i-1]).toFixed(1)
+      + ' ' + cx + ' ' + yOf(ppcs[i]).toFixed(1)
+      + ' ' + xOf(i).toFixed(1) + ' ' + yOf(ppcs[i]).toFixed(1);
+  }
+  const last = ppcs[ppcs.length - 1];
+  const color = last >= 80 ? '#16A34A' : last >= 60 ? '#D97706' : '#DC2626';
+  return '<svg class="sparkline" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true">'
+    + '<path d="' + d + '" fill="none" stroke="' + color + '" stroke-width="1.5" stroke-linecap="round"/>'
+    + '<circle cx="' + xOf(n-1).toFixed(1) + '" cy="' + yOf(last).toFixed(1) + '" r="2.5" fill="' + color + '"/>'
+    + '</svg>';
+}
+
 function renderHistoryTable() {
   const area = document.getElementById('history-table-area');
   if (!area) return;
-  const closed = state.weeks.filter(w => w.closed);
+  const proj = getActiveProject();
+  const closed = proj.weeks.filter(w => w.closed);
   if (!closed.length) {
-    /* QC: added icon to match other empty states */
     area.innerHTML = '<div class="history-empty"><div class="history-empty-icon">&#128200;</div><p>Close a week to see history here</p></div>';
     return;
   }
-  const rows = closed.map(week => {
+
+  // Build sparkline from all closed weeks in chronological order
+  const allPPCs = closed.slice().reverse().map(w => calcPPC(w)).filter(p => p !== null);
+
+  const rows = closed.map((week, idx) => {
     const ppc = calcPPC(week);
     const cls = ppcClass(ppc);
     const done = week.tasks.filter(t => t.completed).length;
     const total = week.tasks.length;
+    const topVar = getTopVariance(week);
+    // Mini sparkline uses up to this week's data (chronological slice)
+    const weekIdx = closed.length - 1 - idx;
+    const sparkPPCs = allPPCs.slice(0, weekIdx + 1).filter(p => p !== null);
+    const sparkHtml = sparkPPCs.length >= 2 ? buildSparkline(sparkPPCs, 60, 28) : '';
     return '<tr>'
       + '<td><span class="hist-week">' + esc(week.label) + '</span></td>'
       + '<td><span class="hist-ppc ' + cls + '">' + (ppc !== null ? ppc + '%' : '&mdash;') + '</span></td>'
       + '<td class="hist-bar-cell"><div class="hist-bar-track"><div class="hist-bar-fill ' + cls + '" style="width:' + (ppc||0) + '%"></div></div></td>'
       + '<td class="hist-tasks">' + done + '/' + total + '</td>'
+      + '<td class="hist-variance">' + (topVar ? esc(topVar) : '<span style="color:var(--text-muted)">—</span>') + '</td>'
+      + '<td class="hist-spark">' + sparkHtml + '</td>'
       + '<td class="hist-actions">'
       + '<button class="btn btn-ghost" style="padding:9px 14px;font-size:12px;min-height:40px" onclick="reopenWeek(\'' + week.id + '\')">Reopen</button>'
       + '&nbsp;<button class="btn btn-danger" style="min-height:40px" onclick="deleteWeek(\'' + week.id + '\')">Delete</button>'
@@ -723,16 +894,16 @@ function renderHistoryTable() {
   }).join('');
 
   area.innerHTML = '<table class="history-table"><thead><tr>'
-    + '<th>Week</th><th>PPC%</th><th class="hist-bar-cell">Progress</th><th>Tasks</th><th>Actions</th>'
+    + '<th>Week</th><th>PPC%</th><th class="hist-bar-cell">Bar</th><th>Kept</th><th>Top Variance</th><th class="hist-spark">Trend</th><th>Actions</th>'
     + '</tr></thead><tbody>' + rows + '</tbody></table>';
 }
 
-/* ====== RENDER: SVG CHART ====== */
+/* ====== RENDER: SVG TREND CHART ====== */
 function renderChart() {
   const container = document.getElementById('chart-container');
   if (!container) return;
-
-  const closed = state.weeks.filter(w => w.closed && calcPPC(w) !== null).reverse();
+  const proj = getActiveProject();
+  const closed = proj.weeks.filter(w => w.closed && calcPPC(w) !== null).reverse();
 
   if (closed.length < 2) {
     container.innerHTML = '<div class="chart-empty"><div class="chart-empty-icon">&#128200;</div><p>Track 2+ closed weeks to see the trend chart</p></div>';
@@ -740,80 +911,73 @@ function renderChart() {
   }
 
   const W = 780, H = 260;
-  const pad = { top: 30, right: 48, bottom: 52, left: 54 };
+  const pad = { top: 30, right: 56, bottom: 52, left: 54 };
   const cW = W - pad.left - pad.right;
   const cH = H - pad.top - pad.bottom;
-
   const ppcs = closed.map(w => calcPPC(w));
   const n = ppcs.length;
 
   function xOf(i) { return pad.left + (n === 1 ? cW / 2 : (i / (n - 1)) * cW); }
   function yOf(ppc) { return pad.top + (1 - ppc / 100) * cH; }
 
-  // Grid lines & y-axis labels
-  // QC: bumped SVG font sizes from 11→13, 9→10 for legibility on iPad
+  // Grid lines at 0, 25, 50, 60 (amber threshold), 80 (green threshold), 100
   let gridLines = '';
-  [0, 25, 50, 70, 85, 100].forEach(v => {
+  [0, 25, 50, 60, 80, 100].forEach(v => {
     const y = yOf(v);
-    const isRef = v === 70 || v === 85;
+    const isRef = v === 60 || v === 80;
+    const refColor = v === 80 ? '#16A34A' : '#D97706';
     gridLines += '<line x1="' + pad.left + '" y1="' + y + '" x2="' + (W - pad.right) + '" y2="' + y + '" '
-      + 'stroke="' + (isRef ? (v===85?'#16A34A':'#2563EB') : '#1A2E45') + '" '
+      + 'stroke="' + (isRef ? refColor : '#1A2E45') + '" '
       + 'stroke-width="' + (isRef ? '1.5' : '1') + '" '
-      + 'stroke-dasharray="' + (isRef ? '5,4' : 'none') + '" opacity="' + (isRef ? '0.7' : '0.45') + '"/>';
-    gridLines += '<text x="' + (pad.left - 8) + '" y="' + (y + 4) + '" text-anchor="end" font-family="Rajdhani,sans-serif" font-size="13" fill="' + (isRef?(v===85?'#16A34A':'#2563EB'):'#5A7A96') + '" font-weight="' + (isRef?'700':'500') + '">' + v + '</text>';
+      + (isRef ? 'stroke-dasharray="5,4" ' : '')
+      + 'opacity="' + (isRef ? '0.75' : '0.45') + '"/>';
+    gridLines += '<text x="' + (pad.left - 8) + '" y="' + (y + 4) + '" text-anchor="end" font-family="Rajdhani,sans-serif" font-size="13" fill="' + (isRef ? refColor : '#5A7A96') + '" font-weight="' + (isRef ? '700' : '500') + '">' + v + '</text>';
     if (isRef) {
-      gridLines += '<text x="' + (W - pad.right + 6) + '" y="' + (y + 4) + '" font-family="Rajdhani,sans-serif" font-size="10" fill="' + (v===85?'#16A34A':'#2563EB') + '" font-weight="700">' + (v===85?'EXCELLENT':'GOOD') + '</text>';
+      gridLines += '<text x="' + (W - pad.right + 6) + '" y="' + (y + 4) + '" font-family="Rajdhani,sans-serif" font-size="10" fill="' + refColor + '" font-weight="700">' + (v === 80 ? 'EXCELLENT' : 'IMPROVE') + '</text>';
     }
   });
 
-  // X-axis labels
-  // QC: bumped from 10→12px
   let xLabels = '';
   closed.forEach((week, i) => {
     if (n <= 8 || i % 2 === 0 || i === n-1) {
-      const label = week.label.length > 14 ? week.label.slice(0,13) + '…' : week.label;
+      const label = week.label.length > 14 ? week.label.slice(0,13) + '\u2026' : week.label;
       xLabels += '<text x="' + xOf(i) + '" y="' + (H - pad.bottom + 20) + '" text-anchor="middle" font-family="Rajdhani,sans-serif" font-size="12" fill="#5A7A96" font-weight="500">' + label + '</text>';
     }
   });
 
-  // Build smooth path using cubic bezier curves
   const pts = ppcs.map((ppc, i) => ({ x: xOf(i), y: yOf(ppc) }));
-  let pathD = 'M ' + pts[0].x + ' ' + pts[0].y;
+  let pathD = 'M ' + pts[0].x.toFixed(1) + ' ' + pts[0].y.toFixed(1);
   for (let i = 1; i < pts.length; i++) {
     const prev = pts[i-1], cur = pts[i];
-    const cpx = (prev.x + cur.x) / 2;
-    pathD += ' C ' + cpx + ' ' + prev.y + ' ' + cpx + ' ' + cur.y + ' ' + cur.x + ' ' + cur.y;
+    const cpx = ((prev.x + cur.x) / 2).toFixed(1);
+    pathD += ' C ' + cpx + ' ' + prev.y.toFixed(1) + ' ' + cpx + ' ' + cur.y.toFixed(1) + ' ' + cur.x.toFixed(1) + ' ' + cur.y.toFixed(1);
   }
+  const areaD = pathD + ' L ' + pts[pts.length-1].x.toFixed(1) + ' ' + (H - pad.bottom) + ' L ' + pts[0].x.toFixed(1) + ' ' + (H - pad.bottom) + ' Z';
 
-  // Gradient fill area
-  const areaD = pathD + ' L ' + pts[pts.length-1].x + ' ' + (H - pad.bottom) + ' L ' + pts[0].x + ' ' + (H - pad.bottom) + ' Z';
-
-  // Dots with color coding
   const dots = pts.map((pt, i) => {
     const cls = ppcClass(ppcs[i]);
-    const color = cls === 'excellent' ? '#16A34A' : cls === 'good' ? '#2563EB' : '#D97706';
-    return '<circle cx="' + pt.x + '" cy="' + pt.y + '" r="6" fill="' + color + '" stroke="#080E17" stroke-width="2.5">'
-      + '<title>' + closed[i].label + ': ' + ppcs[i] + '%</title></circle>'
-      + '<text x="' + pt.x + '" y="' + (pt.y - 12) + '" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="14" fill="' + color + '" font-weight="bold">' + ppcs[i] + '%</text>';
+    const color = cls === 'excellent' ? '#16A34A' : cls === 'improve' ? '#D97706' : '#DC2626';
+    return '<circle cx="' + pt.x.toFixed(1) + '" cy="' + pt.y.toFixed(1) + '" r="6" fill="' + color + '" stroke="#080E17" stroke-width="2.5">'
+      + '<title>' + esc(closed[i].label) + ': ' + ppcs[i] + '%</title></circle>'
+      + '<text x="' + pt.x.toFixed(1) + '" y="' + (pt.y - 12).toFixed(1) + '" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="14" fill="' + color + '">' + ppcs[i] + '%</text>';
   }).join('');
 
-  // Estimate path length for animation
   let pathLen = 0;
   for (let i = 1; i < pts.length; i++) {
     pathLen += Math.hypot(pts[i].x - pts[i-1].x, pts[i].y - pts[i-1].y);
   }
-  pathLen = Math.round(pathLen * 1.5); // approximate bezier length
+  pathLen = Math.round(pathLen * 1.5);
 
   const svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">'
     + '<defs>'
     + '<linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">'
-    + '<stop offset="0%" stop-color="#2B579A" stop-opacity="0.3"/>'
-    + '<stop offset="100%" stop-color="#2B579A" stop-opacity="0"/>'
+    + '<stop offset="0%" stop-color="#004AAD" stop-opacity="0.3"/>'
+    + '<stop offset="100%" stop-color="#004AAD" stop-opacity="0"/>'
     + '</linearGradient>'
     + '</defs>'
     + gridLines
     + '<path d="' + areaD + '" fill="url(#fillGrad)"/>'
-    + '<path d="' + pathD + '" fill="none" stroke="#3B72C8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" '
+    + '<path d="' + pathD + '" fill="none" stroke="#1A6FD4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" '
     + 'style="stroke-dasharray:' + pathLen + ';stroke-dashoffset:' + pathLen + ';animation:drawLine 1.2s ease 0.1s forwards;--ll:' + pathLen + '"/>'
     + dots
     + xLabels
@@ -824,15 +988,17 @@ function renderChart() {
 
 /* ====== EXPORT CSV ====== */
 function exportCSV() {
-  const rows = [['Week', 'PPC%', 'Tasks Planned', 'Tasks Completed', 'Status', 'Task', 'Completed', 'Variance Reason']];
-  state.weeks.forEach(week => {
+  const proj = getActiveProject();
+  const rows = [['Project', 'Week', 'PPC%', 'Planned', 'Completed', 'Status', 'Commitment', 'Done', 'Variance']];
+  proj.weeks.forEach(week => {
     const ppc = calcPPC(week);
     const done = week.tasks.filter(t => t.completed).length;
     if (week.tasks.length === 0) {
-      rows.push([week.label, ppc !== null ? ppc + '%' : '', 0, 0, week.closed ? 'Closed' : 'Open', '', '', '']);
+      rows.push([proj.name, week.label, ppc !== null ? ppc + '%' : '', 0, 0, week.closed ? 'Closed' : 'Open', '', '', '']);
     } else {
       week.tasks.forEach((task, i) => {
         rows.push([
+          i === 0 ? proj.name : '',
           i === 0 ? week.label : '',
           i === 0 && ppc !== null ? ppc + '%' : '',
           i === 0 ? week.tasks.length : '',
@@ -845,13 +1011,12 @@ function exportCSV() {
       });
     }
   });
-
   const csv = rows.map(r => r.map(cell => '"' + String(cell).replace(/"/g, '""') + '"').join(',')).join('\n');
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'ppc-tracker-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.download = 'ppc-' + proj.name.replace(/[^a-z0-9]/gi, '-').toLowerCase() + '-' + new Date().toISOString().slice(0,10) + '.csv';
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -864,10 +1029,24 @@ function closeHelp(e) {
   }
 }
 
+/* ====== SERVICE WORKER ====== */
+function registerSW() {
+  if (!('serviceWorker' in navigator)) return;
+  // sw.js lives at the same origin — full offline cache support
+  navigator.serviceWorker.register('/sw.js').catch(() => {});
+}
+
+/* ====== RENDER ALL ====== */
+function renderAll() {
+  renderProjectBar();
+  renderWeekView();
+  renderHistoryView();
+}
+
 /* ====== INIT ====== */
 loadState();
-renderWeekView();
-renderHistoryView();
+renderAll();
+registerSW();
 </script>
 </body>
 </html>
