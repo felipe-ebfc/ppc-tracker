@@ -1288,7 +1288,7 @@ function buildWeekHTML(week, openWeeks) {
     ? '<div class="summary-stats">'
       + '<div class="stat-chip"><span class="stat-chip-value" style="color:var(--text-secondary)">' + total + '</span><span class="stat-chip-label">Planned</span></div>'
       + '<div class="stat-chip"><span class="stat-chip-value" style="color:var(--ppc-green)">' + done + '</span><span class="stat-chip-label">Completed</span></div>'
-      + '<div class="stat-chip"><span class="stat-chip-value" style="color:' + (cls === 'excellent' ? 'var(--ppc-green)' : cls === 'improve' ? 'var(--ppc-amber)' : 'var(--ppc-red)') + '">' + (ppc !== null ? ppc + '%' : '&mdash;') + '</span><span class="stat-chip-label">PPC%</span></div>'
+      + '<div class="stat-chip"><span class="stat-chip-value" style="color:' + (cls === 'excellent' ? 'var(--ppc-green)' : cls === 'improve' ? 'var(--ppc-amber)' : cls === 'critical' ? 'var(--ppc-red)' : 'var(--text-muted)') + '">' + (ppc !== null ? ppc + '%' : '&mdash;') + '</span><span class="stat-chip-label">PPC%</span></div>'
       + (topVar ? '<div class="stat-chip"><span class="stat-chip-value" style="font-size:13px;letter-spacing:0;color:var(--ppc-amber)">' + esc(topVar) + '</span><span class="stat-chip-label">Top Variance</span></div>' : '')
       + '</div>'
     : '';
@@ -1324,7 +1324,7 @@ function buildWeekHTML(week, openWeeks) {
     + '<div class="ppc-display ppc-compact ' + cls + '">'
     + '<span class="ppc-number">' + (ppc !== null ? ppc + '%' : '&mdash;') + '</span>'
     + '<div class="ppc-label">PPC% <button class="ppc-info-btn" onclick="openHelp()" title="What is PPC%?">&#9432;</button></div>'
-    + '<div class="ppc-badge">' + ppcLabel(ppc) + '</div>'
+    + '<div class="ppc-badge"' + (ppc === null ? ' style="display:none"' : '') + '>' + (ppc !== null ? ppcLabel(ppc) : '') + '</div>'
     + progressHtml
     + '<div class="ppc-meta">' + (total > 0 ? done + ' of ' + total + ' kept' : 'Add commitments to begin') + '</div>'
     + '</div>';
