@@ -514,7 +514,7 @@
           <small>Mon &ndash; Sun</small>
         </button>
       </div>
-      <p style="font-size:12px;color:var(--text-muted);margin-top:10px;margin-bottom:0">Work period is locked at project creation. Teams build habits with consistent weekly rhythms.</p>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:10px;margin-bottom:0">Work period can be changed between weeks. Locked during an active week to keep data consistent.</p>
     </div>
 
     <button class="btn btn-accent" style="width:100%;justify-content:center;margin-top:4px" onclick="createProject()">Create Project</button>
@@ -1309,6 +1309,12 @@ function renderWeekView() {
     } else {
       hintEl.innerHTML = '';
     }
+  }
+
+  /* Show/hide work period selector: visible between weeks in Simple Mode, hidden during active week */
+  const wpSection = document.getElementById('work-period-section');
+  if (wpSection && proj.mode === 'simple') {
+    wpSection.style.display = activeWeek ? 'none' : 'block';
   }
 
   if (!activeWeek) {
