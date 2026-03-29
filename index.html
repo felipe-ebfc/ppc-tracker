@@ -455,7 +455,7 @@
     <h1 class="site-title">PPC<span>%</span> Tracker</h1>
     <p class="site-subtitle">Weekly Commitment Reliability</p>
     <div class="header-actions">
-      <button class="btn btn-ghost" onclick="openHelp()">? What is PPC%?</button>
+      <button class="btn btn-ghost" onclick="openHelp()">ℹ What is PPC%</button>
       <button class="btn btn-ghost" onclick="exportCSV()">&#8595; Export CSV</button>
       <button class="btn btn-ghost" onclick="window.print()">&#9113; Print / PDF</button>
     </div>
@@ -502,7 +502,7 @@
 <div class="modal-overlay" id="helpModal" onclick="closeHelp(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeHelp()">&times;</button>
-    <h2>What is PPC%?</h2>
+    <h2>What is PPC%</h2>
     <div class="modal-sub">Percent Plan Complete — Last Planner System</div>
     <p><strong>Percent Plan Complete (PPC%)</strong> is the core metric of the Last Planner System&#174; in Lean Construction. It measures how reliably a team keeps its weekly commitments.</p>
     <div class="formula-box">PPC% = Completed &divide; Planned &times; 100</div>
@@ -1173,7 +1173,7 @@ function buildSimpleWeekHTML(week, openWeeks) {
   const ppcDisplay =
     '<div class="ppc-display ppc-compact ' + cls + '" id="weekly-ppc-' + week.id + '">'
     + '<span class="ppc-number" id="weekly-ppc-num-' + week.id + '">' + (weeklyPPC !== null ? weeklyPPC + '%' : '&mdash;') + '</span>'
-    + '<div class="ppc-label">Weekly PPC% <button class="ppc-info-btn" onclick="openHelp()" title="What is PPC%?">&#9432;</button></div>'
+    + '<div class="ppc-label">Weekly PPC% <button class="ppc-info-btn" onclick="openHelp()" title="What is PPC%">&#9432;</button></div>'
     + '<div class="ppc-badge" id="weekly-ppc-badge-' + week.id + '"' + (weeklyPPC === null ? ' style="display:none"' : '') + '>' + (weeklyPPC !== null ? ppcLabel(weeklyPPC) : '') + '</div>'
     + progressHtml
     + '<div class="ppc-meta" id="weekly-ppc-pending-' + week.id + '"' + (weeklyPPC !== null ? ' style="display:none"' : '') + '>'
@@ -1323,7 +1323,7 @@ function buildWeekHTML(week, openWeeks) {
     + '</div>'
     + '<div class="ppc-display ppc-compact ' + cls + '">'
     + '<span class="ppc-number">' + (ppc !== null ? ppc + '%' : '&mdash;') + '</span>'
-    + '<div class="ppc-label">PPC% <button class="ppc-info-btn" onclick="openHelp()" title="What is PPC%?">&#9432;</button></div>'
+    + '<div class="ppc-label">PPC% <button class="ppc-info-btn" onclick="openHelp()" title="What is PPC%">&#9432;</button></div>'
     + '<div class="ppc-badge"' + (ppc === null ? ' style="display:none"' : '') + '>' + (ppc !== null ? ppcLabel(ppc) : '') + '</div>'
     + progressHtml
     + '<div class="ppc-meta">' + (total > 0 ? done + ' of ' + total + ' kept' : 'Add commitments to begin') + '</div>'
